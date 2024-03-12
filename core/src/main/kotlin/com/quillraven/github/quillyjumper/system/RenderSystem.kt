@@ -38,12 +38,15 @@ class RenderSystem(
         }
     }
 
-    private fun OrthogonalTiledMapRenderer.use(camera: OrthographicCamera, action: (Batch) -> Unit) {
+    private inline fun OrthogonalTiledMapRenderer.use(
+        camera: OrthographicCamera,
+        block: (OrthogonalTiledMapRenderer) -> Unit
+    ) {
         this.setView(camera)
         AnimatedTiledMapTile.updateAnimationBaseTime()
         this.batch.begin()
 
-        action(this.batch)
+        block(this)
 
         this.batch.end()
     }

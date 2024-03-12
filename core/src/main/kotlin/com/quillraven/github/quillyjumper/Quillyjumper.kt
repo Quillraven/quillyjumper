@@ -2,10 +2,13 @@ package com.quillraven.github.quillyjumper
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.physics.box2d.World
 import com.quillraven.github.quillyjumper.screen.GameScreen
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
+
+typealias PhysicWorld = World
 
 class Quillyjumper : KtxGame<KtxScreen>() {
 

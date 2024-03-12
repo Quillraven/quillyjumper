@@ -6,23 +6,34 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.configureWorld
 import com.quillraven.github.quillyjumper.*
+import com.quillraven.github.quillyjumper.system.GlProfilerSystem
+import com.quillraven.github.quillyjumper.system.PhysicRenderDebugSystem
 import com.quillraven.github.quillyjumper.system.RenderSystem
+import com.quillraven.github.quillyjumper.system.SpawnSystem
 import ktx.app.KtxScreen
+import ktx.assets.disposeSafely
+import ktx.box2d.createWorld
+import ktx.box2d.earthGravity
 
 class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
 
     private val gameCamera = OrthographicCamera()
     private val gameViewport: Viewport = FitViewport(10f, 7f, gameCamera)
+    private val physicWorld = createWorld(gravity = earthGravity)
     private val world = configureWorld {
         injectables {
             add(gameCamera)
             add("gameViewport", gameViewport)
             add(assets)
             add(batch)
+            add(physicWorld)
         }
 
         systems {
+            add(SpawnSystem())
             add(RenderSystem())
+            add(PhysicRenderDebugSystem())
+            add(GlProfilerSystem())
         }
     }
 
@@ -45,5 +56,6 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
 
     override fun dispose() {
         world.dispose()
+        physicWorld.disposeSafely()
     }
 }

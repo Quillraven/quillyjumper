@@ -3,10 +3,25 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "assets/maps/terrain_extruded.tsx",
     "expandedProjectPaths": [
+        "assets/maps",
+        "assets",
+        "."
     ],
     "fileStates": {
+        "assets/maps/terrain_extruded.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 4
+        },
+        "assets/maps/test.tmx": {
+            "scale": 7.19625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 79.90272711481673,
+                "y": 80.111169011638
+            }
+        }
     },
     "last.imagePath": "C:/Users/Simon/IdeaProjects/quillyjumper/assets/graphics",
     "map.height": 10,
@@ -16,9 +31,13 @@
     "map.tileWidth": 16,
     "map.width": 10,
     "openFiles": [
+        "assets/maps/test.tmx",
+        "assets/maps/terrain_extruded.tsx"
     ],
     "project": "tiled-project.tiled-project",
     "recentFiles": [
+        "assets/maps/test.tmx",
+        "assets/maps/terrain_extruded.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.margin": 4,
