@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="4">
- <tileset firstgid="1" source="terrain_extruded.tsx"/>
+ <tileset firstgid="1" source="terrain.tsx"/>
  <tileset firstgid="243" source="objects.tsx"/>
  <layer id="1" name="ground" width="10" height="10">
   <data encoding="base64" compression="zlib">

@@ -19,8 +19,8 @@
             "scale": 3.598125,
             "selectedLayer": -1,
             "viewCenter": {
-                "x": 132.29112384922703,
-                "y": 160.222338023276
+                "x": 132.013201320132,
+                "y": 159.94441549418096
             }
         },
         "assets/maps/objects.tmx#objects": {
@@ -31,6 +31,10 @@
             "dynamicWrapping": true,
             "scaleInDock": 4,
             "scaleInEditor": 11
+        },
+        "assets/maps/terrain.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
         },
         "assets/maps/terrain_extruded.tsx": {
             "dynamicWrapping": false,
@@ -44,8 +48,8 @@
             "scale": 11,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 43.727272727272734,
-                "y": 78.5909090909091
+                "x": 79.90909090909092,
+                "y": 79.86363636363636
             }
         }
     },
@@ -66,9 +70,9 @@
     "project": "tiled-project.tiled-project",
     "recentFiles": [
         "assets/maps/test.tmx",
-        "assets/maps/terrain_extruded.tsx",
+        "assets/maps/objects.tsx",
         "assets/maps/objects.tmx",
-        "assets/maps/objects.tsx"
+        "assets/maps/terrain_extruded.tsx"
     ],
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",
