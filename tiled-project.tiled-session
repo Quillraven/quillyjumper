@@ -36,11 +36,14 @@
             "scaleInEditor": 11
         },
         "assets/maps/test.tmx": {
-            "scale": 23,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 11,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 27.565217391304348,
-                "y": 87.76086956521739
+                "x": 43.727272727272734,
+                "y": 78.68181818181819
             }
         }
     },

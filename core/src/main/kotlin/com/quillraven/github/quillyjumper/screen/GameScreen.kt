@@ -1,25 +1,29 @@
 package com.quillraven.github.quillyjumper.screen
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.configureWorld
 import com.quillraven.github.quillyjumper.*
-import com.quillraven.github.quillyjumper.system.GlProfilerSystem
-import com.quillraven.github.quillyjumper.system.PhysicRenderDebugSystem
-import com.quillraven.github.quillyjumper.system.RenderSystem
-import com.quillraven.github.quillyjumper.system.SpawnSystem
+import com.quillraven.github.quillyjumper.component.EntityTag
+import com.quillraven.github.quillyjumper.component.Physic
+import com.quillraven.github.quillyjumper.system.*
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
 import ktx.box2d.earthGravity
+import ktx.math.vec2
 
 class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
 
     private val gameCamera = OrthographicCamera()
     private val gameViewport: Viewport = FitViewport(10f, 7f, gameCamera)
-    private val physicWorld = createWorld(gravity = earthGravity)
+    private val physicWorld = createWorld(gravity = earthGravity).apply {
+        autoClearForces = false
+    }
     private val world = configureWorld {
         injectables {
             add(gameCamera)
@@ -31,6 +35,7 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
 
         systems {
             add(SpawnSystem())
+            add(PhysicSystem())
             add(RenderSystem())
             add(PhysicRenderDebugSystem())
             add(GlProfilerSystem())
@@ -51,6 +56,23 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
     }
 
     override fun render(delta: Float) {
+        // TODO remove debug controls
+        when {
+            Gdx.input.isKeyJustPressed(Input.Keys.A) -> {
+                world.family { all(EntityTag.PLAYER) }.forEach { entity ->
+                    val (body) = entity[Physic]
+                    body.applyForce(vec2(-100f, 0f), body.worldCenter, true)
+                }
+            }
+
+            Gdx.input.isKeyJustPressed(Input.Keys.D) -> {
+                world.family { all(EntityTag.PLAYER) }.forEach { entity ->
+                    val (body) = entity[Physic]
+                    body.applyForce(vec2(100f, 0f), body.worldCenter, true)
+                }
+            }
+        }
+
         world.update(delta)
     }
 

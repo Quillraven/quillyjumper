@@ -12,6 +12,7 @@ import com.github.quillraven.fleks.World.Companion.inject
 import com.quillraven.github.quillyjumper.*
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
+import com.quillraven.github.quillyjumper.component.EntityTag
 import com.quillraven.github.quillyjumper.component.Physic
 import ktx.app.gdxError
 import ktx.box2d.body
@@ -67,7 +68,8 @@ class SpawnSystem(
 
         // spawn physic body
         val gameObjectStr = mapObject.tile.property<String>("GameObject")
-        val fixtureDefs = OBJECT_FIXTURES[GameObject.valueOf(gameObjectStr)]
+        val gameObjectID = GameObject.valueOf(gameObjectStr)
+        val fixtureDefs = OBJECT_FIXTURES[gameObjectID]
             ?: gdxError("No fixture definitions for $gameObjectStr")
         val x = mapObject.x * UNIT_SCALE
         val y = mapObject.y * UNIT_SCALE
@@ -84,6 +86,10 @@ class SpawnSystem(
         world.entity {
             body.userData = it
             it += Physic(body)
+
+            if (gameObjectID == GameObject.PLAYER) {
+                it += EntityTag.PLAYER
+            }
         }
     }
 
