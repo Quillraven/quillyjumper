@@ -1,36 +1,21 @@
-# quillyjumper
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.23-red.svg)](http://kotlinlang.org/)
+[![Fleks](https://img.shields.io/badge/Fleks-2.7--SNAPSHOT-purple.svg)](http://kotlinlang.org/)
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff).
+[![LibGDX](https://img.shields.io/badge/LibGDX-1.12.1-green.svg)](http://kotlinlang.org/)
+[![LibKTX](https://img.shields.io/badge/LibKTX-1.12.1--rc1-blue.svg)](http://kotlinlang.org/)
 
-This project was generated with a Kotlin project template that includes Kotlin application launchers and [KTX](https://libktx.github.io/) utilities.
 
-## Platforms
+# Quilly Jumper
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3.
-- `teavm`: Experimental web platform using TeaVM and WebGL.
+TBD
 
-## Gradle
+### Credits
 
-This project uses [Gradle](http://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+- [Pixel Adventure assets](https://pixelfrog-assets.itch.io/pixel-adventure-1)
+- [Tile extruder](https://github.com/sporadic-labs/tile-extruder): to add padding to tileset without changing the order
+  of tiles
+- [ImageMagick](https://imagemagick.org/index.php): to split a sprite sheet into separate sprites
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/lib`.
-- `lwjgl3:run`: starts the application.
-- `teavm:build`: builds the JavaScript application into the build/dist/webapp folder.
-- `teavm:run`: serves the JavaScript application at http://localhost:8080 via a local Jetty server.
-- `test`: runs unit tests (if any).
-
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+   ```magick '.\SHEET.png' -crop 32x32 'FRAME_%02d.png'```
+- [LibGDX](https://github.com/libgdx/libgdx)
+- [LibKTX](https://github.com/libktx/ktx): Kotlin extensions for LibGDX
