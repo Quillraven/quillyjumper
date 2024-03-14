@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "assets/maps/test.tmx",
+    "activeFile": "assets/maps/objects.tsx",
     "expandedProjectPaths": [
-        "assets",
-        ".",
         "assets/maps",
-        "lwjgl3/build"
+        "lwjgl3/build",
+        ".",
+        "assets"
     ],
     "fileStates": {
         "": {
@@ -19,7 +19,7 @@
             "scale": 3.598125,
             "selectedLayer": -1,
             "viewCenter": {
-                "x": 132.84696890741708,
+                "x": 132.29112384922703,
                 "y": 160.222338023276
             }
         },
@@ -28,7 +28,9 @@
             "scaleInDock": 1
         },
         "assets/maps/objects.tsx": {
-            "dynamicWrapping": true
+            "dynamicWrapping": true,
+            "scaleInDock": 4,
+            "scaleInEditor": 11
         },
         "assets/maps/terrain_extruded.tsx": {
             "dynamicWrapping": false,
@@ -43,7 +45,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 43.727272727272734,
-                "y": 78.68181818181819
+                "y": 78.5909090909091
             }
         }
     },
@@ -57,12 +59,16 @@
     "map.width": 10,
     "openFiles": [
         "assets/maps/test.tmx",
-        "assets/maps/terrain_extruded.tsx"
+        "assets/maps/terrain_extruded.tsx",
+        "assets/maps/objects.tmx",
+        "assets/maps/objects.tsx"
     ],
     "project": "tiled-project.tiled-project",
     "recentFiles": [
+        "assets/maps/test.tmx",
         "assets/maps/terrain_extruded.tsx",
-        "assets/maps/test.tmx"
+        "assets/maps/objects.tmx",
+        "assets/maps/objects.tsx"
     ],
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",
