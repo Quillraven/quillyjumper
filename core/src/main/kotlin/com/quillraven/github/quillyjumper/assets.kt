@@ -7,7 +7,8 @@ import ktx.assets.disposeSafely
 import ktx.assets.load
 
 enum class MapAsset(val path: String) {
-    TEST("maps/test.tmx")
+    TEST("maps/test.tmx"),
+    OBJECTS("maps/objects.tmx"),
 }
 
 class Assets {

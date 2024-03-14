@@ -5,16 +5,18 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.github.quillraven.fleks.IntervalSystem
 import com.github.quillraven.fleks.World.Companion.inject
 import com.quillraven.github.quillyjumper.*
+import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
 import com.quillraven.github.quillyjumper.component.Physic
+import ktx.app.gdxError
 import ktx.box2d.body
-import ktx.box2d.box
-import ktx.math.vec2
 import ktx.tiled.height
+import ktx.tiled.property
 import ktx.tiled.width
 
 class SpawnSystem(
@@ -44,30 +46,58 @@ class SpawnSystem(
     }
 
     private fun spawnEntities(map: TiledMap) {
+        // 1) spawn static ground bodies
         map.forEachCell { cell, cellX, cellY ->
             cell.tile?.objects?.forEach { collObj ->
-                spawnEntity(cellX, cellY, collObj)
+                spawnGroundEntity(cellX, cellY, collObj)
             }
+        }
+
+        // 2) spawn dynamic/kinematic game object bodies
+        map.layers.filter { it !is TiledMapTileLayer }
+            .forEach { objectLayer ->
+                objectLayer.objects.forEach { spawnGameObjectEntity(it) }
+            }
+    }
+
+    private fun spawnGameObjectEntity(mapObject: MapObject) {
+        if (mapObject !is TiledMapTileMapObject) {
+            gdxError("Unsupported mapObject $mapObject")
+        }
+
+        // spawn physic body
+        val gameObjectStr = mapObject.tile.property<String>("GameObject")
+        val fixtureDefs = OBJECT_FIXTURES[GameObject.valueOf(gameObjectStr)]
+            ?: gdxError("No fixture definitions for $gameObjectStr")
+        val x = mapObject.x * UNIT_SCALE
+        val y = mapObject.y * UNIT_SCALE
+        val body = physicWorld.body(BodyType.DynamicBody) {
+            position.set(x, y)
+            fixedRotation = true
+        }
+        fixtureDefs.forEach { fixtureDef ->
+            body.createFixture(fixtureDef)
+            fixtureDef.shape.dispose()
+        }
+
+        // spawn entity
+        world.entity {
+            body.userData = it
+            it += Physic(body)
         }
     }
 
-    private fun spawnEntity(cellX: Int, cellY: Int, collObj: MapObject) {
+    private fun spawnGroundEntity(cellX: Int, cellY: Int, collObj: MapObject) {
         when (collObj) {
             is RectangleMapObject -> {
-                val (rectX, rectY, rectW, rectH) = collObj.rectangle
-
                 // spawn physic body
                 val body = physicWorld.body(BodyType.StaticBody) {
                     position.set(cellX.toFloat(), cellY.toFloat())
-                    box(
-                        rectW * UNIT_SCALE, rectH * UNIT_SCALE,
-                        vec2(
-                            rectX * UNIT_SCALE + rectW * UNIT_SCALE * 0.5f,
-                            rectY * UNIT_SCALE + rectH * UNIT_SCALE * 0.5f
-                        )
-                    )
                     fixedRotation = true
                 }
+                val fixtureDef = fixtureDefOf(collObj)
+                body.createFixture(fixtureDef)
+                fixtureDef.shape.dispose()
 
                 // create entity
                 world.entity {
