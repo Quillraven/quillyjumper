@@ -8,6 +8,7 @@ import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.component.Graphic
+import com.quillraven.github.quillyjumper.component.Move
 import com.quillraven.github.quillyjumper.component.Physic
 import ktx.log.logger
 import ktx.math.component1
@@ -34,6 +35,11 @@ class PhysicSystem(
     override fun onTickEntity(entity: Entity) {
         val (body, prevPosition) = entity[Physic]
         prevPosition.set(body.position)
+
+        // update liner velocity if entity has a Move component
+        entity.getOrNull(Move)?.let { moveCmp ->
+            body.setLinearVelocity(moveCmp.current, body.linearVelocity.y)
+        }
     }
 
     // interpolate between position before world step and real position after world step for smooth rendering

@@ -1,26 +1,23 @@
 package com.quillraven.github.quillyjumper.screen
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.configureWorld
 import com.quillraven.github.quillyjumper.*
-import com.quillraven.github.quillyjumper.component.EntityTag
-import com.quillraven.github.quillyjumper.component.Physic
+import com.quillraven.github.quillyjumper.input.KeyboardInputProcessor
 import com.quillraven.github.quillyjumper.system.*
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
 import ktx.box2d.earthGravity
-import ktx.math.vec2
 
 class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
 
     private val gameCamera = OrthographicCamera()
-    private val gameViewport: Viewport = FitViewport(10f, 7f, gameCamera)
+    private val gameViewport: Viewport = FitViewport(16f, 9f, gameCamera)
     private val physicWorld = createWorld(gravity = earthGravity).apply {
         autoClearForces = false
     }
@@ -35,14 +32,17 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
 
         systems {
             add(SpawnSystem())
+            add(MoveSystem())
             add(PhysicSystem())
             add(RenderSystem())
             add(PhysicRenderDebugSystem())
             add(GlProfilerSystem())
         }
     }
+    private val keyboardProcessor = KeyboardInputProcessor(world)
 
     override fun show() {
+        Gdx.input.inputMultiplexer.addProcessor(keyboardProcessor)
         world.systems
             .filterIsInstance<GameEventListener>()
             .forEach { GameEventDispatcher.register(it) }
@@ -51,28 +51,18 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
         GameEventDispatcher.fire(MapChangeEvent(map))
     }
 
+    override fun hide() {
+        Gdx.input.inputMultiplexer.removeProcessor(keyboardProcessor)
+        world.systems
+            .filterIsInstance<GameEventListener>()
+            .forEach { GameEventDispatcher.unregister(it) }
+    }
+
     override fun resize(width: Int, height: Int) {
         gameViewport.update(width, height, true)
     }
 
     override fun render(delta: Float) {
-        // TODO remove debug controls
-        when {
-            Gdx.input.isKeyPressed(Input.Keys.A) -> {
-                world.family { all(EntityTag.PLAYER) }.forEach { entity ->
-                    val (body) = entity[Physic]
-                    body.applyForce(vec2(-100f, 0f), body.worldCenter, true)
-                }
-            }
-
-            Gdx.input.isKeyPressed(Input.Keys.D) -> {
-                world.family { all(EntityTag.PLAYER) }.forEach { entity ->
-                    val (body) = entity[Physic]
-                    body.applyForce(vec2(100f, 0f), body.worldCenter, true)
-                }
-            }
-        }
-
         world.update(delta)
     }
 

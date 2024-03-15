@@ -13,7 +13,7 @@
   </data>
  </layer>
  <objectgroup id="3" name="objects">
-  <object id="3" gid="243" x="8" y="96" width="32" height="32"/>
+  <object id="3" gid="243" x="-6" y="96" width="32" height="32"/>
  </objectgroup>
  <layer id="4" name="foreground" width="10" height="10">
   <data encoding="base64" compression="zlib">

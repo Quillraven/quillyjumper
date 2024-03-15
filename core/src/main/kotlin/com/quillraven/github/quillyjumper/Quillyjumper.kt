@@ -1,5 +1,8 @@
 package com.quillraven.github.quillyjumper
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
+import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d.FixtureDef
@@ -8,9 +11,13 @@ import com.quillraven.github.quillyjumper.screen.GameScreen
 import com.quillraven.github.quillyjumper.screen.LoadingScreen
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
+import ktx.app.clearScreen
 import ktx.assets.disposeSafely
 
 typealias PhysicWorld = World
+
+val Input.inputMultiplexer: InputMultiplexer
+    get() = this.inputProcessor as InputMultiplexer
 
 class Quillyjumper : KtxGame<KtxScreen>() {
 
@@ -18,9 +25,16 @@ class Quillyjumper : KtxGame<KtxScreen>() {
     private val assets: Assets by lazy { Assets() }
 
     override fun create() {
+        Gdx.input.inputProcessor = InputMultiplexer()
+
         addScreen(LoadingScreen(this, assets))
         addScreen(GameScreen(batch, assets))
         setScreen<LoadingScreen>()
+    }
+
+    override fun render() {
+        clearScreen(0f, 0f, 0f, 1f)
+        currentScreen.render(Gdx.graphics.deltaTime.coerceAtMost(0.25f))
     }
 
     override fun dispose() {
