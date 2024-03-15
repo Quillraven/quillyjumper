@@ -3,7 +3,7 @@
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <properties>
-   <property name="GameObject" value="PLAYER"/>
+   <property name="GameObject" value="FROG"/>
   </properties>
   <image width="32" height="32" source="../graphics/object/frog.png"/>
   <objectgroup draworder="index" id="2">

@@ -14,6 +14,8 @@ TBD
 - [Pixel Adventure assets](https://pixelfrog-assets.itch.io/pixel-adventure-1)
 - [Tile extruder](https://github.com/sporadic-labs/tile-extruder): to add padding to tileset without changing the order
   of tiles
+
+  ```tile-extruder --tileWidth 16 --tileHeight 16 --extrusion 2 --input ./TILESET.png --output ./TILESET_EXRUDED.png```
 - [ImageMagick](https://imagemagick.org/index.php): to split a sprite sheet into separate sprites
 
    ```magick '.\SHEET.png' -crop 32x32 'FRAME_%02d.png'```

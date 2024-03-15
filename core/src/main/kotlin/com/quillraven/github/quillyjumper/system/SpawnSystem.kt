@@ -1,5 +1,6 @@
 package com.quillraven.github.quillyjumper.system
 
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.objects.RectangleMapObject
 import com.badlogic.gdx.maps.tiled.TiledMap
@@ -13,6 +14,7 @@ import com.quillraven.github.quillyjumper.*
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
 import com.quillraven.github.quillyjumper.component.EntityTag
+import com.quillraven.github.quillyjumper.component.Graphic
 import com.quillraven.github.quillyjumper.component.Physic
 import ktx.app.gdxError
 import ktx.box2d.body
@@ -21,7 +23,8 @@ import ktx.tiled.property
 import ktx.tiled.width
 
 class SpawnSystem(
-    private val physicWorld: PhysicWorld = inject()
+    private val physicWorld: PhysicWorld = inject(),
+    private val assets: Assets = inject(),
 ) : IntervalSystem(enabled = false), GameEventListener {
 
     override fun onTick() = Unit
@@ -86,17 +89,28 @@ class SpawnSystem(
         world.entity {
             body.userData = it
             it += Physic(body)
+            it += Graphic(sprite(gameObjectID, "idle"))
 
-            if (gameObjectID == GameObject.PLAYER) {
+            if (gameObjectID == GameObject.FROG) {
                 it += EntityTag.PLAYER
             }
         }
     }
 
+    private fun sprite(objectID: GameObject, animationType: String): Sprite {
+        val atlas = assets[TextureAtlasAsset.GAMEOBJECT]
+        val regions = atlas.findRegions("${objectID.name.lowercase()}/$animationType")
+            ?: gdxError("There are no regions for $objectID and $animationType")
+
+        val firstFrame = regions.first()
+        val w = firstFrame.regionWidth * UNIT_SCALE
+        val h = firstFrame.regionHeight * UNIT_SCALE
+        return Sprite(firstFrame).apply { setSize(w, h) }
+    }
+
     private fun spawnGroundEntity(cellX: Int, cellY: Int, collObj: MapObject) {
         when (collObj) {
             is RectangleMapObject -> {
-                // spawn physic body
                 val body = physicWorld.body(BodyType.StaticBody) {
                     position.set(cellX.toFloat(), cellY.toFloat())
                     fixedRotation = true
@@ -104,12 +118,6 @@ class SpawnSystem(
                 val fixtureDef = fixtureDefOf(collObj)
                 body.createFixture(fixtureDef)
                 fixtureDef.shape.dispose()
-
-                // create entity
-                world.entity {
-                    body.userData = it
-                    it += Physic(body)
-                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.quillraven.github.quillyjumper
 
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import ktx.assets.disposeSafely
@@ -11,6 +12,10 @@ enum class MapAsset(val path: String) {
     OBJECTS("maps/objects.tmx"),
 }
 
+enum class TextureAtlasAsset(val path: String) {
+    GAMEOBJECT("graphics/gameobject.atlas"),
+}
+
 class Assets {
     private val assetManager = AssetManager().apply {
         setLoader(TiledMap::class.java, TmxMapLoader())
@@ -18,6 +23,12 @@ class Assets {
 
     operator fun get(asset: MapAsset): TiledMap {
         assetManager.load<TiledMap>(asset.path)
+        assetManager.finishLoading()
+        return assetManager.get(asset.path)
+    }
+
+    operator fun get(asset: TextureAtlasAsset): TextureAtlas {
+        assetManager.load<TextureAtlas>(asset.path)
         assetManager.finishLoading()
         return assetManager.get(asset.path)
     }

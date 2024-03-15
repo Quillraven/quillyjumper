@@ -58,14 +58,14 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
     override fun render(delta: Float) {
         // TODO remove debug controls
         when {
-            Gdx.input.isKeyJustPressed(Input.Keys.A) -> {
+            Gdx.input.isKeyPressed(Input.Keys.A) -> {
                 world.family { all(EntityTag.PLAYER) }.forEach { entity ->
                     val (body) = entity[Physic]
                     body.applyForce(vec2(-100f, 0f), body.worldCenter, true)
                 }
             }
 
-            Gdx.input.isKeyJustPressed(Input.Keys.D) -> {
+            Gdx.input.isKeyPressed(Input.Keys.D) -> {
                 world.family { all(EntityTag.PLAYER) }.forEach { entity ->
                     val (body) = entity[Physic]
                     body.applyForce(vec2(100f, 0f), body.worldCenter, true)

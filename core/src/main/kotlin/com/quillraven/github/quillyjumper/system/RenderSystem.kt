@@ -8,19 +8,26 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.utils.viewport.Viewport
-import com.github.quillraven.fleks.IntervalSystem
+import com.github.quillraven.fleks.Entity
+import com.github.quillraven.fleks.IteratingSystem
+import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
+import com.github.quillraven.fleks.collection.compareEntityBy
 import com.quillraven.github.quillyjumper.GameEvent
 import com.quillraven.github.quillyjumper.GameEventListener
 import com.quillraven.github.quillyjumper.MapChangeEvent
 import com.quillraven.github.quillyjumper.Quillyjumper
+import com.quillraven.github.quillyjumper.component.Graphic
 import ktx.assets.disposeSafely
 
 class RenderSystem(
     private val batch: Batch = inject(),
     private val gameViewport: Viewport = inject("gameViewport"),
     private val gameCamera: OrthographicCamera = inject(),
-) : IntervalSystem(), GameEventListener {
+) : IteratingSystem(
+    family = family { all(Graphic) },
+    comparator = compareEntityBy(Graphic),
+), GameEventListener {
 
     private val mapRenderer = OrthogonalTiledMapRenderer(null, Quillyjumper.UNIT_SCALE, batch)
     private val bgdLayers = mutableListOf<TiledMapTileLayer>()
@@ -33,9 +40,15 @@ class RenderSystem(
             bgdLayers.forEach { mapRenderer.renderTileLayer(it) }
 
             // render entities
+            super.onTick()
 
             fgdLayers.forEach { mapRenderer.renderTileLayer(it) }
         }
+    }
+
+    override fun onTickEntity(entity: Entity) {
+        val (sprite) = entity[Graphic]
+        sprite.draw(batch)
     }
 
     private inline fun OrthogonalTiledMapRenderer.use(
