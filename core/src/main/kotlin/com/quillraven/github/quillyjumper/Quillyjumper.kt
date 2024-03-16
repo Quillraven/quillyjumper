@@ -13,6 +13,7 @@ import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.app.clearScreen
 import ktx.assets.disposeSafely
+import ktx.math.vec2
 
 typealias PhysicWorld = World
 
@@ -44,6 +45,7 @@ class Quillyjumper : KtxGame<KtxScreen>() {
 
     companion object {
         const val UNIT_SCALE = 1 / 16f // 16 pixels == 1 meter in Box2D
+        val GRAVITY = vec2(0f, -30f)
         val OBJECT_FIXTURES = mutableMapOf<GameObject, List<FixtureDef>>()
     }
 }

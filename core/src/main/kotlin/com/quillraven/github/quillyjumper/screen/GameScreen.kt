@@ -7,18 +7,18 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.configureWorld
 import com.quillraven.github.quillyjumper.*
+import com.quillraven.github.quillyjumper.Quillyjumper.Companion.GRAVITY
 import com.quillraven.github.quillyjumper.input.KeyboardInputProcessor
 import com.quillraven.github.quillyjumper.system.*
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
-import ktx.math.vec2
 
 class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
 
     private val gameCamera = OrthographicCamera()
     private val gameViewport: Viewport = FitViewport(16f, 9f, gameCamera)
-    private val physicWorld = createWorld(gravity = vec2(0f, -30f)).apply {
+    private val physicWorld = createWorld(gravity = GRAVITY).apply {
         autoClearForces = false
     }
     private val world = configureWorld {

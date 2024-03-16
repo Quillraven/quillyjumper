@@ -11,25 +11,25 @@ class MoveSystem : IteratingSystem(family { all(Move) }) {
 
     override fun onTickEntity(entity: Entity) {
         val moveCmp = entity[Move]
-        var (direction, current, max, timer, timeToMax) = moveCmp
+        val (direction, current, max, timer, timeToMax) = moveCmp
 
         if (direction != MoveDirection.NONE) {
             // entity wants to move right or left
             if ((current > 0 && direction == MoveDirection.LEFT) || (current < 0 && direction == MoveDirection.RIGHT)) {
                 // entity wants to change direction -> reset timer to start from slow move speed again
-                timer = 0f
+                moveCmp.current = 0f
+                moveCmp.timer = 0f
+                return
             }
-            timer = (timer + (deltaTime * (1f / timeToMax))).coerceAtMost(1f)
-            current = Interpolation.pow5Out.apply(0f, max, timer)
-            current *= direction.value
-        } else {
-            // entity wants to stop movement
-            current = 0f
-            timer = 0f
+
+            moveCmp.timer = (timer + (deltaTime * (1f / timeToMax))).coerceAtMost(1f)
+            moveCmp.current = Interpolation.pow5Out.apply(0f, max, moveCmp.timer) * direction.value
+            return
         }
 
-        moveCmp.current = current
-        moveCmp.timer = timer
+        // entity wants to stop movement (=direction == NONE)
+        moveCmp.current = 0f
+        moveCmp.timer = 0f
     }
 
 }

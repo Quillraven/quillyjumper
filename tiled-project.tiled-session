@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "assets/maps/objects.tsx",
+    "activeFile": "assets/maps/test.tmx",
     "expandedProjectPaths": [
-        "lwjgl3/build",
+        ".",
         "assets/maps",
         "assets",
-        "."
+        "lwjgl3/build"
     ],
     "fileStates": {
         "": {
@@ -46,11 +46,11 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 11,
-            "selectedLayer": 0,
+            "scale": 8,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 124.54545454545453,
-                "y": 101.5909090909091
+                "x": 69.125,
+                "y": 39.3125
             }
         }
     },
@@ -64,10 +64,10 @@
     "map.width": 10,
     "openFiles": [
         "assets/maps/objects.tmx",
-        "assets/maps/objects.tsx",
         "assets/maps/test.tmx"
     ],
     "project": "tiled-project.tiled-project",
+    "property.type": "float",
     "recentFiles": [
         "assets/maps/objects.tmx",
         "assets/maps/test.tmx",
