@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "assets/maps/terrain.tsx",
+    "activeFile": "assets/maps/objects.tsx",
     "expandedProjectPaths": [
-        "assets",
-        ".",
+        "lwjgl3/build",
         "assets/maps",
-        "lwjgl3/build"
+        "assets",
+        "."
     ],
     "fileStates": {
         "": {
@@ -47,10 +47,10 @@
                 3
             ],
             "scale": 11,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 59.00000000000001,
-                "y": 79.4090909090909
+                "x": 58.909090909090914,
+                "y": 79.31818181818183
             }
         }
     },
@@ -63,17 +63,16 @@
     "map.tileWidth": 32,
     "map.width": 10,
     "openFiles": [
-        "assets/maps/test.tmx",
-        "assets/maps/terrain.tsx",
         "assets/maps/objects.tmx",
-        "assets/maps/objects.tsx"
+        "assets/maps/objects.tsx",
+        "assets/maps/test.tmx"
     ],
     "project": "tiled-project.tiled-project",
     "recentFiles": [
-        "assets/maps/objects.tsx",
-        "assets/maps/test.tmx",
-        "assets/maps/terrain.tsx",
         "assets/maps/objects.tmx",
+        "assets/maps/test.tmx",
+        "assets/maps/objects.tsx",
+        "assets/maps/terrain.tsx",
         "assets/maps/terrain_extruded.tsx"
     ],
     "tileset.embedInMap": true,

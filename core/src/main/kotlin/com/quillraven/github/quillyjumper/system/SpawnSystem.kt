@@ -54,7 +54,7 @@ class SpawnSystem(
         // 1) spawn static ground bodies
         map.forEachCell { cell, cellX, cellY ->
             cell.tile?.objects?.forEach { collObj ->
-                spawnGroundEntity(cellX, cellY, collObj)
+                spawnGroundBodies(cellX, cellY, collObj)
             }
         }
 
@@ -101,7 +101,7 @@ class SpawnSystem(
 
     private fun sprite(objectID: GameObject, animationType: String): Sprite {
         val atlas = assets[TextureAtlasAsset.GAMEOBJECT]
-        val regions = atlas.findRegions("${objectID.name.lowercase()}/$animationType")
+        val regions = atlas.findRegions("${objectID.atlasKey}/$animationType")
             ?: gdxError("There are no regions for $objectID and $animationType")
 
         val firstFrame = regions.first()
@@ -110,7 +110,7 @@ class SpawnSystem(
         return Sprite(firstFrame).apply { setSize(w, h) }
     }
 
-    private fun spawnGroundEntity(cellX: Int, cellY: Int, collObj: MapObject) {
+    private fun spawnGroundBodies(cellX: Int, cellY: Int, collObj: MapObject) {
         when (collObj) {
             is RectangleMapObject -> {
                 val body = physicWorld.body(BodyType.StaticBody) {

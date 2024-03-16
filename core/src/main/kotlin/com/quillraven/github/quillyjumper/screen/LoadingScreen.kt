@@ -12,6 +12,7 @@ class LoadingScreen(private val game: Quillyjumper, private val assets: Assets) 
     override fun show() {
         val tiledMap = assets[MapAsset.OBJECTS]
         parseObjectCollisionShapes(tiledMap)
+        assets - MapAsset.OBJECTS
 
         game.removeScreen<LoadingScreen>()
         dispose()

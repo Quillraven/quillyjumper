@@ -39,7 +39,7 @@ class Quillyjumper : KtxGame<KtxScreen>() {
 
     override fun dispose() {
         batch.disposeSafely()
-        assets.dispose()
+        assets.disposeSafely()
     }
 
     companion object {

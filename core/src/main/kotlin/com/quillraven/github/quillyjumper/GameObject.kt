@@ -1,5 +1,7 @@
 package com.quillraven.github.quillyjumper
 
 enum class GameObject {
-    FROG,
+    FROG;
+
+    val atlasKey: String = name.lowercase()
 }
