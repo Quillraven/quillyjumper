@@ -13,10 +13,7 @@ import com.github.quillraven.fleks.World.Companion.inject
 import com.quillraven.github.quillyjumper.*
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
-import com.quillraven.github.quillyjumper.component.EntityTag
-import com.quillraven.github.quillyjumper.component.Graphic
-import com.quillraven.github.quillyjumper.component.Move
-import com.quillraven.github.quillyjumper.component.Physic
+import com.quillraven.github.quillyjumper.component.*
 import ktx.app.gdxError
 import ktx.box2d.body
 import ktx.tiled.height
@@ -95,6 +92,7 @@ class SpawnSystem(
             if (gameObjectID == GameObject.FROG) {
                 it += EntityTag.PLAYER
                 it += Move(max = 8f, timeToMax = 4.5f)
+                it += Jump(maxHeight = 3f)
             }
         }
     }

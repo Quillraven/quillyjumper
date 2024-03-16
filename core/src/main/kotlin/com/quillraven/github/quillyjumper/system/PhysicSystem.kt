@@ -3,6 +3,7 @@ package com.quillraven.github.quillyjumper.system
 import com.badlogic.gdx.math.MathUtils
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.Fixed
+import com.github.quillraven.fleks.Interval
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
@@ -15,8 +16,9 @@ import ktx.math.component1
 import ktx.math.component2
 
 class PhysicSystem(
-    private val physicWorld: PhysicWorld = inject()
-) : IteratingSystem(family = family { all(Physic, Graphic) }, interval = Fixed(1 / 45f)) {
+    private val physicWorld: PhysicWorld = inject(),
+    interval: Interval = Fixed(1 / 60f),
+) : IteratingSystem(family = family { all(Physic).any(Move, Graphic) }, interval = interval) {
 
     override fun onUpdate() {
         if (physicWorld.autoClearForces) {
@@ -36,7 +38,7 @@ class PhysicSystem(
         val (body, prevPosition) = entity[Physic]
         prevPosition.set(body.position)
 
-        // update liner velocity if entity has a Move component
+        // update linear velocity.x if entity has a Move component
         entity.getOrNull(Move)?.let { moveCmp ->
             body.setLinearVelocity(moveCmp.current, body.linearVelocity.y)
         }

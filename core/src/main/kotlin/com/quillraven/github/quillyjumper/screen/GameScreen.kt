@@ -12,13 +12,13 @@ import com.quillraven.github.quillyjumper.system.*
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
-import ktx.box2d.earthGravity
+import ktx.math.vec2
 
 class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
 
     private val gameCamera = OrthographicCamera()
     private val gameViewport: Viewport = FitViewport(16f, 9f, gameCamera)
-    private val physicWorld = createWorld(gravity = earthGravity).apply {
+    private val physicWorld = createWorld(gravity = vec2(0f, -30f)).apply {
         autoClearForces = false
     }
     private val world = configureWorld {
@@ -33,6 +33,7 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
         systems {
             add(SpawnSystem())
             add(MoveSystem())
+            add(JumpPhysicSystem())
             add(PhysicSystem())
             add(RenderSystem())
             add(PhysicRenderDebugSystem())
