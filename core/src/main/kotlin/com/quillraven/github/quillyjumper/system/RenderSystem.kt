@@ -13,9 +13,9 @@ import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import com.github.quillraven.fleks.collection.compareEntityBy
-import com.quillraven.github.quillyjumper.GameEvent
-import com.quillraven.github.quillyjumper.GameEventListener
-import com.quillraven.github.quillyjumper.MapChangeEvent
+import com.quillraven.github.quillyjumper.event.GameEvent
+import com.quillraven.github.quillyjumper.event.GameEventListener
+import com.quillraven.github.quillyjumper.event.MapChangeEvent
 import com.quillraven.github.quillyjumper.Quillyjumper
 import com.quillraven.github.quillyjumper.component.Graphic
 import ktx.assets.disposeSafely

@@ -1,4 +1,4 @@
-package com.quillraven.github.quillyjumper
+package com.quillraven.github.quillyjumper.util
 
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.objects.EllipseMapObject

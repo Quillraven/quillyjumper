@@ -1,8 +1,12 @@
 package com.quillraven.github.quillyjumper.screen
 
 import com.badlogic.gdx.maps.tiled.TiledMap
-import com.quillraven.github.quillyjumper.*
+import com.quillraven.github.quillyjumper.Assets
+import com.quillraven.github.quillyjumper.GameObject
+import com.quillraven.github.quillyjumper.MapAsset
+import com.quillraven.github.quillyjumper.Quillyjumper
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
+import com.quillraven.github.quillyjumper.util.fixtureDefOf
 import ktx.app.KtxScreen
 import ktx.app.gdxError
 import ktx.tiled.propertyOrNull

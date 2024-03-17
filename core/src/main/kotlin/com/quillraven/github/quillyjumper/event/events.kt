@@ -1,4 +1,4 @@
-package com.quillraven.github.quillyjumper
+package com.quillraven.github.quillyjumper.event
 
 import com.badlogic.gdx.maps.tiled.TiledMap
 

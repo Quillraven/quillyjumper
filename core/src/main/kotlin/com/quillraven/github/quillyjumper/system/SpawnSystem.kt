@@ -10,13 +10,23 @@ import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.github.quillraven.fleks.IntervalSystem
 import com.github.quillraven.fleks.World.Companion.inject
-import com.quillraven.github.quillyjumper.*
+import com.quillraven.github.quillyjumper.Assets
+import com.quillraven.github.quillyjumper.GameObject
+import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
+import com.quillraven.github.quillyjumper.TextureAtlasAsset
+import com.quillraven.github.quillyjumper.ai.AiEntity
+import com.quillraven.github.quillyjumper.ai.GameObjectStateIdle
 import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.event.GameEvent
+import com.quillraven.github.quillyjumper.event.GameEventListener
+import com.quillraven.github.quillyjumper.event.MapChangeEvent
+import com.quillraven.github.quillyjumper.util.fixtureDefOf
 import ktx.app.gdxError
 import ktx.box2d.body
 import ktx.tiled.height
+import ktx.tiled.id
 import ktx.tiled.property
 import ktx.tiled.width
 
@@ -69,8 +79,8 @@ class SpawnSystem(
 
         // spawn physic body
         val gameObjectStr = mapObject.tile.property<String>("GameObject")
-        val gameObjectID = GameObject.valueOf(gameObjectStr)
-        val fixtureDefs = OBJECT_FIXTURES[gameObjectID]
+        val gameObject = GameObject.valueOf(gameObjectStr)
+        val fixtureDefs = OBJECT_FIXTURES[gameObject]
             ?: gdxError("No fixture definitions for $gameObjectStr")
         val x = mapObject.x * UNIT_SCALE
         val y = mapObject.y * UNIT_SCALE
@@ -86,13 +96,16 @@ class SpawnSystem(
         // spawn entity
         world.entity {
             body.userData = it
+            it += Tiled(gameObject, mapObject.id)
             it += Physic(body)
-            it += Graphic(sprite(gameObjectID, "idle"))
+            it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey))
 
-            if (gameObjectID == GameObject.FROG) {
+            if (gameObject == GameObject.FROG) {
                 it += EntityTag.PLAYER
                 it += Move(max = 8f, timeToMax = 4.5f)
                 it += Jump(maxHeight = 3f)
+                it += Animation(gdxAnimation(world, gameObject, AnimationType.IDLE))
+                it += State(AiEntity(it, world), GameObjectStateIdle)
             }
         }
     }

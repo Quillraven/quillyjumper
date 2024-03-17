@@ -1,4 +1,4 @@
-package com.quillraven.github.quillyjumper
+package com.quillraven.github.quillyjumper.util
 
 import com.badlogic.gdx.math.Ellipse
 import com.badlogic.gdx.math.Rectangle

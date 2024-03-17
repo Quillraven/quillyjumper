@@ -6,9 +6,14 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.configureWorld
-import com.quillraven.github.quillyjumper.*
+import com.quillraven.github.quillyjumper.Assets
+import com.quillraven.github.quillyjumper.MapAsset
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.GRAVITY
+import com.quillraven.github.quillyjumper.event.GameEventDispatcher
+import com.quillraven.github.quillyjumper.event.GameEventListener
+import com.quillraven.github.quillyjumper.event.MapChangeEvent
 import com.quillraven.github.quillyjumper.input.KeyboardInputProcessor
+import com.quillraven.github.quillyjumper.inputMultiplexer
 import com.quillraven.github.quillyjumper.system.*
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
@@ -35,6 +40,8 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
             add(MoveSystem())
             add(JumpPhysicSystem())
             add(PhysicSystem())
+            add(StateSystem())
+            add(AnimationSystem())
             add(RenderSystem())
             add(PhysicRenderDebugSystem())
             add(GlProfilerSystem())
