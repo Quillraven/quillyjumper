@@ -29,13 +29,17 @@ class MoveSystem : IteratingSystem(family { all(Move) }) {
             }
 
             moveCmp.timer = (timer + (deltaTime * (1f / timeToMax))).coerceAtMost(1f)
-            moveCmp.current = Interpolation.pow5Out.apply(0f, max, moveCmp.timer) * direction.value
+            moveCmp.current = Interpolation.pow5Out.apply(MIN_SPEED, max, moveCmp.timer) * direction.value
             return
         }
 
         // entity wants to stop movement (=direction == NONE)
         moveCmp.current = 0f
         moveCmp.timer = 0f
+    }
+
+    companion object {
+        private const val MIN_SPEED = 1f
     }
 
 }

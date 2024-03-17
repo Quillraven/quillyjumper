@@ -105,7 +105,7 @@ class SpawnSystem(
             it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey))
 
             if (gameObject == GameObject.FROG) {
-                it += EntityTag.PLAYER
+                it += listOf(EntityTag.PLAYER, EntityTag.CAMERA_FOCUS)
                 it += Move(max = 8f, timeToMax = 4.5f)
                 it += Jump(maxHeight = 3f)
                 it += Animation(gdxAnimation(world, gameObject, AnimationType.IDLE))

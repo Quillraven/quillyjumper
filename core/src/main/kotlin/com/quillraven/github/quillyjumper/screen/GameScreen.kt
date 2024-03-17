@@ -42,8 +42,9 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
             add(PhysicSystem())
             add(StateSystem())
             add(AnimationSystem())
+            add(CameraSystem())
             add(RenderSystem())
-            add(PhysicRenderDebugSystem())
+            // add(PhysicRenderDebugSystem())
             add(GlProfilerSystem())
         }
     }

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="4">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="4">
  <tileset firstgid="1" source="terrain.tsx"/>
  <tileset firstgid="243" source="objects.tsx"/>
- <layer id="1" name="ground" width="10" height="10">
+ <layer id="1" name="ground" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBhZgB2IOQhgTiCWBWI5AlieBHXGQGxCAJsCMQAaTwSx
+   eJxjYBgF6IAdiDmgmHOA3UIpQPYLLsxJpHqQOlkgliOA5ZHMw6dengbmGQOxCQFsimQePvUgdQAqcAiR
   </data>
  </layer>
- <layer id="2" name="decoration" width="10" height="10">
+ <layer id="2" name="decoration" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF1AAKQKyIh08sAAAhCACD
+   eJxjYBgF1ALsQMyJRdwYiE2g2JQE82SBWJ4K7hpsQAGIFQmIYVNDjBy1AQBsygIh
   </data>
  </layer>
  <objectgroup id="3" name="objects">
   <object id="3" gid="243" x="-6" y="96" width="32" height="32"/>
  </objectgroup>
- <layer id="4" name="foreground" width="10" height="10">
+ <layer id="4" name="foreground" width="20" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYMAE97CIYQMqRKprJFKdHJHqyohU94RIdYMJAAA2cQL8
+   eJxjYBgFo2AU4AIAAyAAAQ==
   </data>
  </layer>
 </map>
