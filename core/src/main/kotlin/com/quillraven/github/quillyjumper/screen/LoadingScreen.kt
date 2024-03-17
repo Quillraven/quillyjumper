@@ -1,5 +1,6 @@
 package com.quillraven.github.quillyjumper.screen
 
+import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.quillraven.github.quillyjumper.Assets
 import com.quillraven.github.quillyjumper.GameObject
@@ -9,17 +10,32 @@ import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.util.fixtureDefOf
 import ktx.app.KtxScreen
 import ktx.app.gdxError
+import ktx.assets.disposeSafely
+import ktx.box2d.createWorld
 import ktx.tiled.propertyOrNull
 
-class LoadingScreen(private val game: Quillyjumper, private val assets: Assets) : KtxScreen {
+class LoadingScreen(
+    private val game: Quillyjumper,
+    private val batch: Batch,
+    private val assets: Assets
+) : KtxScreen {
+
+    // we need to create a physic world to parse the entity collision objects, which are
+    // creating fixture definitions via createLoop/createChain/... methods.
+    private val physicWorld = createWorld()
 
     override fun show() {
+        // load all resources and parse collision fixtures for game objects out of TiledMap
+        assets.loadAll()
         val tiledMap = assets[MapAsset.OBJECTS]
         parseObjectCollisionShapes(tiledMap)
         assets - MapAsset.OBJECTS
 
         game.removeScreen<LoadingScreen>()
         dispose()
+
+        // create remaining game screens
+        game.addScreen(GameScreen(batch, assets))
         game.setScreen<GameScreen>()
     }
 
@@ -41,6 +57,10 @@ class LoadingScreen(private val game: Quillyjumper, private val assets: Assets) 
                 ?: gdxError("Missing property 'GameObject' on tile ${tile.id}")
             OBJECT_FIXTURES[GameObject.valueOf(gameObjectStr)] = objectFixtureDefs
         }
+    }
+
+    override fun dispose() {
+        physicWorld.disposeSafely()
     }
 
 }

@@ -18,19 +18,22 @@ enum class TextureAtlasAsset(val path: String) {
 }
 
 class Assets : Disposable {
+
     private val assetManager = AssetManager().apply {
         setLoader(TiledMap::class.java, TmxMapLoader())
     }
 
-    operator fun get(asset: MapAsset): TiledMap {
-        assetManager.load<TiledMap>(asset.path)
+    fun loadAll() {
+        MapAsset.entries.forEach { assetManager.load<TiledMap>(it.path) }
+        TextureAtlasAsset.entries.forEach { assetManager.load<TextureAtlas>(it.path) }
         assetManager.finishLoading()
+    }
+
+    operator fun get(asset: MapAsset): TiledMap {
         return assetManager.get(asset.path)
     }
 
     operator fun get(asset: TextureAtlasAsset): TextureAtlas {
-        assetManager.load<TextureAtlas>(asset.path)
-        assetManager.finishLoading()
         return assetManager.get(asset.path)
     }
 

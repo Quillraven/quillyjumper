@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.World
-import com.quillraven.github.quillyjumper.screen.GameScreen
 import com.quillraven.github.quillyjumper.screen.LoadingScreen
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
@@ -28,8 +27,7 @@ class Quillyjumper : KtxGame<KtxScreen>() {
     override fun create() {
         Gdx.input.inputProcessor = InputMultiplexer()
 
-        addScreen(LoadingScreen(this, assets))
-        addScreen(GameScreen(batch, assets))
+        addScreen(LoadingScreen(this, batch, assets))
         setScreen<LoadingScreen>()
     }
 
