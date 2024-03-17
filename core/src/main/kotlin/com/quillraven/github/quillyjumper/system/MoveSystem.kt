@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Interpolation
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
+import com.quillraven.github.quillyjumper.component.Graphic
 import com.quillraven.github.quillyjumper.component.Move
 import com.quillraven.github.quillyjumper.component.MoveDirection
 
@@ -20,6 +21,11 @@ class MoveSystem : IteratingSystem(family { all(Move) }) {
                 moveCmp.current = 0f
                 moveCmp.timer = 0f
                 return
+            }
+
+            // flip the sprite to look to the left, when the entity wants to move to the left
+            entity.getOrNull(Graphic)?.let {
+                it.sprite.setFlip(direction == MoveDirection.LEFT, it.sprite.isFlipY)
             }
 
             moveCmp.timer = (timer + (deltaTime * (1f / timeToMax))).coerceAtMost(1f)

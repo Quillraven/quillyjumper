@@ -98,6 +98,10 @@ class SpawnSystem(
             body.userData = it
             it += Tiled(gameObject, mapObject.id)
             it += Physic(body)
+            // IMPORTANT: to make a sprite flip it must have a region already. Otherwise,
+            // the flipX information of the sprite will always be false.
+            // Since the AnimationSystem is updating the region of the sprite and is also
+            // restoring the flip information, we should set the Sprite region already at this point.
             it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey))
 
             if (gameObject == GameObject.FROG) {
