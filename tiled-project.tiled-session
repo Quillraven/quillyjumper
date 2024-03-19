@@ -5,10 +5,10 @@
     },
     "activeFile": "assets/maps/test.tmx",
     "expandedProjectPaths": [
-        ".",
-        "assets/maps",
         "assets",
-        "lwjgl3/build"
+        "assets/maps",
+        "lwjgl3/build",
+        "."
     ],
     "fileStates": {
         "": {
@@ -19,8 +19,8 @@
             "scale": 3.598125,
             "selectedLayer": -1,
             "viewCenter": {
-                "x": 173.2846968907417,
-                "y": 159.66649296508598
+                "x": 170.9223553934341,
+                "y": 158.83272537780093
             }
         },
         "assets/maps/objects.tmx#objects": {
@@ -46,11 +46,11 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 8,
-            "selectedLayer": 3,
+            "scale": 4,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 69.125,
-                "y": 39.3125
+                "x": 146.25,
+                "y": 82.125
             }
         }
     },
@@ -64,14 +64,15 @@
     "map.width": 10,
     "openFiles": [
         "assets/maps/objects.tmx",
-        "assets/maps/test.tmx"
+        "assets/maps/test.tmx",
+        "assets/maps/objects.tsx"
     ],
     "project": "tiled-project.tiled-project",
     "property.type": "float",
     "recentFiles": [
         "assets/maps/objects.tmx",
-        "assets/maps/test.tmx",
         "assets/maps/objects.tsx",
+        "assets/maps/test.tmx",
         "assets/maps/terrain.tsx",
         "assets/maps/terrain_extruded.tsx"
     ],

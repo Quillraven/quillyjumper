@@ -7,7 +7,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.configureWorld
 import com.quillraven.github.quillyjumper.Assets
+import com.quillraven.github.quillyjumper.GamePropertyKey
 import com.quillraven.github.quillyjumper.MapAsset
+import com.quillraven.github.quillyjumper.Quillyjumper.Companion.GAME_PROPERTIES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.GRAVITY
 import com.quillraven.github.quillyjumper.event.GameEventDispatcher
 import com.quillraven.github.quillyjumper.event.GameEventListener
@@ -15,6 +17,7 @@ import com.quillraven.github.quillyjumper.event.MapChangeEvent
 import com.quillraven.github.quillyjumper.input.KeyboardInputProcessor
 import com.quillraven.github.quillyjumper.inputMultiplexer
 import com.quillraven.github.quillyjumper.system.*
+import com.quillraven.github.quillyjumper.util.getOrDefault
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
@@ -44,8 +47,12 @@ class GameScreen(batch: Batch, private val assets: Assets) : KtxScreen {
             add(AnimationSystem())
             add(CameraSystem())
             add(RenderSystem())
-            // add(PhysicRenderDebugSystem())
-            add(GlProfilerSystem())
+            if (GAME_PROPERTIES.getOrDefault(GamePropertyKey.DEBUG_PHYSIC, false)) {
+                add(PhysicRenderDebugSystem())
+            }
+            if (GAME_PROPERTIES.getOrDefault(GamePropertyKey.ENABLE_PROFILING, false)) {
+                add(GlProfilerSystem())
+            }
         }
     }
     private val keyboardProcessor = KeyboardInputProcessor(world)
