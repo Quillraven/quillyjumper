@@ -5,12 +5,15 @@ import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import com.quillraven.github.quillyjumper.PhysicWorld
+import com.quillraven.github.quillyjumper.SoundAsset
+import com.quillraven.github.quillyjumper.audio.AudioService
 import com.quillraven.github.quillyjumper.component.Jump
 import com.quillraven.github.quillyjumper.component.Physic
 import kotlin.math.sqrt
 
 class JumpPhysicSystem(
-    private val physicWorld: PhysicWorld = inject()
+    private val physicWorld: PhysicWorld = inject(),
+    private val audioService: AudioService = inject(),
 ) : IteratingSystem(family { all(Jump, Physic) }) {
 
     override fun onTickEntity(entity: Entity) {
@@ -27,6 +30,7 @@ class JumpPhysicSystem(
         jumpCmp.buffer = 0f
         val gravityY = if (physicWorld.gravity.y == 0f) 1f else -physicWorld.gravity.y
         body.setLinearVelocity(body.linearVelocity.x, sqrt(2 * maxHeight * gravityY))
+        audioService.play(SoundAsset.JUMP)
     }
 
 }

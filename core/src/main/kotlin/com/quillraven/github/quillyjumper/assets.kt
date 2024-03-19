@@ -1,6 +1,8 @@
 package com.quillraven.github.quillyjumper
 
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.audio.Music
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
@@ -17,6 +19,14 @@ enum class TextureAtlasAsset(val path: String) {
     GAMEOBJECT("graphics/gameobject.atlas"),
 }
 
+enum class MusicAsset(val path: String) {
+    TUTORIAL("audio/tutorial.mp3"),
+}
+
+enum class SoundAsset(val path: String) {
+    JUMP("audio/jump.mp3"),
+}
+
 class Assets : Disposable {
 
     private val assetManager = AssetManager().apply {
@@ -26,6 +36,12 @@ class Assets : Disposable {
     fun loadAll() {
         MapAsset.entries.forEach { assetManager.load<TiledMap>(it.path) }
         TextureAtlasAsset.entries.forEach { assetManager.load<TextureAtlas>(it.path) }
+        SoundAsset.entries.forEach { assetManager.load<Sound>(it.path) }
+        assetManager.finishLoading()
+    }
+
+    operator fun plusAssign(asset: MusicAsset) {
+        assetManager.load<Music>(asset.path)
         assetManager.finishLoading()
     }
 
@@ -37,7 +53,19 @@ class Assets : Disposable {
         return assetManager.get(asset.path)
     }
 
-    operator fun minus(asset: MapAsset) {
+    operator fun get(asset: SoundAsset): Sound {
+        return assetManager.get(asset.path)
+    }
+
+    operator fun get(asset: MusicAsset): Music {
+        return assetManager.get(asset.path)
+    }
+
+    operator fun minusAssign(asset: MapAsset) {
+        assetManager.unload(asset.path)
+    }
+
+    operator fun minusAssign(asset: MusicAsset) {
         assetManager.unload(asset.path)
     }
 

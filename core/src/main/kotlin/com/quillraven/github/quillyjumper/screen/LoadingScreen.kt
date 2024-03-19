@@ -2,11 +2,9 @@ package com.quillraven.github.quillyjumper.screen
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMap
-import com.quillraven.github.quillyjumper.Assets
-import com.quillraven.github.quillyjumper.GameObject
-import com.quillraven.github.quillyjumper.MapAsset
-import com.quillraven.github.quillyjumper.Quillyjumper
+import com.quillraven.github.quillyjumper.*
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
+import com.quillraven.github.quillyjumper.audio.AudioService
 import com.quillraven.github.quillyjumper.util.fixtureDefOf
 import ktx.app.KtxScreen
 import ktx.app.gdxError
@@ -17,7 +15,9 @@ import ktx.tiled.propertyOrNull
 class LoadingScreen(
     private val game: Quillyjumper,
     private val batch: Batch,
-    private val assets: Assets
+    private val assets: Assets,
+    private val gameProperties: GameProperties,
+    private val audioService: AudioService,
 ) : KtxScreen {
 
     // we need to create a physic world to parse the entity collision objects, which are
@@ -29,13 +29,13 @@ class LoadingScreen(
         assets.loadAll()
         val tiledMap = assets[MapAsset.OBJECTS]
         parseObjectCollisionShapes(tiledMap)
-        assets - MapAsset.OBJECTS
+        assets -= MapAsset.OBJECTS
 
         game.removeScreen<LoadingScreen>()
         dispose()
 
         // create remaining game screens
-        game.addScreen(GameScreen(batch, assets))
+        game.addScreen(GameScreen(batch, assets, gameProperties, audioService))
         game.setScreen<GameScreen>()
     }
 
