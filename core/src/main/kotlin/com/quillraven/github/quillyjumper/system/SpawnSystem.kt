@@ -89,8 +89,8 @@ class SpawnSystem(
             fixedRotation = true
         }
         fixtureDefs.forEach { fixtureDef ->
-            body.createFixture(fixtureDef)
-            fixtureDef.shape.dispose()
+            body.createFixture(fixtureDef.def).userData = fixtureDef.userData
+            fixtureDef.def.shape.dispose()
         }
 
         // spawn entity
@@ -133,8 +133,8 @@ class SpawnSystem(
                     fixedRotation = true
                 }
                 val fixtureDef = fixtureDefOf(collObj)
-                body.createFixture(fixtureDef)
-                fixtureDef.shape.dispose()
+                body.createFixture(fixtureDef.def).userData = fixtureDef.userData
+                fixtureDef.def.shape.dispose()
             }
         }
     }

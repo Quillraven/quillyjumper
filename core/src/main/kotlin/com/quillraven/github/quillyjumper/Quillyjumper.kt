@@ -5,12 +5,12 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.ObjectMap
 import com.badlogic.gdx.utils.PropertiesUtils
 import com.quillraven.github.quillyjumper.audio.AudioService
 import com.quillraven.github.quillyjumper.screen.LoadingScreen
+import com.quillraven.github.quillyjumper.util.FixtureDefUserData
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.app.clearScreen
@@ -65,6 +65,6 @@ class Quillyjumper : KtxGame<KtxScreen>() {
         private val log = logger<Quillyjumper>()
         const val UNIT_SCALE = 1 / 16f // 16 pixels == 1 meter in Box2D
         val GRAVITY = vec2(0f, -30f)
-        val OBJECT_FIXTURES = mutableMapOf<GameObject, List<FixtureDef>>()
+        val OBJECT_FIXTURES = mutableMapOf<GameObject, List<FixtureDefUserData>>()
     }
 }

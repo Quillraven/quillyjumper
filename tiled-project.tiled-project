@@ -10,5 +10,59 @@
     "properties": [
     ],
     "propertyTypes": [
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 2,
+            "members": [
+                {
+                    "name": "density",
+                    "type": "float",
+                    "value": 0
+                },
+                {
+                    "name": "friction",
+                    "type": "float",
+                    "value": 0
+                },
+                {
+                    "name": "isChain",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "isSensor",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "restitution",
+                    "type": "float",
+                    "value": 0
+                },
+                {
+                    "name": "userData",
+                    "type": "string",
+                    "value": ""
+                }
+            ],
+            "name": "FixtureDef",
+            "type": "class",
+            "useAs": [
+                "property",
+                "object",
+                "project"
+            ]
+        },
+        {
+            "id": 1,
+            "name": "GameObject",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "FROG"
+            ],
+            "valuesAsFlags": false
+        }
     ]
 }

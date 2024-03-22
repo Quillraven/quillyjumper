@@ -3,13 +3,33 @@
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <properties>
-   <property name="GameObject" value="FROG"/>
+   <property name="GameObject" propertytype="GameObject" value="FROG"/>
   </properties>
   <image width="32" height="32" source="../graphics/object/frog.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="3" x="8" y="10" width="17" height="16"/>
-   <object id="6" x="8" y="15" width="17" height="17">
-    <ellipse/>
+   <object id="3" type="FixtureDef" x="7" y="11" width="18" height="20">
+    <properties>
+     <property name="isSensor" type="bool" value="true"/>
+     <property name="userData" value="hitbox"/>
+    </properties>
+   </object>
+   <object id="7" x="9" y="11">
+    <polyline points="0,2 0,18"/>
+   </object>
+   <object id="8" type="FixtureDef" x="24" y="11">
+    <polyline points="0,2 0,18"/>
+   </object>
+   <object id="13" type="FixtureDef" x="9" y="28" width="15" height="4">
+    <properties>
+     <property name="friction" type="float" value="1"/>
+     <property name="isChain" type="bool" value="true"/>
+    </properties>
+   </object>
+   <object id="14" type="FixtureDef" x="9" y="13">
+    <properties>
+     <property name="restitution" type="float" value="0.2"/>
+    </properties>
+    <polyline points="0,0 8,-2 15,0"/>
    </object>
   </objectgroup>
  </tile>
