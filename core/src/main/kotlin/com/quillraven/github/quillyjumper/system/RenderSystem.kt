@@ -7,22 +7,25 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import com.github.quillraven.fleks.collection.compareEntityBy
+import com.quillraven.github.quillyjumper.Quillyjumper
+import com.quillraven.github.quillyjumper.component.Graphic
 import com.quillraven.github.quillyjumper.event.GameEvent
 import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.MapChangeEvent
-import com.quillraven.github.quillyjumper.Quillyjumper
-import com.quillraven.github.quillyjumper.component.Graphic
 import ktx.assets.disposeSafely
 
 class RenderSystem(
     private val batch: Batch = inject(),
     private val gameViewport: Viewport = inject("gameViewport"),
+    private val uiViewport: Viewport = inject("uiViewport"),
+    private val stage: Stage = inject(),
     private val gameCamera: OrthographicCamera = inject(),
 ) : IteratingSystem(
     family = family { all(Graphic) },
@@ -34,8 +37,8 @@ class RenderSystem(
     private val fgdLayers = mutableListOf<TiledMapTileLayer>()
 
     override fun onTick() {
+        // game rendering
         gameViewport.apply()
-
         mapRenderer.use(gameCamera) {
             bgdLayers.forEach { mapRenderer.renderTileLayer(it) }
 
@@ -44,6 +47,11 @@ class RenderSystem(
 
             fgdLayers.forEach { mapRenderer.renderTileLayer(it) }
         }
+
+        // ui rendering
+        uiViewport.apply()
+        stage.act(deltaTime)
+        stage.draw()
     }
 
     override fun onTickEntity(entity: Entity) {
@@ -70,6 +78,8 @@ class RenderSystem(
                 mapRenderer.map = event.tiledMap
                 parseMapLayers(event.tiledMap)
             }
+
+            else -> Unit
         }
     }
 

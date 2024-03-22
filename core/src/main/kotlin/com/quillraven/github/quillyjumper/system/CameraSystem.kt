@@ -45,6 +45,8 @@ class CameraSystem(
             is MapChangeEvent -> {
                 mapBoundaries.set(event.tiledMap.width.toFloat(), event.tiledMap.height.toFloat())
             }
+
+            else -> Unit
         }
     }
 

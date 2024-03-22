@@ -68,6 +68,8 @@ class AudioService(
                     play(MusicAsset.valueOf(musicAssetStr))
                 }
             }
+
+            else -> Unit
         }
     }
 

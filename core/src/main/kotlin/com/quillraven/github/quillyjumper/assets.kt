@@ -6,7 +6,9 @@ import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Disposable
+import com.ray3k.stripe.FreeTypeSkinLoader
 import ktx.assets.disposeSafely
 import ktx.assets.load
 
@@ -27,16 +29,22 @@ enum class SoundAsset(val path: String) {
     JUMP("audio/jump.mp3"),
 }
 
+enum class SkinAsset(val path: String) {
+    DEFAULT("ui/skin.json"),
+}
+
 class Assets : Disposable {
 
     private val assetManager = AssetManager().apply {
-        setLoader(TiledMap::class.java, TmxMapLoader())
+        setLoader(TiledMap::class.java, TmxMapLoader(this.fileHandleResolver))
+        setLoader(Skin::class.java, FreeTypeSkinLoader(this.fileHandleResolver))
     }
 
     fun loadAll() {
         MapAsset.entries.forEach { assetManager.load<TiledMap>(it.path) }
         TextureAtlasAsset.entries.forEach { assetManager.load<TextureAtlas>(it.path) }
         SoundAsset.entries.forEach { assetManager.load<Sound>(it.path) }
+        SkinAsset.entries.forEach { assetManager.load<Skin>(it.path) }
         assetManager.finishLoading()
     }
 
@@ -58,6 +66,10 @@ class Assets : Disposable {
     }
 
     operator fun get(asset: MusicAsset): Music {
+        return assetManager.get(asset.path)
+    }
+
+    operator fun get(asset: SkinAsset): Skin {
         return assetManager.get(asset.path)
     }
 

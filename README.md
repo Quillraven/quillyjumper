@@ -12,6 +12,9 @@ TBD
 ### Credits
 
 - [Pixel Adventure assets](https://pixelfrog-assets.itch.io/pixel-adventure-1)
+- [Complete UI essential pack](https://crusenho.itch.io/complete-ui-essential-pack)
+- [Pixel health bar](https://bdragon1727.itch.io/basic-pixel-health-bar-and-scroll-bar)
+- [Masaaki Font](https://www.1001freefonts.com/masaaki.font)
 - [Tile extruder](https://github.com/sporadic-labs/tile-extruder): to add padding to tileset without changing the order
   of tiles
 
@@ -19,5 +22,6 @@ TBD
 - [ImageMagick](https://imagemagick.org/index.php): to split a sprite sheet into separate sprites
 
    ```magick '.\SHEET.png' -crop 32x32 'FRAME_%02d.png'```
+- [Skin composer](https://github.com/raeleus/skin-composer)
 - [LibGDX](https://github.com/libgdx/libgdx)
 - [LibKTX](https://github.com/libktx/ktx): Kotlin extensions for LibGDX

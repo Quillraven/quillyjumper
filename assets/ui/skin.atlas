@@ -1,0 +1,55 @@
+
+skin.png
+size: 128, 128
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+banner
+  rotate: false
+  xy: 2, 93
+  size: 96, 32
+  orig: 96, 32
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 2, 57
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+health_0
+  rotate: false
+  xy: 2, 46
+  size: 42, 7
+  orig: 42, 7
+  offset: 0, 0
+  index: -1
+health_1
+  rotate: false
+  xy: 2, 35
+  size: 42, 7
+  orig: 42, 7
+  offset: 0, 0
+  index: -1
+health_2
+  rotate: false
+  xy: 2, 24
+  size: 42, 7
+  orig: 42, 7
+  offset: 0, 0
+  index: -1
+health_3
+  rotate: false
+  xy: 2, 13
+  size: 42, 7
+  orig: 42, 7
+  offset: 0, 0
+  index: -1
+health_4
+  rotate: false
+  xy: 2, 2
+  size: 42, 7
+  orig: 42, 7
+  offset: 0, 0
+  index: -1

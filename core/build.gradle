@@ -6,6 +6,7 @@ dependencies {
   api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   api "io.github.libktx:ktx-app:$ktxVersion"
+  api "io.github.libktx:ktx-actors:$ktxVersion"
   api "io.github.libktx:ktx-assets:$ktxVersion"
   api "io.github.libktx:ktx-box2d:$ktxVersion"
   api "io.github.libktx:ktx-collections:$ktxVersion"
@@ -18,6 +19,9 @@ dependencies {
   api "io.github.libktx:ktx-tiled:$ktxVersion"
   api "io.github.quillraven.fleks:Fleks:$fleksVersion"
   api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+  api "com.github.raeleus.stripe:stripe:$stripeVersion"
+  api "com.github.raeleus.stripe:freetype:$stripeVersion"
 
   testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
   testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"

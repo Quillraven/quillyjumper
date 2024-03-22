@@ -40,6 +40,7 @@ class SpawnSystem(
     override fun onEvent(event: GameEvent) {
         when (event) {
             is MapChangeEvent -> spawnEntities(event.tiledMap)
+            else -> Unit
         }
     }
 
@@ -107,9 +108,10 @@ class SpawnSystem(
             if (gameObject == GameObject.FROG) {
                 it += listOf(EntityTag.PLAYER, EntityTag.CAMERA_FOCUS)
                 it += Move(max = 8f, timeToMax = 4.5f)
-                it += Jump(maxHeight = 3f)
+                it += Jump(maxHeight = 3.2f)
                 it += Animation(gdxAnimation(world, gameObject, AnimationType.IDLE))
                 it += State(AiEntity(it, world), GameObjectStateIdle)
+                it += Life(max = 4)
             }
         }
     }

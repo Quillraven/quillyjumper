@@ -10,6 +10,7 @@ import ktx.app.KtxScreen
 import ktx.app.gdxError
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
+import ktx.scene2d.Scene2DSkin
 import ktx.tiled.propertyOrNull
 
 class LoadingScreen(
@@ -30,6 +31,7 @@ class LoadingScreen(
         val tiledMap = assets[MapAsset.OBJECTS]
         parseObjectCollisionShapes(tiledMap)
         assets -= MapAsset.OBJECTS
+        Scene2DSkin.defaultSkin = assets[SkinAsset.DEFAULT]
 
         game.removeScreen<LoadingScreen>()
         dispose()

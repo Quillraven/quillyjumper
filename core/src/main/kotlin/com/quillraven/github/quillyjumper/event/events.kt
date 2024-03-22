@@ -1,10 +1,14 @@
 package com.quillraven.github.quillyjumper.event
 
 import com.badlogic.gdx.maps.tiled.TiledMap
+import com.github.quillraven.fleks.Entity
+import com.quillraven.github.quillyjumper.component.Life
 
 sealed interface GameEvent
 
 data class MapChangeEvent(val tiledMap: TiledMap) : GameEvent
+
+data class EntityDamageEvent(val entity: Entity, val life: Life) : GameEvent
 
 interface GameEventListener {
     fun onEvent(event: GameEvent)
