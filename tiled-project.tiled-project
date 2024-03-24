@@ -40,6 +40,11 @@
                     "value": "DynamicBody"
                 },
                 {
+                    "name": "damage",
+                    "type": "int",
+                    "value": 0
+                },
+                {
                     "name": "entityTags",
                     "propertyType": "EntityTag",
                     "type": "string",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="13">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="14">
  <properties>
   <property name="musicAsset" value="TUTORIAL"/>
   <property name="name" value="Tutorial"/>
@@ -17,9 +17,14 @@
   </data>
  </layer>
  <objectgroup id="3" name="objects">
-  <object id="3" gid="243" x="209" y="94" width="32" height="32"/>
+  <object id="3" gid="243" x="103" y="97" width="32" height="32"/>
   <object id="4" gid="244" x="333" y="75" width="38" height="38"/>
   <object id="11" gid="244" x="269" y="105" width="38" height="38"/>
+  <object id="13" gid="244" x="158" y="63" width="38" height="38">
+   <properties>
+    <property name="entityTags" propertytype="EntityTag" value=""/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="5" name="tracks">
   <object id="10" x="320" y="57">

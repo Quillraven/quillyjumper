@@ -1,7 +1,6 @@
 package com.quillraven.github.quillyjumper.screen
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Stage
@@ -13,9 +12,6 @@ import com.quillraven.github.quillyjumper.GameProperties
 import com.quillraven.github.quillyjumper.MapAsset
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.GRAVITY
 import com.quillraven.github.quillyjumper.audio.AudioService
-import com.quillraven.github.quillyjumper.component.EntityTag
-import com.quillraven.github.quillyjumper.component.Life
-import com.quillraven.github.quillyjumper.event.EntityDamageEvent
 import com.quillraven.github.quillyjumper.event.GameEventDispatcher
 import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.MapChangeEvent
@@ -86,44 +82,6 @@ class GameScreen(
     }
 
     override fun render(delta: Float) {
-        // TODO remove debug stuff
-        when {
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_0) -> {
-                world.family { all(EntityTag.PLAYER) }.forEach {
-                    it[Life].current = 0f
-                    GameEventDispatcher.fire(EntityDamageEvent(it, it[Life]))
-                }
-            }
-
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_1) -> {
-                world.family { all(EntityTag.PLAYER) }.forEach {
-                    it[Life].current = 1f
-                    GameEventDispatcher.fire(EntityDamageEvent(it, it[Life]))
-                }
-            }
-
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_2) -> {
-                world.family { all(EntityTag.PLAYER) }.forEach {
-                    it[Life].current = 2f
-                    GameEventDispatcher.fire(EntityDamageEvent(it, it[Life]))
-                }
-            }
-
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_3) -> {
-                world.family { all(EntityTag.PLAYER) }.forEach {
-                    it[Life].current = 3f
-                    GameEventDispatcher.fire(EntityDamageEvent(it, it[Life]))
-                }
-            }
-
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_4) -> {
-                world.family { all(EntityTag.PLAYER) }.forEach {
-                    it[Life].current = 4f
-                    GameEventDispatcher.fire(EntityDamageEvent(it, it[Life]))
-                }
-            }
-        }
-
         world.update(delta)
     }
 
@@ -148,6 +106,8 @@ class GameScreen(
             add(TrackSystem())
             add(JumpPhysicSystem())
             add(PhysicSystem())
+            add(DamageSystem())
+            add(InvulnerableSystem())
             add(StateSystem())
             add(AnimationSystem())
             add(CameraSystem())

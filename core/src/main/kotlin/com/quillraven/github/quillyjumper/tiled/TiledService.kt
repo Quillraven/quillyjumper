@@ -121,7 +121,7 @@ class TiledService(
             }
         }
 
-        gdxError("There is no related track for $mapObjectId")
+        gdxError("There is no related track for MapObject $mapObjectId")
     }
 
     private fun spawnGameObjectEntity(mapObject: MapObject) {
@@ -160,7 +160,7 @@ class TiledService(
             it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey, body.position))
 
             // EntityTags
-            val tagsStr = tile.property<String>("entityTags", "")
+            val tagsStr = mapObject.propertyOrNull<String>("entityTags") ?: tile.property<String>("entityTags", "")
             if (tagsStr.isNotBlank()) {
                 val tags = tagsStr.split(",").map(EntityTag::valueOf)
                 it += tags
@@ -191,6 +191,11 @@ class TiledService(
                 val timeToMaxSpeed = tile.property<Float>("timeToMaxSpeed", 0f)
                 it += Move(max = speed, timeToMax = timeToMaxSpeed.coerceAtLeast(0.1f))
             }
+            // Damage
+            val damage = tile.property<Int>("damage", 0)
+            if (damage > 0) {
+                it += Damage(damage)
+            }
 
             log.debug {
                 """Spawning entity with:
@@ -203,6 +208,7 @@ class TiledService(
                 | Jump: $jumpHeight
                 | Life: $life
                 | Move: $speed
+                | Damage: $damage
             """.trimMargin()
             }
         }

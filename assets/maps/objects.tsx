@@ -14,7 +14,7 @@
   </properties>
   <image width="32" height="32" source="../graphics/object/frog.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="3" type="FixtureDef" x="7" y="11" width="18" height="20">
+   <object id="3" type="FixtureDef" x="7" y="10" width="18" height="23">
     <properties>
      <property name="isSensor" type="bool" value="true"/>
      <property name="userData" value="hitbox"/>
@@ -44,6 +44,7 @@
   <properties>
    <property name="GameObject" propertytype="GameObject" value="SAW"/>
    <property name="bodyType" propertytype="BodyType" value="KinematicBody"/>
+   <property name="damage" type="int" value="1"/>
    <property name="entityTags" propertytype="EntityTag" value="FOLLOW_TRACK"/>
    <property name="hasAnimation" type="bool" value="true"/>
    <property name="speed" type="float" value="3"/>
