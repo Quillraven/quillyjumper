@@ -8,6 +8,7 @@ data class GameProperties(
     val musicVolume: Float,
     val debugPhysic: Boolean,
     val enableProfiling: Boolean,
+    val debugTrack: Boolean,
     val logLevel: Int,
 )
 
@@ -16,6 +17,7 @@ fun ObjectMap<String, String>.toGameProperties() = GameProperties(
     musicVolume = getOrDefault("musicVolume", 1f),
     debugPhysic = getOrDefault("debugPhysic", false),
     enableProfiling = getOrDefault("enableProfiling", false),
+    debugTrack = getOrDefault("debugTrack", false),
     logLevel = getOrDefault("logLevel", Application.LOG_INFO),
 )
 

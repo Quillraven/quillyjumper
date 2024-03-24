@@ -1,6 +1,7 @@
 package com.quillraven.github.quillyjumper.tiled
 
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.maps.MapLayer
 import com.badlogic.gdx.maps.MapObject
 import com.badlogic.gdx.maps.objects.EllipseMapObject
 import com.badlogic.gdx.maps.objects.PolygonMapObject
@@ -10,7 +11,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject
+import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d.ChainShape
 import com.badlogic.gdx.physics.box2d.CircleShape
@@ -38,6 +42,8 @@ import ktx.box2d.body
 import ktx.log.logger
 import ktx.math.vec2
 import ktx.tiled.*
+
+typealias GdxFloatArray = com.badlogic.gdx.utils.FloatArray
 
 data class FixtureDefUserData(val def: FixtureDef, val userData: String)
 
@@ -77,10 +83,45 @@ class TiledService(
         }
 
         // 2) spawn dynamic/kinematic game object bodies
-        map.layers.filter { it !is TiledMapTileLayer }
-            .forEach { objectLayer ->
-                objectLayer.objects.forEach { spawnGameObjectEntity(it) }
+        map.layer("objects").objects.forEach { spawnGameObjectEntity(it) }
+
+        // 3) link entities that follow a track to its related track in Tiled
+        world.family { all(EntityTag.FOLLOW_TRACK) }.forEach { entity ->
+            val (_, mapObjectID, mapObjectBoundary) = entity[Tiled]
+            val rectVertices = GdxFloatArray(
+                floatArrayOf(
+                    mapObjectBoundary.x, mapObjectBoundary.y,
+                    mapObjectBoundary.x + mapObjectBoundary.width, mapObjectBoundary.y,
+                    mapObjectBoundary.x + mapObjectBoundary.width, mapObjectBoundary.y + mapObjectBoundary.height,
+                    mapObjectBoundary.x, mapObjectBoundary.y + mapObjectBoundary.height
+                )
+            )
+            val trackCmp = map.layer("tracks").trackCmpOfBoundary(mapObjectID, rectVertices)
+            entity.configure { it += trackCmp }
+        }
+    }
+
+    private fun MapLayer.trackCmpOfBoundary(mapObjectId: Int, rectVertices: GdxFloatArray): Track {
+        objects.forEach { layerObject ->
+            val lineVertices = when (layerObject) {
+                is PolylineMapObject -> GdxFloatArray(layerObject.polyline.transformedVertices)
+                is PolygonMapObject -> GdxFloatArray(layerObject.polygon.transformedVertices)
+                else -> gdxError("Only Polyline map objects are supported for tracks: $layerObject")
             }
+
+            if (Intersector.intersectPolygons(lineVertices, rectVertices)) {
+                // found related track -> convert track vertices to world unit vertices
+                val trackPoints = mutableListOf<Vector2>()
+                for (i in 0 until lineVertices.size step 2) {
+                    val vertexX = lineVertices[i] * UNIT_SCALE
+                    val vertexY = lineVertices[i + 1] * UNIT_SCALE
+                    trackPoints += vec2(vertexX, vertexY)
+                }
+                return Track(trackPoints, closedTrack = layerObject is PolygonMapObject)
+            }
+        }
+
+        gdxError("There is no related track for $mapObjectId")
     }
 
     private fun spawnGameObjectEntity(mapObject: MapObject) {
@@ -90,31 +131,33 @@ class TiledService(
 
         // spawn physic body
         val tile = mapObject.tile
+        val bodyType = BodyType.valueOf(tile.property<String>("bodyType", BodyType.DynamicBody.name))
         val gameObjectStr = tile.property<String>("GameObject")
         val gameObject = GameObject.valueOf(gameObjectStr)
         val fixtureDefs = OBJECT_FIXTURES[gameObject]
             ?: gdxError("No fixture definitions for $gameObjectStr")
         val x = mapObject.x * UNIT_SCALE
         val y = mapObject.y * UNIT_SCALE
-        val body = physicWorld.body(BodyType.DynamicBody) {
+        val body = physicWorld.body(bodyType) {
             position.set(x, y)
             fixedRotation = true
         }
         fixtureDefs.forEach { fixtureDef ->
             body.createFixture(fixtureDef.def).userData = fixtureDef.userData
-            fixtureDef.def.shape.dispose()
+            // don't dispose the shape because we still need it for future entities that are created
         }
 
         // spawn entity
         world.entity {
             body.userData = it
-            it += Tiled(gameObject, mapObject.id)
+            val mapObjectBoundary = Rectangle(mapObject.x, mapObject.y, mapObject.width, mapObject.height)
+            it += Tiled(gameObject, mapObject.id, mapObjectBoundary)
             it += Physic(body)
             // IMPORTANT: to make a sprite flip it must have a region already. Otherwise,
             // the flipX information of the sprite will always be false.
             // Since the AnimationSystem is updating the region of the sprite and is also
             // restoring the flip information, we should set the Sprite region already at this point.
-            it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey))
+            it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey, body.position))
 
             // EntityTags
             val tagsStr = tile.property<String>("entityTags", "")
@@ -146,7 +189,7 @@ class TiledService(
             val speed = tile.property<Float>("speed", 0f)
             if (speed > 0f) {
                 val timeToMaxSpeed = tile.property<Float>("timeToMaxSpeed", 0f)
-                it += Move(max = speed, timeToMax = timeToMaxSpeed)
+                it += Move(max = speed, timeToMax = timeToMaxSpeed.coerceAtLeast(0.1f))
             }
 
             log.debug {
@@ -165,7 +208,7 @@ class TiledService(
         }
     }
 
-    private fun sprite(objectID: GameObject, animationType: String): Sprite {
+    private fun sprite(objectID: GameObject, animationType: String, position: Vector2): Sprite {
         val atlas = assets[TextureAtlasAsset.GAMEOBJECT]
         val regions = atlas.findRegions("${objectID.atlasKey}/$animationType")
             ?: gdxError("There are no regions for $objectID and $animationType")
@@ -173,7 +216,10 @@ class TiledService(
         val firstFrame = regions.first()
         val w = firstFrame.regionWidth * UNIT_SCALE
         val h = firstFrame.regionHeight * UNIT_SCALE
-        return Sprite(firstFrame).apply { setSize(w, h) }
+        return Sprite(firstFrame).apply {
+            setPosition(position.x, position.y)
+            setSize(w, h)
+        }
     }
 
     private fun spawnGroundBodies(cellX: Int, cellY: Int, collObj: MapObject) {

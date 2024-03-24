@@ -1,6 +1,8 @@
 package com.quillraven.github.quillyjumper.system
 
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.*
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.Fixed
 import com.github.quillraven.fleks.Interval
@@ -11,6 +13,7 @@ import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.component.Graphic
 import com.quillraven.github.quillyjumper.component.Move
 import com.quillraven.github.quillyjumper.component.Physic
+import com.quillraven.github.quillyjumper.component.Track
 import ktx.log.logger
 import ktx.math.component1
 import ktx.math.component2
@@ -18,7 +21,7 @@ import ktx.math.component2
 class PhysicSystem(
     private val physicWorld: PhysicWorld = inject(),
     interval: Interval = Fixed(1 / 60f),
-) : IteratingSystem(family = family { all(Physic).any(Move, Graphic) }, interval = interval) {
+) : IteratingSystem(family = family { all(Physic).any(Move, Graphic) }, interval = interval), ContactListener {
 
     override fun onUpdate() {
         if (physicWorld.autoClearForces) {
@@ -40,7 +43,12 @@ class PhysicSystem(
 
         // update linear velocity.x if entity has a Move component
         entity.getOrNull(Move)?.let { moveCmp ->
-            body.setLinearVelocity(moveCmp.current, body.linearVelocity.y)
+            val trackCmp = entity.getOrNull(Track)
+            if (trackCmp == null) {
+                body.setLinearVelocity(moveCmp.current, body.linearVelocity.y)
+            } else {
+                body.setLinearVelocity(trackCmp.moveX, trackCmp.moveY)
+            }
         }
     }
 
@@ -56,6 +64,25 @@ class PhysicSystem(
             MathUtils.lerp(prevY, bodyY, alpha),
         )
     }
+
+    override fun beginContact(contact: Contact) = Unit
+
+    override fun endContact(contact: Contact) = Unit
+
+    override fun preSolve(contact: Contact, oldManifold: Manifold) {
+        val bodyA = contact.fixtureA.body
+        val bodyB = contact.fixtureB.body
+
+        contact.isEnabled = bodyCollisionEnabled(bodyA, bodyB) || bodyCollisionEnabled(bodyB, bodyA)
+    }
+
+    private fun bodyCollisionEnabled(bodyA: Body, bodyB: Body): Boolean {
+        return bodyA.type == DynamicBody && bodyB.type == StaticBody ||
+            bodyA.type == DynamicBody && bodyB.type == KinematicBody ||
+            bodyA.type == DynamicBody && bodyB.type == DynamicBody
+    }
+
+    override fun postSolve(contact: Contact, impulse: ContactImpulse) = Unit
 
     companion object {
         private val log = logger<PhysicSystem>()

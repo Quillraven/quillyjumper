@@ -11,10 +11,34 @@
     ],
     "propertyTypes": [
         {
+            "id": 5,
+            "name": "BodyType",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "DynamicBody",
+                "KinematicBody",
+                "StaticBody"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 3,
             "members": [
+                {
+                    "name": "GameObject",
+                    "propertyType": "GameObject",
+                    "type": "string",
+                    "value": "FROG"
+                },
+                {
+                    "name": "bodyType",
+                    "propertyType": "BodyType",
+                    "type": "string",
+                    "value": "DynamicBody"
+                },
                 {
                     "name": "entityTags",
                     "propertyType": "EntityTag",
@@ -67,7 +91,8 @@
             "type": "enum",
             "values": [
                 "PLAYER",
-                "CAMERA_FOCUS"
+                "CAMERA_FOCUS",
+                "FOLLOW_TRACK"
             ],
             "valuesAsFlags": true
         },
@@ -121,7 +146,8 @@
             "storageType": "string",
             "type": "enum",
             "values": [
-                "FROG"
+                "FROG",
+                "SAW"
             ],
             "valuesAsFlags": false
         }

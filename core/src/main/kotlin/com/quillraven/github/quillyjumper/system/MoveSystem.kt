@@ -7,8 +7,9 @@ import com.github.quillraven.fleks.World.Companion.family
 import com.quillraven.github.quillyjumper.component.Graphic
 import com.quillraven.github.quillyjumper.component.Move
 import com.quillraven.github.quillyjumper.component.MoveDirection
+import com.quillraven.github.quillyjumper.component.Track
 
-class MoveSystem : IteratingSystem(family { all(Move) }) {
+class MoveSystem : IteratingSystem(family { all(Move).none(Track) }) {
 
     override fun onTickEntity(entity: Entity) {
         val moveCmp = entity[Move]
@@ -29,7 +30,7 @@ class MoveSystem : IteratingSystem(family { all(Move) }) {
             }
 
             moveCmp.timer = (timer + (deltaTime * (1f / timeToMax))).coerceAtMost(1f)
-            moveCmp.current = Interpolation.pow5Out.apply(MIN_SPEED, max, moveCmp.timer) * direction.value
+            moveCmp.current = MOVE_INTERPOLATION.apply(MIN_SPEED, max, moveCmp.timer) * direction.value
             return
         }
 
@@ -39,7 +40,8 @@ class MoveSystem : IteratingSystem(family { all(Move) }) {
     }
 
     companion object {
-        private const val MIN_SPEED = 1f
+        const val MIN_SPEED = 1f
+        val MOVE_INTERPOLATION = Interpolation.pow5Out
     }
 
 }

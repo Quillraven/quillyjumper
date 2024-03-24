@@ -56,6 +56,7 @@ class GameScreen(
         world.systems
             .filterIsInstance<GameEventListener>()
             .forEach { GameEventDispatcher.register(it) }
+        physicWorld.setContactListener(world.system<PhysicSystem>())
 
         // setup UI
         stage.actors {
@@ -144,6 +145,7 @@ class GameScreen(
 
         systems {
             add(MoveSystem())
+            add(TrackSystem())
             add(JumpPhysicSystem())
             add(PhysicSystem())
             add(StateSystem())
@@ -155,6 +157,9 @@ class GameScreen(
             }
             if (gameProperties.enableProfiling) {
                 add(GlProfilerSystem())
+            }
+            if (gameProperties.debugTrack) {
+                add(TrackDebugSystem())
             }
         }
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="objects" tilewidth="32" tileheight="32" tilecount="1" columns="0">
+<tileset version="1.10" tiledversion="1.10.2" name="objects" tilewidth="38" tileheight="38" tilecount="2" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" type="EntityDef">
   <properties>
@@ -37,6 +37,26 @@
      <property name="restitution" type="float" value="0.2"/>
     </properties>
     <polyline points="0,0 8,-2 15,0"/>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="1" type="EntityDef">
+  <properties>
+   <property name="GameObject" propertytype="GameObject" value="SAW"/>
+   <property name="bodyType" propertytype="BodyType" value="KinematicBody"/>
+   <property name="entityTags" propertytype="EntityTag" value="FOLLOW_TRACK"/>
+   <property name="hasAnimation" type="bool" value="true"/>
+   <property name="speed" type="float" value="3"/>
+  </properties>
+  <image width="38" height="38" source="../graphics/object/saw.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" type="FixtureDef" x="3" y="3" width="32" height="32">
+    <properties>
+     <property name="density" type="float" value="100"/>
+     <property name="isChain" type="bool" value="true"/>
+     <property name="userData" value="hitbox"/>
+    </properties>
+    <ellipse/>
    </object>
   </objectgroup>
  </tile>

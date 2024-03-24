@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="4">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="13">
  <properties>
   <property name="musicAsset" value="TUTORIAL"/>
   <property name="name" value="Tutorial"/>
  </properties>
  <tileset firstgid="1" source="terrain.tsx"/>
  <tileset firstgid="243" source="objects.tsx"/>
- <layer id="1" name="ground" width="20" height="10">
+ <layer id="1" name="ground" width="30" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF6IAdiDmgmHOA3UIpQPYLLsxJpHqQOlkgliOA5ZHMw6dengbmGQOxCQFsimQePvUgdQAqcAiR
+   eJxjYBgFgwWwAzEHFHMOsFtwgcHuRmT34cKcJKonxjxZIJYjgOWR7CVGPTHmDZS9xkBsQgCbItlLjHpizAMArX8NYQ==
   </data>
  </layer>
- <layer id="2" name="decoration" width="20" height="10">
+ <layer id="2" name="decoration" width="30" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF1ALsQMyJRdwYiE2g2JQE82SBWJ4K7hpsQAGIFQmIYVNDjBy1AQBsygIh
+   eJxjYBgFIwWwAzEnFnFjIDaBYlMa2CsLxPIUmkFrNw4GoADEilTSi88sUu0hVT0tAQCPawMy
   </data>
  </layer>
  <objectgroup id="3" name="objects">
-  <object id="3" gid="243" x="-6" y="96" width="32" height="32"/>
+  <object id="3" gid="243" x="209" y="94" width="32" height="32"/>
+  <object id="4" gid="244" x="333" y="75" width="38" height="38"/>
+  <object id="11" gid="244" x="269" y="105" width="38" height="38"/>
  </objectgroup>
- <layer id="4" name="foreground" width="20" height="10">
+ <objectgroup id="5" name="tracks">
+  <object id="10" x="320" y="57">
+   <polygon points="0,0 64,-1 80,-25"/>
+  </object>
+  <object id="12" x="288" y="96">
+   <polyline points="0,0 0,-80"/>
+  </object>
+ </objectgroup>
+ <layer id="4" name="foreground" width="30" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AU4AIAAyAAAQ==
+   eJxjYBgFo2AUjIKhAQAEsAAB
   </data>
  </layer>
 </map>
