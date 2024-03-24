@@ -13,7 +13,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d.ChainShape
@@ -83,31 +82,24 @@ class TiledService(
         }
 
         // 2) spawn dynamic/kinematic game object bodies
-        map.layer("objects").objects.forEach { spawnGameObjectEntity(it) }
-
-        // 3) link entities that follow a track to its related track in Tiled
-        world.family { all(EntityTag.FOLLOW_TRACK) }.forEach { entity ->
-            val (_, mapObjectID, mapObjectBoundary) = entity[Tiled]
-            val rectVertices = GdxFloatArray(
-                floatArrayOf(
-                    mapObjectBoundary.x, mapObjectBoundary.y,
-                    mapObjectBoundary.x + mapObjectBoundary.width, mapObjectBoundary.y,
-                    mapObjectBoundary.x + mapObjectBoundary.width, mapObjectBoundary.y + mapObjectBoundary.height,
-                    mapObjectBoundary.x, mapObjectBoundary.y + mapObjectBoundary.height
-                )
-            )
-            val trackCmp = map.layer("tracks").trackCmpOfBoundary(mapObjectID, rectVertices)
-            entity.configure { it += trackCmp }
-        }
+        map.layer("objects").objects.forEach { spawnGameObjectEntity(map, it) }
     }
 
-    private fun MapLayer.trackCmpOfBoundary(mapObjectId: Int, rectVertices: GdxFloatArray): Track {
+    private fun MapLayer.trackCmpOfBoundary(mapObject: MapObject): Track {
         objects.forEach { layerObject ->
             val lineVertices = when (layerObject) {
                 is PolylineMapObject -> GdxFloatArray(layerObject.polyline.transformedVertices)
                 is PolygonMapObject -> GdxFloatArray(layerObject.polygon.transformedVertices)
-                else -> gdxError("Only Polyline map objects are supported for tracks: $layerObject")
+                else -> gdxError("Only Polyline and Polygon map objects are supported for tracks: $layerObject")
             }
+            val rectVertices = GdxFloatArray(
+                floatArrayOf(
+                    mapObject.x, mapObject.y,
+                    mapObject.x + mapObject.width, mapObject.y,
+                    mapObject.x + mapObject.width, mapObject.y + mapObject.height,
+                    mapObject.x, mapObject.y + mapObject.height
+                )
+            )
 
             if (Intersector.intersectPolygons(lineVertices, rectVertices)) {
                 // found related track -> convert track vertices to world unit vertices
@@ -121,10 +113,10 @@ class TiledService(
             }
         }
 
-        gdxError("There is no related track for MapObject $mapObjectId")
+        gdxError("There is no related track for MapObject ${mapObject.id}")
     }
 
-    private fun spawnGameObjectEntity(mapObject: MapObject) {
+    private fun spawnGameObjectEntity(map: TiledMap, mapObject: MapObject) {
         if (mapObject !is TiledMapTileMapObject) {
             gdxError("Unsupported mapObject $mapObject")
         }
@@ -150,8 +142,7 @@ class TiledService(
         // spawn entity
         world.entity {
             body.userData = it
-            val mapObjectBoundary = Rectangle(mapObject.x, mapObject.y, mapObject.width, mapObject.height)
-            it += Tiled(gameObject, mapObject.id, mapObjectBoundary)
+            it += Tiled(gameObject, mapObject.id)
             it += Physic(body)
             // IMPORTANT: to make a sprite flip it must have a region already. Otherwise,
             // the flipX information of the sprite will always be false.
@@ -160,7 +151,7 @@ class TiledService(
             it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey, body.position))
 
             // EntityTags
-            val tagsStr = mapObject.propertyOrNull<String>("entityTags") ?: tile.property<String>("entityTags", "")
+            val tagsStr = tile.property<String>("entityTags", "")
             if (tagsStr.isNotBlank()) {
                 val tags = tagsStr.split(",").map(EntityTag::valueOf)
                 it += tags
@@ -195,6 +186,12 @@ class TiledService(
             val damage = tile.property<Int>("damage", 0)
             if (damage > 0) {
                 it += Damage(damage)
+            }
+            // Track
+            val hasTrack = mapObject.propertyOrNull<Boolean>("hasTrack") ?: tile.property<Boolean>("hasTrack", false)
+            if (hasTrack) {
+                val trackCmp = map.layer("tracks").trackCmpOfBoundary(mapObject)
+                it += trackCmp
             }
 
             log.debug {

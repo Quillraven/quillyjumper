@@ -45,8 +45,9 @@
    <property name="GameObject" propertytype="GameObject" value="SAW"/>
    <property name="bodyType" propertytype="BodyType" value="KinematicBody"/>
    <property name="damage" type="int" value="1"/>
-   <property name="entityTags" propertytype="EntityTag" value="FOLLOW_TRACK"/>
+   <property name="entityTags" propertytype="EntityTag" value=""/>
    <property name="hasAnimation" type="bool" value="true"/>
+   <property name="hasTrack" type="bool" value="true"/>
    <property name="speed" type="float" value="3"/>
   </properties>
   <image width="38" height="38" source="../graphics/object/saw.png"/>

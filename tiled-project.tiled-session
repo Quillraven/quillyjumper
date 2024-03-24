@@ -68,7 +68,7 @@
         "assets/maps/objects.tsx"
     ],
     "project": "tiled-project.tiled-project",
-    "property.type": "int",
+    "property.type": "bool",
     "recentFiles": [
         "assets/maps/objects.tmx",
         "assets/maps/objects.tsx",

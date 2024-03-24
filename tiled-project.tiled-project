@@ -61,6 +61,11 @@
                     "value": false
                 },
                 {
+                    "name": "hasTrack",
+                    "type": "bool",
+                    "value": false
+                },
+                {
                     "name": "jumpHeight",
                     "type": "float",
                     "value": 0
@@ -96,8 +101,7 @@
             "type": "enum",
             "values": [
                 "PLAYER",
-                "CAMERA_FOCUS",
-                "FOLLOW_TRACK"
+                "CAMERA_FOCUS"
             ],
             "valuesAsFlags": true
         },
