@@ -206,7 +206,7 @@ class TiledService(
                 | Life: $life
                 | Move: $speed
                 | Damage: $damage
-            """.trimMargin()
+            """.trimMargin().replace(Regex("(\n*)\n"), "$1")
             }
         }
     }

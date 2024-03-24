@@ -9,7 +9,14 @@ class GlProfilerSystem : IntervalSystem() {
     private val profiler = GLProfiler(Gdx.graphics).apply { enable() }
 
     override fun onTick() {
-        Gdx.graphics.setTitle("bindings: ${profiler.textureBindings}, drawCalls: ${profiler.drawCalls}, calls: ${profiler.calls} fps: ${Gdx.app.graphics.framesPerSecond}")
+        Gdx.graphics.setTitle(
+            """
+            |bindings: ${profiler.textureBindings},
+            |drawCalls: ${profiler.drawCalls},
+            |calls: ${profiler.calls}
+            |fps: ${Gdx.app.graphics.framesPerSecond}
+            """.trimMargin().replace(Regex("(\n*)\n"), "$1")
+        )
 
         profiler.reset()
     }
