@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.quillraven.github.quillyjumper.*
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.audio.AudioService
-import com.quillraven.github.quillyjumper.util.fixtureDefOf
+import com.quillraven.github.quillyjumper.tiled.TiledService.Companion.fixtureDefOf
 import ktx.app.KtxScreen
 import ktx.app.gdxError
 import ktx.assets.disposeSafely

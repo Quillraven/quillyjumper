@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.ObjectMap
 import com.badlogic.gdx.utils.PropertiesUtils
 import com.quillraven.github.quillyjumper.audio.AudioService
 import com.quillraven.github.quillyjumper.screen.LoadingScreen
-import com.quillraven.github.quillyjumper.util.FixtureDefUserData
+import com.quillraven.github.quillyjumper.tiled.FixtureDefUserData
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 import ktx.app.clearScreen

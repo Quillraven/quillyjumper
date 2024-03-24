@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.10.2" name="objects" tilewidth="32" tileheight="32" tilecount="1" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
- <tile id="0">
+ <tile id="0" type="EntityDef">
   <properties>
    <property name="GameObject" propertytype="GameObject" value="FROG"/>
+   <property name="entityTags" propertytype="EntityTag" value="PLAYER,CAMERA_FOCUS"/>
+   <property name="hasAnimation" type="bool" value="true"/>
+   <property name="hasState" type="bool" value="true"/>
+   <property name="jumpHeight" type="float" value="3.2"/>
+   <property name="life" type="int" value="4"/>
+   <property name="speed" type="float" value="8"/>
+   <property name="timeToMaxSpeed" type="float" value="4.5"/>
   </properties>
   <image width="32" height="32" source="../graphics/object/frog.png"/>
   <objectgroup draworder="index" id="2">

@@ -22,6 +22,7 @@ import com.quillraven.github.quillyjumper.event.MapChangeEvent
 import com.quillraven.github.quillyjumper.input.KeyboardInputProcessor
 import com.quillraven.github.quillyjumper.inputMultiplexer
 import com.quillraven.github.quillyjumper.system.*
+import com.quillraven.github.quillyjumper.tiled.TiledService
 import com.quillraven.github.quillyjumper.ui.GameModel
 import com.quillraven.github.quillyjumper.ui.gameView
 import ktx.app.KtxScreen
@@ -42,6 +43,7 @@ class GameScreen(
     private val stage = Stage(uiViewport, batch)
     private val physicWorld = createWorld(gravity = GRAVITY).apply { autoClearForces = false }
     private val world = createEntityWorld(batch, audioService, gameProperties)
+    private val tiledService = TiledService(world, physicWorld, assets)
     private val keyboardProcessor = KeyboardInputProcessor(world)
     private val gameModel = GameModel(world)
 
@@ -49,6 +51,7 @@ class GameScreen(
         Gdx.input.inputMultiplexer.addProcessor(keyboardProcessor)
         Gdx.input.inputMultiplexer.addProcessor(stage)
 
+        GameEventDispatcher.register(tiledService)
         GameEventDispatcher.register(gameModel)
         world.systems
             .filterIsInstance<GameEventListener>()
@@ -67,6 +70,7 @@ class GameScreen(
     override fun hide() {
         Gdx.input.inputMultiplexer.clear()
         GameEventDispatcher.unregister(gameModel)
+        GameEventDispatcher.unregister(tiledService)
         world.systems
             .filterIsInstance<GameEventListener>()
             .forEach { GameEventDispatcher.unregister(it) }
@@ -139,7 +143,6 @@ class GameScreen(
         }
 
         systems {
-            add(SpawnSystem())
             add(MoveSystem())
             add(JumpPhysicSystem())
             add(PhysicSystem())

@@ -19,8 +19,8 @@
             "scale": 3.598125,
             "selectedLayer": -1,
             "viewCenter": {
-                "x": 116.03265589716864,
-                "y": 158.2768803196109
+                "x": 173.2846968907417,
+                "y": 159.66649296508598
             }
         },
         "assets/maps/objects.tmx#objects": {
@@ -68,7 +68,7 @@
         "assets/maps/objects.tsx"
     ],
     "project": "tiled-project.tiled-project",
-    "property.type": "string",
+    "property.type": "EntityTag",
     "recentFiles": [
         "assets/maps/objects.tmx",
         "assets/maps/test.tmx",

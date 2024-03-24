@@ -13,6 +13,67 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
+            "id": 3,
+            "members": [
+                {
+                    "name": "entityTags",
+                    "propertyType": "EntityTag",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "name": "hasAnimation",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "hasState",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "jumpHeight",
+                    "type": "float",
+                    "value": 0
+                },
+                {
+                    "name": "life",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "speed",
+                    "type": "float",
+                    "value": 0
+                },
+                {
+                    "name": "timeToMaxSpeed",
+                    "type": "float",
+                    "value": 0
+                }
+            ],
+            "name": "EntityDef",
+            "type": "class",
+            "useAs": [
+                "property",
+                "tile",
+                "project"
+            ]
+        },
+        {
+            "id": 4,
+            "name": "EntityTag",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "PLAYER",
+                "CAMERA_FOCUS"
+            ],
+            "valuesAsFlags": true
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
             "id": 2,
             "members": [
                 {
