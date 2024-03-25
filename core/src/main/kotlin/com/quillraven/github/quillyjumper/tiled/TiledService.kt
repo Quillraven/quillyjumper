@@ -124,7 +124,7 @@ class TiledService(
         // spawn physic body
         val tile = mapObject.tile
         val bodyType = BodyType.valueOf(tile.property<String>("bodyType", BodyType.DynamicBody.name))
-        val gameObjectStr = tile.property<String>("GameObject")
+        val gameObjectStr = tile.property<String>("gameObject")
         val gameObject = GameObject.valueOf(gameObjectStr)
         val fixtureDefs = OBJECT_FIXTURES[gameObject]
             ?: gdxError("No fixture definitions for $gameObjectStr")
