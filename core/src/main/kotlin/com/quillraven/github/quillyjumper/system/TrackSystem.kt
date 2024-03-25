@@ -10,13 +10,12 @@ import com.quillraven.github.quillyjumper.component.Move
 import com.quillraven.github.quillyjumper.component.Track
 import com.quillraven.github.quillyjumper.system.MoveSystem.Companion.MIN_SPEED
 import com.quillraven.github.quillyjumper.system.MoveSystem.Companion.MOVE_INTERPOLATION
-import ktx.log.logger
 
 class TrackSystem : IteratingSystem(World.family { all(Move, Track, Graphic) }) {
 
     override fun onTickEntity(entity: Entity) {
         val trackCmp = entity[Track]
-        val (trackVertices, _, currentIdx) = trackCmp
+        val (trackVertices, closedTrack, currentIdx, direction) = trackCmp
         val moveCmp = entity[Move]
         val (_, _, max, timer, timeToMax) = moveCmp
         val (sprite) = entity[Graphic]
@@ -30,7 +29,18 @@ class TrackSystem : IteratingSystem(World.family { all(Move, Track, Graphic) }) 
         val currentY = sprite.y + sprite.height * 0.5f
         if (currentIdx == -1 || trackVertices[currentIdx].inRange(currentX, currentY, 0.1f)) {
             // entity reached current track point -> go to next track point
-            trackCmp.currentIdx = (currentIdx + 1) % trackVertices.size
+            trackCmp.currentIdx = currentIdx + direction
+            if (trackCmp.currentIdx >= trackVertices.size) {
+                if (closedTrack) {
+                    trackCmp.currentIdx = 0
+                } else {
+                    trackCmp.direction *= -1
+                    trackCmp.currentIdx = trackVertices.size - 1
+                }
+            } else if (!closedTrack && trackCmp.currentIdx < 0) {
+                trackCmp.direction *= -1
+                trackCmp.currentIdx = 0
+            }
             val nextTrackPoint = trackVertices[trackCmp.currentIdx]
             trackCmp.angleRad = atan2(nextTrackPoint.y - currentY, nextTrackPoint.x - currentX)
         }
@@ -44,9 +54,5 @@ class TrackSystem : IteratingSystem(World.family { all(Move, Track, Graphic) }) 
 
     private fun Vector2.inRange(otherX: Float, otherY: Float, tolerance: Float): Boolean =
         isEqual(x, otherX, tolerance) && isEqual(y, otherY, tolerance)
-
-    companion object {
-        private val log = logger<TrackSystem>()
-    }
 
 }
