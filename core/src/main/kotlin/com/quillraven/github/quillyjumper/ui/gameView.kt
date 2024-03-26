@@ -21,7 +21,7 @@ class GameView(
             cell.padTop(10f).expand().align(Align.top).minWidth(150f).minHeight(40f).row()
         }
         val lifeImage = image("health_4", skin) { cell ->
-            cell.padLeft(4f).padBottom(4f).expand().align(Align.bottomLeft)
+            cell.padLeft(4f).padBottom(4f).width(42f).height(7f).align(Align.bottomLeft)
         }
 
         model.onPropertyChange(GameModel::mapName) { mapName ->
