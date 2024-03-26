@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.MapLayer
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
-import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.Entity
@@ -20,6 +19,7 @@ import com.quillraven.github.quillyjumper.event.GameEvent
 import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.MapChangeEvent
 import ktx.assets.disposeSafely
+import ktx.tiled.use
 
 class RenderSystem(
     private val batch: Batch = inject(),
@@ -57,19 +57,6 @@ class RenderSystem(
     override fun onTickEntity(entity: Entity) {
         val (sprite) = entity[Graphic]
         sprite.draw(batch)
-    }
-
-    private inline fun OrthogonalTiledMapRenderer.use(
-        camera: OrthographicCamera,
-        block: (OrthogonalTiledMapRenderer) -> Unit
-    ) {
-        this.setView(camera)
-        AnimatedTiledMapTile.updateAnimationBaseTime()
-        this.batch.begin()
-
-        block(this)
-
-        this.batch.end()
     }
 
     override fun onEvent(event: GameEvent) {

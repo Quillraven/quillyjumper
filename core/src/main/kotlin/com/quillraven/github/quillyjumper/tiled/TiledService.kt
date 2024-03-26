@@ -32,14 +32,10 @@ import com.quillraven.github.quillyjumper.component.*
 import com.quillraven.github.quillyjumper.event.GameEvent
 import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.MapChangeEvent
-import com.quillraven.github.quillyjumper.util.component1
-import com.quillraven.github.quillyjumper.util.component2
-import com.quillraven.github.quillyjumper.util.component3
-import com.quillraven.github.quillyjumper.util.component4
 import ktx.app.gdxError
 import ktx.box2d.body
 import ktx.log.logger
-import ktx.math.vec2
+import ktx.math.*
 import ktx.tiled.*
 
 typealias GdxFloatArray = com.badlogic.gdx.utils.FloatArray

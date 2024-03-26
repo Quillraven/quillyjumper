@@ -13,7 +13,7 @@ class GlProfilerSystem : IntervalSystem() {
             """
             |bindings: ${profiler.textureBindings},
             |drawCalls: ${profiler.drawCalls},
-            |calls: ${profiler.calls}
+            |calls: ${profiler.calls},
             |fps: ${Gdx.app.graphics.framesPerSecond}
             """.trimMargin().replace(Regex("(\n*)\n"), "$1")
         )
