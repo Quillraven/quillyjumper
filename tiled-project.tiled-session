@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "assets/maps/test.tmx",
+    "activeFile": "assets/maps/objects.tsx",
     "expandedProjectPaths": [
-        ".",
         "assets",
-        "assets/maps",
-        "lwjgl3/build"
+        ".",
+        "lwjgl3/build",
+        "assets/maps"
     ],
     "fileStates": {
         "": {
@@ -49,8 +49,8 @@
             "scale": 3,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 230.83333333333331,
-                "y": 72.49999999999999
+                "x": 230.33333333333331,
+                "y": 72.16666666666666
             }
         }
     },
@@ -71,8 +71,8 @@
     "property.type": "bool",
     "recentFiles": [
         "assets/maps/objects.tmx",
-        "assets/maps/objects.tsx",
         "assets/maps/test.tmx",
+        "assets/maps/objects.tsx",
         "assets/maps/terrain.tsx",
         "assets/maps/terrain_extruded.tsx"
     ],

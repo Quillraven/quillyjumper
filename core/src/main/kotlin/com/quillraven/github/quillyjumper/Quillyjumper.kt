@@ -44,7 +44,7 @@ class Quillyjumper : KtxGame<KtxScreen>() {
 
     override fun render() {
         clearScreen(0f, 0f, 0f, 1f)
-        currentScreen.render(Gdx.graphics.deltaTime.coerceAtMost(0.25f))
+        currentScreen.render(Gdx.graphics.deltaTime.coerceAtMost(MIN_DELTA_TIME))
         audioService.update()
     }
 
@@ -63,6 +63,7 @@ class Quillyjumper : KtxGame<KtxScreen>() {
 
     companion object {
         private val log = logger<Quillyjumper>()
+        private const val MIN_DELTA_TIME = 1 / 30f
         const val UNIT_SCALE = 1 / 16f // 16 pixels == 1 meter in Box2D
         val GRAVITY = vec2(0f, -30f)
         val OBJECT_FIXTURES = mutableMapOf<GameObject, List<FixtureDefUserData>>()
