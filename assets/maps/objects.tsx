@@ -56,6 +56,7 @@
     <properties>
      <property name="density" type="float" value="100"/>
      <property name="isChain" type="bool" value="true"/>
+     <property name="isSensor" type="bool" value="true"/>
      <property name="userData" value="hitbox"/>
     </properties>
     <ellipse/>

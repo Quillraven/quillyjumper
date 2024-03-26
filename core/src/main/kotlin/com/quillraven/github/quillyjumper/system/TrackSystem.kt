@@ -27,7 +27,7 @@ class TrackSystem : IteratingSystem(World.family { all(Move, Track, Graphic) }) 
         // move towards current track point
         val currentX = sprite.x + sprite.width * 0.5f
         val currentY = sprite.y + sprite.height * 0.5f
-        if (currentIdx == -1 || trackVertices[currentIdx].inRange(currentX, currentY, 0.1f)) {
+        if (currentIdx == -1 || trackVertices[currentIdx].inRange(currentX, currentY, 0.2f)) {
             // entity reached current track point -> go to next track point
             trackCmp.currentIdx = currentIdx + direction
             if (trackCmp.currentIdx >= trackVertices.size) {
