@@ -8,6 +8,7 @@ data class Track(
     val trackPoints: List<Vector2>,
     val closedTrack: Boolean,
     var currentIdx: Int = -1,
+    var direction: Int = 1,
     var moveX: Float = 0f,
     var moveY: Float = 0f,
     var angleRad: Float = 0f,

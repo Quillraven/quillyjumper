@@ -3,8 +3,8 @@
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" type="EntityDef">
   <properties>
-   <property name="GameObject" propertytype="GameObject" value="FROG"/>
    <property name="entityTags" propertytype="EntityTag" value="PLAYER,CAMERA_FOCUS"/>
+   <property name="gameObject" propertytype="GameObject" value="FROG"/>
    <property name="hasAnimation" type="bool" value="true"/>
    <property name="hasState" type="bool" value="true"/>
    <property name="jumpHeight" type="float" value="3.2"/>
@@ -42,10 +42,10 @@
  </tile>
  <tile id="1" type="EntityDef">
   <properties>
-   <property name="GameObject" propertytype="GameObject" value="SAW"/>
    <property name="bodyType" propertytype="BodyType" value="KinematicBody"/>
    <property name="damage" type="int" value="1"/>
    <property name="entityTags" propertytype="EntityTag" value=""/>
+   <property name="gameObject" propertytype="GameObject" value="SAW"/>
    <property name="hasAnimation" type="bool" value="true"/>
    <property name="hasTrack" type="bool" value="true"/>
    <property name="speed" type="float" value="3"/>

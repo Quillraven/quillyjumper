@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject
-import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
@@ -26,9 +25,10 @@ import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
 import com.quillraven.github.quillyjumper.TextureAtlasAsset
-import com.quillraven.github.quillyjumper.ai.AiEntity
-import com.quillraven.github.quillyjumper.ai.GameObjectStateIdle
-import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.component.AnimationType
+import com.quillraven.github.quillyjumper.component.Graphic
+import com.quillraven.github.quillyjumper.component.Physic
+import com.quillraven.github.quillyjumper.component.Tiled
 import com.quillraven.github.quillyjumper.event.GameEvent
 import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.MapChangeEvent
@@ -78,41 +78,11 @@ class TiledService(
         }
 
         // 2) spawn dynamic/kinematic game object bodies
-        map.layer("objects").objects.forEach { spawnGameObjectEntity(map, it) }
+        val trackLayer = map.layer("tracks")
+        map.layer("objects").objects.forEach { spawnGameObjectEntity(it, trackLayer) }
     }
 
-    private fun MapLayer.trackCmpOfBoundary(mapObject: MapObject): Track {
-        objects.forEach { layerObject ->
-            val lineVertices = when (layerObject) {
-                is PolylineMapObject -> GdxFloatArray(layerObject.polyline.transformedVertices)
-                is PolygonMapObject -> GdxFloatArray(layerObject.polygon.transformedVertices)
-                else -> gdxError("Only Polyline and Polygon map objects are supported for tracks: $layerObject")
-            }
-            val rectVertices = GdxFloatArray(
-                floatArrayOf(
-                    mapObject.x, mapObject.y,
-                    mapObject.x + mapObject.width, mapObject.y,
-                    mapObject.x + mapObject.width, mapObject.y + mapObject.height,
-                    mapObject.x, mapObject.y + mapObject.height
-                )
-            )
-
-            if (Intersector.intersectPolygons(lineVertices, rectVertices)) {
-                // found related track -> convert track vertices to world unit vertices
-                val trackPoints = mutableListOf<Vector2>()
-                for (i in 0 until lineVertices.size step 2) {
-                    val vertexX = lineVertices[i] * UNIT_SCALE
-                    val vertexY = lineVertices[i + 1] * UNIT_SCALE
-                    trackPoints += vec2(vertexX, vertexY)
-                }
-                return Track(trackPoints, closedTrack = layerObject is PolygonMapObject)
-            }
-        }
-
-        gdxError("There is no related track for MapObject ${mapObject.id}")
-    }
-
-    private fun spawnGameObjectEntity(map: TiledMap, mapObject: MapObject) {
+    private fun spawnGameObjectEntity(mapObject: MapObject, trackLayer: MapLayer) {
         if (mapObject !is TiledMapTileMapObject) {
             gdxError("Unsupported mapObject $mapObject")
         }
@@ -120,7 +90,7 @@ class TiledService(
         // spawn physic body
         val tile = mapObject.tile
         val bodyType = BodyType.valueOf(tile.property<String>("bodyType", BodyType.DynamicBody.name))
-        val gameObjectStr = tile.property<String>("GameObject")
+        val gameObjectStr = tile.property<String>("gameObject")
         val gameObject = GameObject.valueOf(gameObjectStr)
         val fixtureDefs = OBJECT_FIXTURES[gameObject]
             ?: gdxError("No fixture definitions for $gameObjectStr")
@@ -145,63 +115,20 @@ class TiledService(
             // Since the AnimationSystem is updating the region of the sprite and is also
             // restoring the flip information, we should set the Sprite region already at this point.
             it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey, body.position))
-
-            // EntityTags
-            val tagsStr = tile.property<String>("entityTags", "")
-            if (tagsStr.isNotBlank()) {
-                val tags = tagsStr.split(",").map(EntityTag::valueOf)
-                it += tags
-            }
-            // Animation
-            val hasAnimation = tile.property<Boolean>("hasAnimation", false)
-            if (hasAnimation) {
-                it += Animation(gdxAnimation(world, gameObject, AnimationType.IDLE))
-            }
-            // State
-            val hasState = tile.property<Boolean>("hasState", false)
-            if (hasState) {
-                it += State(AiEntity(it, world), GameObjectStateIdle)
-            }
-            // Jump
-            val jumpHeight = tile.property<Float>("jumpHeight", 0f)
-            if (jumpHeight > 0f) {
-                it += Jump(maxHeight = jumpHeight)
-            }
-            // Life
-            val life = tile.property<Int>("life", 0)
-            if (life > 0) {
-                it += Life(max = life)
-            }
-            // Move
-            val speed = tile.property<Float>("speed", 0f)
-            if (speed > 0f) {
-                val timeToMaxSpeed = tile.property<Float>("timeToMaxSpeed", 0f)
-                it += Move(max = speed, timeToMax = timeToMaxSpeed.coerceAtLeast(0.1f))
-            }
-            // Damage
-            val damage = tile.property<Int>("damage", 0)
-            if (damage > 0) {
-                it += Damage(damage)
-            }
-            // Track
-            val hasTrack = mapObject.propertyOrNull<Boolean>("hasTrack") ?: tile.property<Boolean>("hasTrack", false)
-            if (hasTrack) {
-                val trackCmp = map.layer("tracks").trackCmpOfBoundary(mapObject)
-                it += trackCmp
-            }
+            configureEntityTags(it, tile)
+            configureAnimation(it, tile, world, gameObject)
+            configureState(it, tile, world)
+            configureJump(it, tile)
+            configureLife(it, tile)
+            configureMove(it, tile)
+            configureDamage(it, tile)
+            configureTrack(it, mapObject, trackLayer)
 
             log.debug {
                 """Spawning entity with:
                 | MapObjectId: ${mapObject.id}
                 | TileId: ${tile.id}
                 | GameObject: $gameObject
-                | Tags: $tagsStr
-                | hasAnimation: $hasAnimation
-                | hasState: $hasState
-                | Jump: $jumpHeight
-                | Life: $life
-                | Move: $speed
-                | Damage: $damage
             """.trimMargin().replace(Regex("(\n*)\n"), "$1")
             }
         }
@@ -361,5 +288,4 @@ class TiledService(
             }
         }
     }
-
 }

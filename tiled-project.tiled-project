@@ -28,12 +28,6 @@
             "id": 3,
             "members": [
                 {
-                    "name": "GameObject",
-                    "propertyType": "GameObject",
-                    "type": "string",
-                    "value": "FROG"
-                },
-                {
                     "name": "bodyType",
                     "propertyType": "BodyType",
                     "type": "string",
@@ -49,6 +43,12 @@
                     "propertyType": "EntityTag",
                     "type": "string",
                     "value": ""
+                },
+                {
+                    "name": "gameObject",
+                    "propertyType": "GameObject",
+                    "type": "string",
+                    "value": "FROG"
                 },
                 {
                     "name": "hasAnimation",
