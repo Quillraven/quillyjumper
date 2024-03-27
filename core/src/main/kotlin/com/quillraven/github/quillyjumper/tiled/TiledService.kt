@@ -25,10 +25,7 @@ import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
 import com.quillraven.github.quillyjumper.TextureAtlasAsset
-import com.quillraven.github.quillyjumper.component.AnimationType
-import com.quillraven.github.quillyjumper.component.Graphic
-import com.quillraven.github.quillyjumper.component.Physic
-import com.quillraven.github.quillyjumper.component.Tiled
+import com.quillraven.github.quillyjumper.component.*
 import com.quillraven.github.quillyjumper.event.GameEvent
 import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.MapChangeEvent
@@ -79,10 +76,17 @@ class TiledService(
 
         // 2) spawn dynamic/kinematic game object bodies
         val trackLayer = map.layer("tracks")
-        map.layer("objects").objects.forEach { spawnGameObjectEntity(it, trackLayer) }
+        val objectLayers = mapOf(
+            -1 to "bgdObjects",
+            0 to "objects",
+            1 to "fgdObjects",
+        )
+        objectLayers.forEach { (zIndex, layerName) ->
+            map.layer(layerName).objects.forEach { spawnGameObjectEntity(it, zIndex, trackLayer) }
+        }
     }
 
-    private fun spawnGameObjectEntity(mapObject: MapObject, trackLayer: MapLayer) {
+    private fun spawnGameObjectEntity(mapObject: MapObject, zIndex: Int, trackLayer: MapLayer) {
         if (mapObject !is TiledMapTileMapObject) {
             gdxError("Unsupported mapObject $mapObject")
         }
@@ -115,6 +119,10 @@ class TiledService(
             // Since the AnimationSystem is updating the region of the sprite and is also
             // restoring the flip information, we should set the Sprite region already at this point.
             it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey, body.position))
+            when {
+                zIndex < 0 -> it += EntityTag.BACKGROUND
+                zIndex > 0 -> it += EntityTag.FOREGROUND
+            }
             configureEntityTags(it, tile)
             configureAnimation(it, tile, world, gameObject)
             configureState(it, tile, world)
@@ -164,6 +172,8 @@ class TiledService(
 
     companion object {
         private val log = logger<TiledService>()
+
+        fun MapLayer.isObjectsLayer(): Boolean = this.name == "objects"
 
         fun fixtureDefOf(mapObject: MapObject): FixtureDefUserData {
             val fixtureDef = when (mapObject) {
