@@ -6,10 +6,7 @@ import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import com.quillraven.github.quillyjumper.SoundAsset
 import com.quillraven.github.quillyjumper.audio.AudioService
-import com.quillraven.github.quillyjumper.component.DamageTaken
-import com.quillraven.github.quillyjumper.component.EntityTag
-import com.quillraven.github.quillyjumper.component.Invulnerable
-import com.quillraven.github.quillyjumper.component.Life
+import com.quillraven.github.quillyjumper.component.*
 import com.quillraven.github.quillyjumper.event.EntityDamageEvent
 import com.quillraven.github.quillyjumper.event.GameEventDispatcher
 import ktx.log.logger
@@ -28,7 +25,10 @@ class DamageSystem(
 
         if (entity has EntityTag.PLAYER) {
             // player becomes invulnerable after taking damage
-            entity.configure { it += Invulnerable(1.5f) }
+            entity.configure {
+                it += Invulnerable(1.5f)
+                it += Blink(maxTime = 1.5f, blinkRatio = 0.2f)
+            }
         }
     }
 

@@ -111,6 +111,7 @@ class GameScreen(
             add(StateSystem())
             add(AnimationSystem())
             add(CameraSystem())
+            add(BlinkSystem())
             add(RenderSystem())
             if (gameProperties.debugPhysic) {
                 add(PhysicRenderDebugSystem())
