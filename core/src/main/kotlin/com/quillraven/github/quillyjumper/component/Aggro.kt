@@ -9,6 +9,7 @@ data class Aggro(
     val aggroEntities: MutableList<Entity> = mutableListOf(),
     var target: Entity = Entity.NONE,
     val sourceLocation: Vector2,
+    val range: Float,
 ) : Component<Aggro> {
     override fun type() = Aggro
 

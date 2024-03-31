@@ -113,10 +113,10 @@ enum class GameObjectState : State<AiEntity> {
         }
 
         override fun update(entity: AiEntity) {
-            val (_, targetEntity) = entity[Aggro]
+            val (_, targetEntity, _, range) = entity[Aggro]
             if (targetEntity == Entity.NONE) {
                 entity.state(ROCK_HEAD_IDLE)
-            } else if (entity.inRange(targetEntity, ROCK_HEAD_ATTACK_RANGE)) {
+            } else if (entity.inRange(targetEntity, range * 0.9f)) {
                 entity.state(ROCK_HEAD_ATTACK)
             }
         }
@@ -130,17 +130,17 @@ enum class GameObjectState : State<AiEntity> {
             val (_, targetEntity) = entity[Aggro]
             val angle = entity.angleTo(targetEntity)
             when {
-                angle <= PI * 0.25f && angle >= -PI * 0.25f -> entity[Move].direction = MoveDirection.RIGHT
-                angle <= -PI * 0.25f && angle >= -PI * 0.75f -> entity[Move].direction = MoveDirection.DOWN
-                angle >= PI * 0.75f || angle <= -PI * 0.75f -> entity[Move].direction = MoveDirection.LEFT
+                angle <= QUARTER_PI && angle >= -QUARTER_PI -> entity[Move].direction = MoveDirection.RIGHT
+                angle <= -QUARTER_PI && angle >= -THREE_QUARTER_PI -> entity[Move].direction = MoveDirection.DOWN
+                angle >= THREE_QUARTER_PI || angle <= -THREE_QUARTER_PI -> entity[Move].direction = MoveDirection.LEFT
                 else -> entity[Move].direction = MoveDirection.UP
             }
         }
 
         override fun update(entity: AiEntity) {
-            val (_, _, sourceLocation) = entity[Aggro]
+            val (_, _, sourceLocation, range) = entity[Aggro]
 
-            if (entity.notInRange(sourceLocation, 7f)) {
+            if (entity.notInRange(sourceLocation, range)) {
                 entity.state(ROCK_HEAD_RETURN)
             }
         }
@@ -172,6 +172,7 @@ enum class GameObjectState : State<AiEntity> {
     override fun onMessage(entity: AiEntity, telegram: Telegram) = false
 
     companion object {
-        private const val ROCK_HEAD_ATTACK_RANGE = 5f
+        private const val QUARTER_PI = PI * 0.25f
+        private const val THREE_QUARTER_PI = PI * 0.75f
     }
 }

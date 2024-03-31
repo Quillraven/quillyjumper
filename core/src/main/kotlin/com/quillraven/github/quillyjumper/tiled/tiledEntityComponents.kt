@@ -12,13 +12,16 @@ import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.EntityCreateContext
 import com.github.quillraven.fleks.World
 import com.quillraven.github.quillyjumper.GameObject
+import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
 import com.quillraven.github.quillyjumper.ai.AiEntity
 import com.quillraven.github.quillyjumper.ai.GameObjectState
 import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.system.USER_DATA_AGGRO_SENSOR
 import ktx.app.gdxError
 import ktx.math.vec2
 import ktx.tiled.*
+import kotlin.math.max
 
 fun EntityCreateContext.configureEntityTags(entity: Entity, tile: TiledMapTile) {
     val tagsStr = tile.property<String>("entityTags", "")
@@ -109,9 +112,12 @@ private fun MapLayer.trackCmpOf(mapObject: MapObject): Track {
     gdxError("There is no related track for MapObject ${mapObject.id}")
 }
 
-fun EntityCreateContext.configureAggro(entity: Entity, tile: TiledMapTile) {
+fun EntityCreateContext.configureAggro(entity: Entity, tile: TiledMapTile, gameObject: GameObject) {
     val hasAggro = tile.property<Boolean>("hasAggro", false)
     if (hasAggro) {
-        entity += Aggro(sourceLocation = entity[Graphic].center.cpy())
+        val aggroDef = OBJECT_FIXTURES[gameObject]?.first { it.def.isSensor && it.userData == USER_DATA_AGGRO_SENSOR }
+            ?: gdxError("There is no aggroSensor for entity $entity")
+        val range = max(aggroDef.size.x, aggroDef.size.y)
+        entity += Aggro(sourceLocation = entity[Graphic].center.cpy(), range = range)
     }
 }

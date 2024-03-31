@@ -37,7 +37,7 @@ import ktx.tiled.*
 
 typealias GdxFloatArray = com.badlogic.gdx.utils.FloatArray
 
-data class FixtureDefUserData(val def: FixtureDef, val userData: String)
+data class FixtureDefUserData(val def: FixtureDef, val userData: String, val size: Vector2)
 
 class TiledService(
     private val world: World,
@@ -131,7 +131,7 @@ class TiledService(
             configureMove(it, tile)
             configureDamage(it, tile)
             configureTrack(it, mapObject, trackLayer)
-            configureAggro(it, tile)
+            configureAggro(it, tile, gameObject)
 
             log.debug {
                 """Spawning entity with:
@@ -176,29 +176,32 @@ class TiledService(
 
         fun MapLayer.isObjectsLayer(): Boolean = this.name == "objects"
 
+        private val MapObject.userData: String
+            get() = property("userData", "")
+
         fun fixtureDefOf(mapObject: MapObject): FixtureDefUserData {
             val fixtureDef = when (mapObject) {
-                is RectangleMapObject -> rectangleFixtureDef(mapObject)
+                is RectangleMapObject -> rectangleFixtureDef(mapObject, mapObject.userData)
                 is EllipseMapObject -> ellipseFixtureDef(mapObject)
                 is PolygonMapObject -> polygonFixtureDef(mapObject)
                 is PolylineMapObject -> polylineFixtureDef(mapObject)
                 else -> gdxError("Unsupported MapObject $mapObject")
             }
 
-            fixtureDef.friction = mapObject.property("friction", 0f)
-            fixtureDef.restitution = mapObject.property("restitution", 0f)
-            fixtureDef.density = mapObject.property("density", 0f)
-            fixtureDef.isSensor = mapObject.property("isSensor", false)
+            fixtureDef.def.friction = mapObject.property("friction", 0f)
+            fixtureDef.def.restitution = mapObject.property("restitution", 0f)
+            fixtureDef.def.density = mapObject.property("density", 0f)
+            fixtureDef.def.isSensor = mapObject.property("isSensor", false)
 
-            return FixtureDefUserData(fixtureDef, mapObject.property("userData", ""))
+            return fixtureDef
         }
 
-        private fun polylineFixtureDef(mapObject: PolylineMapObject): FixtureDef {
-            return polygonFixtureDef(mapObject.x, mapObject.y, mapObject.polyline.vertices, false)
+        private fun polylineFixtureDef(mapObject: PolylineMapObject): FixtureDefUserData {
+            return polygonFixtureDef(mapObject.x, mapObject.y, mapObject.polyline.vertices, false, mapObject.userData)
         }
 
-        private fun polygonFixtureDef(mapObject: PolygonMapObject): FixtureDef {
-            return polygonFixtureDef(mapObject.x, mapObject.y, mapObject.polygon.vertices, true)
+        private fun polygonFixtureDef(mapObject: PolygonMapObject): FixtureDefUserData {
+            return polygonFixtureDef(mapObject.x, mapObject.y, mapObject.polygon.vertices, true, mapObject.userData)
         }
 
         private fun polygonFixtureDef(
@@ -206,7 +209,8 @@ class TiledService(
             polyY: Float,
             polyVertices: FloatArray,
             loop: Boolean,
-        ): FixtureDef {
+            userData: String,
+        ): FixtureDefUserData {
             val x = polyX * UNIT_SCALE
             val y = polyY * UNIT_SCALE
             val vertices = FloatArray(polyVertices.size) { vertexIdx ->
@@ -217,7 +221,7 @@ class TiledService(
                 }
             }
 
-            return FixtureDef().apply {
+            val def = FixtureDef().apply {
                 shape = ChainShape().apply {
                     if (loop) {
                         createLoop(vertices)
@@ -226,9 +230,10 @@ class TiledService(
                     }
                 }
             }
+            return FixtureDefUserData(def, userData, Vector2.Zero)
         }
 
-        private fun ellipseFixtureDef(mapObject: EllipseMapObject): FixtureDef {
+        private fun ellipseFixtureDef(mapObject: EllipseMapObject): FixtureDefUserData {
             val (x, y, w, h) = mapObject.ellipse
             val ellipseX = x * UNIT_SCALE
             val ellipseY = y * UNIT_SCALE
@@ -237,12 +242,13 @@ class TiledService(
 
             return if (MathUtils.isEqual(ellipseW, ellipseH, 0.1f)) {
                 // width and height are equal -> return a circle shape
-                FixtureDef().apply {
+                val def = FixtureDef().apply {
                     shape = CircleShape().apply {
                         position = vec2(ellipseX + ellipseW, ellipseY + ellipseH)
                         radius = ellipseW
                     }
                 }
+                FixtureDefUserData(def, mapObject.userData, vec2(ellipseW, ellipseH))
             } else {
                 // width and height are not equal -> return an ellipse shape (=polygon with 'numVertices' vertices)
                 val numVertices = 20
@@ -254,18 +260,19 @@ class TiledService(
                     vec2(ellipseX + ellipseW + offsetX, ellipseY + ellipseH + offsetY)
                 }
 
-                FixtureDef().apply {
+                val def = FixtureDef().apply {
                     shape = ChainShape().apply {
                         createLoop(vertices)
                     }
                 }
+                FixtureDefUserData(def, mapObject.userData, vec2(ellipseW, ellipseH))
             }
         }
 
         // box is centered around body position in Box2D, but we want to have it aligned in a way
         // that the body position is the bottom left corner of the box.
         // That's why we use a 'boxOffset' below.
-        private fun rectangleFixtureDef(mapObject: RectangleMapObject): FixtureDef {
+        private fun rectangleFixtureDef(mapObject: RectangleMapObject, userData: String): FixtureDefUserData {
             val (rectX, rectY, rectW, rectH) = mapObject.rectangle
             val boxX = rectX * UNIT_SCALE
             val boxY = rectY * UNIT_SCALE
@@ -282,21 +289,23 @@ class TiledService(
                     vec2(boxX, boxY + boxH),
                 )
 
-                return FixtureDef().apply {
+                val def = FixtureDef().apply {
                     shape = ChainShape().apply {
                         createLoop(vertices)
                     }
                 }
+                return FixtureDefUserData(def, userData, vec2(boxW, boxH))
             }
 
             // create a box
             val boxW = rectW * UNIT_SCALE * 0.5f
             val boxH = rectH * UNIT_SCALE * 0.5f
-            return FixtureDef().apply {
+            val def = FixtureDef().apply {
                 shape = PolygonShape().apply {
                     setAsBox(boxW, boxH, vec2(boxX + boxW, boxY + boxH), 0f)
                 }
             }
+            return FixtureDefUserData(def, userData, vec2(boxW, boxH))
         }
     }
 }

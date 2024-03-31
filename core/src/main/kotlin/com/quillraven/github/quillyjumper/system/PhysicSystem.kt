@@ -57,26 +57,19 @@ class PhysicSystem(
         }
 
         when {
-            moveCmp.direction.isNone() -> {
-                // no direction specified -> stop movement
-                if (body.type == DynamicBody) {
-                    // gravity impacts dynamic bodies -> keep current linear velocity of the y-axis
-                    body.setLinearVelocity(0f, body.linearVelocity.y)
-                } else {
-                    // other bodies are not impacted by gravity -> just stop them
-                    body.setLinearVelocity(0f, 0f)
-                }
+            // no direction specified -> stop movement
+            moveCmp.direction.isNone() -> when (body.type) {
+                // gravity impacts dynamic bodies -> keep current linear velocity of the y-axis
+                DynamicBody -> body.setLinearVelocity(0f, body.linearVelocity.y)
+                // other bodies are not impacted by gravity -> just stop them
+                else -> body.setLinearVelocity(0f, 0f)
             }
 
-            moveCmp.direction.isLeftOrRight() -> {
-                // horicontal movement keeps the gravity value (=linear velocity of the y-axis)
-                body.setLinearVelocity(moveCmp.current, body.linearVelocity.y)
-            }
+            // horizontal movement keeps the gravity value (=linear velocity of the y-axis)
+            moveCmp.direction.isLeftOrRight() -> body.setLinearVelocity(moveCmp.current, body.linearVelocity.y)
 
-            else -> {
-                // vertical movement is limited and does not apply a velocity on the x-axis
-                body.setLinearVelocity(0f, moveCmp.current)
-            }
+            // vertical movement is limited and does not apply a velocity on the x-axis
+            else -> body.setLinearVelocity(0f, moveCmp.current)
         }
     }
 
@@ -92,25 +85,6 @@ class PhysicSystem(
             MathUtils.lerp(prevY, bodyY, alpha),
         )
     }
-
-    private val Fixture.entity: Entity?
-        get() {
-            val userData = this.body.userData
-            if (userData is Entity) {
-                return userData
-            }
-            return null
-        }
-
-    private val Contact.entityA: Entity?
-        get() = fixtureA.entity
-
-    private val Contact.entityB: Entity?
-        get() = fixtureB.entity
-
-    private fun Fixture.isHitbox(): Boolean = "hitbox" == userData
-
-    private fun Fixture.isAggroSensor(): Boolean = isSensor && "aggroSensor" == userData
 
     override fun beginContact(contact: Contact) {
         val fixtureA = contact.fixtureA
@@ -218,3 +192,23 @@ class PhysicSystem(
     }
 
 }
+
+private val Fixture.entity: Entity?
+    get() {
+        val userData = this.body.userData
+        if (userData is Entity) {
+            return userData
+        }
+        return null
+    }
+
+private val Contact.entityA: Entity?
+    get() = fixtureA.entity
+
+private val Contact.entityB: Entity?
+    get() = fixtureB.entity
+
+private fun Fixture.isHitbox(): Boolean = "hitbox" == userData
+
+const val USER_DATA_AGGRO_SENSOR = "aggroSensor"
+fun Fixture.isAggroSensor(): Boolean = isSensor && USER_DATA_AGGRO_SENSOR == userData
