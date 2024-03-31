@@ -131,6 +131,7 @@ class TiledService(
             configureMove(it, tile)
             configureDamage(it, tile)
             configureTrack(it, mapObject, trackLayer)
+            configureAggro(it, tile)
 
             log.debug {
                 """Spawning entity with:

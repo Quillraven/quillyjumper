@@ -6,7 +6,7 @@ import com.quillraven.github.quillyjumper.component.EntityTag
 import com.quillraven.github.quillyjumper.component.Jump
 import com.quillraven.github.quillyjumper.component.Jump.Companion.JUMP_BUFFER_TIME
 import com.quillraven.github.quillyjumper.component.Move
-import com.quillraven.github.quillyjumper.component.MoveDirection
+import com.quillraven.github.quillyjumper.component.MoveDirection.Companion.ofValueX
 import ktx.app.KtxInputAdapter
 
 class KeyboardInputProcessor(world: World) : KtxInputAdapter {
@@ -35,7 +35,7 @@ class KeyboardInputProcessor(world: World) : KtxInputAdapter {
 
     private fun updatePlayerMovement(moveValue: Int) {
         moveX += moveValue
-        playerEntities.forEach { it[Move].direction = MoveDirection.of(moveX) }
+        playerEntities.forEach { it[Move].direction = ofValueX(moveX) }
     }
 
 }

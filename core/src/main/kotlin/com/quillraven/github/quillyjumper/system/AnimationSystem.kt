@@ -1,5 +1,6 @@
 package com.quillraven.github.quillyjumper.system
 
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.github.quillraven.fleks.Entity
@@ -30,11 +31,13 @@ class AnimationSystem(
         animationCmp.timer += deltaTime
     }
 
-    fun entityAnimation(entity: Entity, type: AnimationType) {
+    fun entityAnimation(entity: Entity, type: AnimationType, playMode: PlayMode) {
         val (gameObject) = entity[Tiled]
         val gdxAnimation = gdxAnimation(gameObject, type)
 
-        entity[Animation].gdxAnimation = gdxAnimation
+        val aniCmp = entity[Animation]
+        aniCmp.gdxAnimation = gdxAnimation
+        aniCmp.playMode = playMode
         val (sprite) = entity[Graphic]
         sprite.updateRegion(gdxAnimation.getKeyFrame(0f))
     }

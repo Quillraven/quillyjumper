@@ -14,7 +14,7 @@ import com.github.quillraven.fleks.World
 import com.quillraven.github.quillyjumper.GameObject
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
 import com.quillraven.github.quillyjumper.ai.AiEntity
-import com.quillraven.github.quillyjumper.ai.GameObjectStateIdle
+import com.quillraven.github.quillyjumper.ai.GameObjectState
 import com.quillraven.github.quillyjumper.component.*
 import ktx.app.gdxError
 import ktx.math.vec2
@@ -36,9 +36,9 @@ fun EntityCreateContext.configureAnimation(entity: Entity, tile: TiledMapTile, w
 }
 
 fun EntityCreateContext.configureState(entity: Entity, tile: TiledMapTile, world: World) {
-    val hasState = tile.property<Boolean>("hasState", false)
-    if (hasState) {
-        entity += State(AiEntity(entity, world), GameObjectStateIdle)
+    val initialState = tile.property<String>("initialState", "")
+    if (initialState.isNotBlank()) {
+        entity += State(AiEntity(entity, world), GameObjectState.valueOf(initialState))
     }
 }
 
@@ -107,4 +107,11 @@ private fun MapLayer.trackCmpOf(mapObject: MapObject): Track {
     }
 
     gdxError("There is no related track for MapObject ${mapObject.id}")
+}
+
+fun EntityCreateContext.configureAggro(entity: Entity, tile: TiledMapTile) {
+    val hasAggro = tile.property<Boolean>("hasAggro", false)
+    if (hasAggro) {
+        entity += Aggro(sourceLocation = entity[Graphic].center.cpy())
+    }
 }

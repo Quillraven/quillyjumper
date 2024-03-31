@@ -10,9 +10,18 @@ import com.quillraven.github.quillyjumper.ai.GameObjectState
 class State(
     owner: AiEntity,
     initialState: GameObjectState,
-    val fsm: StateMachine<AiEntity, GameObjectState> = DefaultStateMachine(owner, initialState)
+    val fsm: StateMachine<AiEntity, GameObjectState> = defaultStateMachine(owner, initialState)
 ) : Component<State> {
     override fun type() = State
 
     companion object : ComponentType<State>()
+}
+
+private fun defaultStateMachine(
+    owner: AiEntity,
+    initialState: GameObjectState
+): DefaultStateMachine<AiEntity, GameObjectState> {
+    return DefaultStateMachine<AiEntity, GameObjectState>(owner).apply {
+        changeState(initialState)
+    }
 }

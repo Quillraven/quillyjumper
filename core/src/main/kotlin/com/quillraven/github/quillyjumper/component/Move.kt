@@ -3,13 +3,31 @@ package com.quillraven.github.quillyjumper.component
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
 
-enum class MoveDirection(val value: Int) {
-    LEFT(-1),
-    NONE(0),
-    RIGHT(1);
+enum class MoveDirection(val valueX: Int, val valueY: Int) {
+    LEFT(-1, 0),
+    NONE(0, 0),
+    RIGHT(1, 0),
+    DOWN(0, -1),
+    UP(0, 1);
+
+    fun opposite(): MoveDirection = when (this) {
+        LEFT -> RIGHT
+        RIGHT -> LEFT
+        DOWN -> UP
+        UP -> DOWN
+        NONE -> NONE
+    }
+
+    fun isLeftOrDown() = this == LEFT || this == DOWN
+
+    fun isRightOrUp() = this == RIGHT || this == UP
+
+    fun isNone() = this == NONE
+
+    fun isLeftOrRight() = this == RIGHT || this == LEFT
 
     companion object {
-        fun of(value: Int): MoveDirection = when (value) {
+        fun ofValueX(value: Int): MoveDirection = when (value) {
             1 -> RIGHT
             -1 -> LEFT
             else -> NONE

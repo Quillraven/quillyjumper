@@ -16,7 +16,7 @@ fun gdxAnimation(world: World, gameObject: GameObject, type: AnimationType): Gdx
 }
 
 enum class AnimationType {
-    IDLE, RUN, JUMP, FALL, HIT, DOUBLE_JUMP;
+    IDLE, RUN, JUMP, FALL, HIT, DOUBLE_JUMP, AGGRO;
 
     val atlasKey: String = name.lowercase()
 }

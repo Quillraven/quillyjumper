@@ -51,12 +51,12 @@
                     "value": "FROG"
                 },
                 {
-                    "name": "hasAnimation",
+                    "name": "hasAggro",
                     "type": "bool",
                     "value": false
                 },
                 {
-                    "name": "hasState",
+                    "name": "hasAnimation",
                     "type": "bool",
                     "value": false
                 },
@@ -64,6 +64,11 @@
                     "name": "hasTrack",
                     "type": "bool",
                     "value": false
+                },
+                {
+                    "name": "initialState",
+                    "type": "string",
+                    "value": ""
                 },
                 {
                     "name": "jumpHeight",
@@ -156,7 +161,8 @@
             "type": "enum",
             "values": [
                 "FROG",
-                "SAW"
+                "SAW",
+                "ROCK_HEAD"
             ],
             "valuesAsFlags": false
         }

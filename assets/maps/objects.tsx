@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="objects" tilewidth="38" tileheight="38" tilecount="2" columns="0">
+<tileset version="1.10" tiledversion="1.10.2" name="objects" tilewidth="42" tileheight="42" tilecount="3" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" type="EntityDef">
   <properties>
@@ -7,6 +7,7 @@
    <property name="gameObject" propertytype="GameObject" value="FROG"/>
    <property name="hasAnimation" type="bool" value="true"/>
    <property name="hasState" type="bool" value="true"/>
+   <property name="initialState" value="IDLE"/>
    <property name="jumpHeight" type="float" value="3.2"/>
    <property name="life" type="int" value="4"/>
    <property name="speed" type="float" value="8"/>
@@ -48,6 +49,7 @@
    <property name="gameObject" propertytype="GameObject" value="SAW"/>
    <property name="hasAnimation" type="bool" value="true"/>
    <property name="hasTrack" type="bool" value="true"/>
+   <property name="initialState" value=""/>
    <property name="speed" type="float" value="3"/>
   </properties>
   <image width="38" height="38" source="../graphics/object/saw.png"/>
@@ -60,6 +62,41 @@
      <property name="userData" value="hitbox"/>
     </properties>
     <ellipse/>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="2" type="EntityDef">
+  <properties>
+   <property name="bodyType" propertytype="BodyType" value="KinematicBody"/>
+   <property name="damage" type="int" value="1"/>
+   <property name="gameObject" propertytype="GameObject" value="ROCK_HEAD"/>
+   <property name="hasAggro" type="bool" value="true"/>
+   <property name="hasAnimation" type="bool" value="true"/>
+   <property name="initialState" value="ROCK_HEAD_IDLE"/>
+   <property name="speed" type="float" value="12"/>
+   <property name="timeToMaxSpeed" type="float" value="3"/>
+  </properties>
+  <image width="42" height="42" source="../graphics/object/rock-head.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" type="FixtureDef" x="6" y="6" width="30" height="30">
+    <properties>
+     <property name="density" type="float" value="100"/>
+     <property name="userData" value="hitbox"/>
+    </properties>
+   </object>
+   <object id="2" type="FixtureDef" x="0" y="-64" width="42" height="170">
+    <properties>
+     <property name="isChain" type="bool" value="false"/>
+     <property name="isSensor" type="bool" value="true"/>
+     <property name="userData" value="aggroSensor"/>
+    </properties>
+   </object>
+   <object id="3" type="FixtureDef" x="-64" y="0" width="170" height="42">
+    <properties>
+     <property name="isChain" type="bool" value="false"/>
+     <property name="isSensor" type="bool" value="true"/>
+     <property name="userData" value="aggroSensor"/>
+    </properties>
    </object>
   </objectgroup>
  </tile>

@@ -38,13 +38,44 @@ class PhysicSystem(
         val (body, prevPosition) = entity[Physic]
         prevPosition.set(body.position)
 
-        // update linear velocity.x if entity has a Move component
+        // update linear velocity if entity has a Move component
         entity.getOrNull(Move)?.let { moveCmp ->
-            val trackCmp = entity.getOrNull(Track)
-            if (trackCmp == null) {
+            updateLinearVelocity(entity, moveCmp, body)
+        }
+    }
+
+    private fun updateLinearVelocity(
+        entity: Entity,
+        moveCmp: Move,
+        body: Body
+    ) {
+        val trackCmp = entity.getOrNull(Track)
+        if (trackCmp != null) {
+            // entities that follow a track have fixed velocity without any impact for gravity
+            body.setLinearVelocity(trackCmp.moveX, trackCmp.moveY)
+            return
+        }
+
+        when {
+            moveCmp.direction.isNone() -> {
+                // no direction specified -> stop movement
+                if (body.type == DynamicBody) {
+                    // gravity impacts dynamic bodies -> keep current linear velocity of the y-axis
+                    body.setLinearVelocity(0f, body.linearVelocity.y)
+                } else {
+                    // other bodies are not impacted by gravity -> just stop them
+                    body.setLinearVelocity(0f, 0f)
+                }
+            }
+
+            moveCmp.direction.isLeftOrRight() -> {
+                // horicontal movement keeps the gravity value (=linear velocity of the y-axis)
                 body.setLinearVelocity(moveCmp.current, body.linearVelocity.y)
-            } else {
-                body.setLinearVelocity(trackCmp.moveX, trackCmp.moveY)
+            }
+
+            else -> {
+                // vertical movement is limited and does not apply a velocity on the x-axis
+                body.setLinearVelocity(0f, moveCmp.current)
             }
         }
     }
@@ -79,6 +110,8 @@ class PhysicSystem(
 
     private fun Fixture.isHitbox(): Boolean = "hitbox" == userData
 
+    private fun Fixture.isAggroSensor(): Boolean = isSensor && "aggroSensor" == userData
+
     override fun beginContact(contact: Contact) {
         val fixtureA = contact.fixtureA
         val fixtureB = contact.fixtureB
@@ -89,10 +122,11 @@ class PhysicSystem(
             return
         }
 
-        if (isDamageCollision(entityA, entityB, fixtureA, fixtureB)) {
-            handleDamageBeginContact(entityA, entityB)
-        } else if (isDamageCollision(entityB, entityA, fixtureB, fixtureA)) {
-            handleDamageBeginContact(entityB, entityA)
+        when {
+            isDamageCollision(entityA, entityB, fixtureA, fixtureB) -> handleDamageBeginContact(entityA, entityB)
+            isDamageCollision(entityB, entityA, fixtureB, fixtureA) -> handleDamageBeginContact(entityB, entityA)
+            isAggroSensorCollision(entityA, fixtureA, fixtureB) -> handleAggroBeginContact(entityA, entityB)
+            isAggroSensorCollision(entityB, fixtureB, fixtureA) -> handleAggroBeginContact(entityB, entityA)
         }
     }
 
@@ -106,10 +140,11 @@ class PhysicSystem(
             return
         }
 
-        if (isDamageCollision(entityA, entityB, fixtureA, fixtureB)) {
-            handleDamageEndContact(entityA, entityB)
-        } else if (isDamageCollision(entityB, entityA, fixtureB, fixtureA)) {
-            handleDamageEndContact(entityB, entityA)
+        when {
+            isDamageCollision(entityA, entityB, fixtureA, fixtureB) -> handleDamageEndContact(entityA, entityB)
+            isDamageCollision(entityB, entityA, fixtureB, fixtureA) -> handleDamageEndContact(entityB, entityA)
+            isAggroSensorCollision(entityA, fixtureA, fixtureB) -> handleAggroEndContact(entityA, entityB)
+            isAggroSensorCollision(entityB, fixtureB, fixtureA) -> handleAggroEndContact(entityB, entityA)
         }
     }
 
@@ -137,8 +172,30 @@ class PhysicSystem(
         }
     }
 
+    private fun handleAggroBeginContact(aggroEntity: Entity, triggerEntity: Entity) {
+        log.debug { "Begin aggro collision between $aggroEntity and $triggerEntity" }
+        aggroEntity[Aggro].aggroEntities += triggerEntity
+    }
+
+    private fun handleAggroEndContact(aggroEntity: Entity, triggerEntity: Entity) {
+        log.debug { "End aggro collision between $aggroEntity and $triggerEntity" }
+        val aggroCmp = aggroEntity[Aggro]
+        aggroCmp.aggroEntities -= triggerEntity
+        if (aggroCmp.target == triggerEntity) {
+            aggroCmp.target = Entity.NONE
+        }
+    }
+
     private fun isDamageCollision(entityA: Entity, entityB: Entity, fixtureA: Fixture, fixtureB: Fixture): Boolean {
         return entityA has Damage && entityB has Life && fixtureA.isHitbox() && fixtureB.isHitbox()
+    }
+
+    private fun isAggroSensorCollision(
+        entityA: Entity,
+        fixtureA: Fixture,
+        fixtureB: Fixture
+    ): Boolean {
+        return entityA has Aggro && fixtureA.isAggroSensor() && fixtureB.isHitbox()
     }
 
     override fun preSolve(contact: Contact, oldManifold: Manifold) {
