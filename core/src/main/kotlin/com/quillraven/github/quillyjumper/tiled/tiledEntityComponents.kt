@@ -34,7 +34,7 @@ fun EntityCreateContext.configureEntityTags(entity: Entity, tile: TiledMapTile) 
 fun EntityCreateContext.configureAnimation(entity: Entity, tile: TiledMapTile, world: World, gameObject: GameObject) {
     val hasAnimation = tile.property<Boolean>("hasAnimation", false)
     if (hasAnimation) {
-        entity += Animation(gdxAnimation(world, gameObject, AnimationType.IDLE))
+        entity += Animation(gdxAnimation(world, gameObject, AnimationType.IDLE), type = Animation.NORMAL_ANIMATION)
     }
 }
 

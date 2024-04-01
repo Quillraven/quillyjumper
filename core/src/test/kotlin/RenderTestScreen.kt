@@ -3,12 +3,15 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.configureWorld
 import com.quillraven.github.quillyjumper.Assets
 import com.quillraven.github.quillyjumper.GameObject
 import com.quillraven.github.quillyjumper.TextureAtlasAsset
 import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.component.Animation.Companion.NORMAL_ANIMATION
 import com.quillraven.github.quillyjumper.system.AnimationSystem
 import com.quillraven.github.quillyjumper.system.RenderSystem
 import ktx.app.KtxScreen
@@ -19,7 +22,9 @@ class RenderTestScreen : KtxScreen {
     private val batch: Batch = SpriteBatch()
     private val camera = OrthographicCamera()
     private val viewport = FitViewport(16f, 9f, camera)
-    private val assets = Assets()
+    private val uiViewport: Viewport = FitViewport(320f, 180f)
+    private val stage = Stage(uiViewport, batch)
+    private val assets = Assets().apply { loadAll() }
     private val frogSprite = Sprite(textureRegion("frog/idle")).apply {
         setPosition(4f, 1f)
         setSize(1f, 1f)
@@ -34,6 +39,8 @@ class RenderTestScreen : KtxScreen {
             add(assets)
             add(batch)
             add("gameViewport", viewport)
+            add("uiViewport", viewport)
+            add(stage)
             add(camera)
         }
 
@@ -69,7 +76,7 @@ class RenderTestScreen : KtxScreen {
             }
             it += Tiled(GameObject.FROG, 0)
             it += Graphic(entitySprite)
-            it += Animation(gdxAnimation(world, GameObject.FROG, AnimationType.IDLE))
+            it += Animation(gdxAnimation(world, GameObject.FROG, AnimationType.IDLE), type = NORMAL_ANIMATION)
         }
         world.entity {
             val entitySprite = Sprite(textureRegion("frog/idle")).apply {
@@ -79,7 +86,7 @@ class RenderTestScreen : KtxScreen {
             }
             it += Tiled(GameObject.FROG, 0)
             it += Graphic(entitySprite)
-            it += Animation(gdxAnimation(world, GameObject.FROG, AnimationType.IDLE))
+            it += Animation(gdxAnimation(world, GameObject.FROG, AnimationType.IDLE), type = NORMAL_ANIMATION)
         }
     }
 

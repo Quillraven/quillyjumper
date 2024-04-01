@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
 import com.github.quillraven.fleks.World
+import com.github.quillraven.fleks.componentTypeOf
 import com.quillraven.github.quillyjumper.GameObject
 import com.quillraven.github.quillyjumper.system.AnimationSystem
 
@@ -25,10 +26,13 @@ data class Animation(
     var gdxAnimation: GdxAnimation,
     var playMode: PlayMode = PlayMode.LOOP,
     var timer: Float = 0f,
+    val type: ComponentType<Animation>
 ) : Component<Animation> {
-    override fun type() = Animation
+    override fun type() = type
 
-    companion object : ComponentType<Animation>() {
+    companion object {
+        val NORMAL_ANIMATION = componentTypeOf<Animation>()
+        val GLOBAL_ANIMATION = componentTypeOf<Animation>()
         const val DEFAULT_FRAME_DURATION = 1 / 15f
     }
 }

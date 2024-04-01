@@ -11,20 +11,36 @@ import com.quillraven.github.quillyjumper.Assets
 import com.quillraven.github.quillyjumper.GameObject
 import com.quillraven.github.quillyjumper.TextureAtlasAsset
 import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.component.Animation.Companion.GLOBAL_ANIMATION
+import com.quillraven.github.quillyjumper.component.Animation.Companion.NORMAL_ANIMATION
 import ktx.app.gdxError
 import ktx.log.logger
 
 class AnimationSystem(
     assets: Assets = inject(),
-) : IteratingSystem(World.family { all(Animation, Graphic) }) {
+) : IteratingSystem(World.family { all(NORMAL_ANIMATION, Graphic) }) {
 
     private val objectAtlas = assets[TextureAtlasAsset.GAMEOBJECT]
     private val animationCache = mutableMapOf<String, GdxAnimation>()
 
     override fun onTickEntity(entity: Entity) {
-        val animationCmp = entity[Animation]
+        val globalAniCmp = entity.getOrNull(GLOBAL_ANIMATION)
+        if (globalAniCmp != null) {
+            // update global animation and remove component when it is done
+            entity.updateAnimation(globalAniCmp)
+            if (globalAniCmp.gdxAnimation.isAnimationFinished(globalAniCmp.timer)) {
+                entity.configure { it -= GLOBAL_ANIMATION }
+            }
+            return
+        }
+
+        // update normal animation
+        entity.updateAnimation(entity[NORMAL_ANIMATION])
+    }
+
+    private fun Entity.updateAnimation(animationCmp: Animation) {
         val (gdxAnimation, playMode, timer) = animationCmp
-        val (sprite) = entity[Graphic]
+        val (sprite) = this[Graphic]
 
         gdxAnimation.playMode = playMode
         sprite.updateRegion(gdxAnimation.getKeyFrame(timer))
@@ -35,7 +51,7 @@ class AnimationSystem(
         val (gameObject) = entity[Tiled]
         val gdxAnimation = gdxAnimation(gameObject, type)
 
-        val aniCmp = entity[Animation]
+        val aniCmp = entity[NORMAL_ANIMATION]
         aniCmp.gdxAnimation = gdxAnimation
         aniCmp.playMode = playMode
         val (sprite) = entity[Graphic]

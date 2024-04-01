@@ -1,3 +1,4 @@
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.MathUtils.isEqual
 import com.badlogic.gdx.math.Vector2
@@ -6,10 +7,15 @@ import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.ContactImpulse
 import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
+import com.badlogic.gdx.utils.ObjectMap
+import com.badlogic.gdx.utils.PropertiesUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.Fixed
 import com.github.quillraven.fleks.configureWorld
+import com.quillraven.github.quillyjumper.Assets
+import com.quillraven.github.quillyjumper.GameProperties
+import com.quillraven.github.quillyjumper.audio.AudioService
 import com.quillraven.github.quillyjumper.component.EntityTag
 import com.quillraven.github.quillyjumper.component.Jump
 import com.quillraven.github.quillyjumper.component.Jump.Companion.JUMP_BUFFER_TIME
@@ -17,6 +23,7 @@ import com.quillraven.github.quillyjumper.component.Physic
 import com.quillraven.github.quillyjumper.system.JumpPhysicSystem
 import com.quillraven.github.quillyjumper.system.PhysicRenderDebugSystem
 import com.quillraven.github.quillyjumper.system.PhysicSystem
+import com.quillraven.github.quillyjumper.toGameProperties
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import ktx.box2d.body
@@ -33,17 +40,31 @@ class JumpTestScreen : KtxScreen, ContactListener {
         autoClearForces = false
         setContactListener(this@JumpTestScreen)
     }
+    private val assets: Assets by lazy { Assets() }
+    private val gameProperties: GameProperties by lazy(::loadGameProperties)
+    private val audioService: AudioService by lazy {
+        AudioService(assets, soundVolume = gameProperties.soundVolume, musicVolume = gameProperties.musicVolume)
+    }
     private val world = configureWorld {
         injectables {
             add(gameCamera)
             add("gameViewport", gameViewport)
             add(physicWorld)
+            add(audioService)
         }
         systems {
             add(JumpPhysicSystem())
             add(PhysicSystem(interval = Fixed(1 / 240f)))
             add(PhysicRenderDebugSystem())
         }
+    }
+
+    private fun loadGameProperties(): GameProperties {
+        val propertiesMap = ObjectMap<String, String>()
+        Gdx.files.internal("game.properties").reader().use {
+            PropertiesUtils.load(propertiesMap, it)
+        }
+        return propertiesMap.toGameProperties()
     }
 
     override fun show() {

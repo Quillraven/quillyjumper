@@ -1,6 +1,7 @@
 package com.quillraven.github.quillyjumper.system
 
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
@@ -30,6 +31,11 @@ class DamageSystem(
                 it += Invulnerable(1.5f)
                 it += Blink(maxTime = 1.5f, blinkRatio = 0.1f)
                 it += Flash(color = Color.RED, weight = 0.75f, amount = 1, delay = 0.15f)
+                it += Animation(
+                    gdxAnimation = gdxAnimation(world, it[Tiled].gameObject, AnimationType.HIT),
+                    type = Animation.GLOBAL_ANIMATION,
+                    playMode = PlayMode.NORMAL
+                )
             }
         }
     }
