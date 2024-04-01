@@ -12,15 +12,19 @@ import com.github.quillraven.fleks.IntervalSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import com.github.quillraven.fleks.collection.compareEntityBy
+import com.quillraven.github.quillyjumper.Assets
 import com.quillraven.github.quillyjumper.Quillyjumper
+import com.quillraven.github.quillyjumper.ShaderAsset
 import com.quillraven.github.quillyjumper.component.EntityTag.BACKGROUND
 import com.quillraven.github.quillyjumper.component.EntityTag.FOREGROUND
+import com.quillraven.github.quillyjumper.component.Flash
 import com.quillraven.github.quillyjumper.component.Graphic
 import com.quillraven.github.quillyjumper.event.GameEvent
 import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.MapChangeEvent
 import com.quillraven.github.quillyjumper.tiled.TiledService.Companion.isObjectsLayer
 import ktx.assets.disposeSafely
+import ktx.graphics.use
 import ktx.tiled.use
 
 class RenderSystem(
@@ -29,6 +33,7 @@ class RenderSystem(
     private val uiViewport: Viewport = inject("uiViewport"),
     private val stage: Stage = inject(),
     private val gameCamera: OrthographicCamera = inject(),
+    assets: Assets = inject()
 ) : IntervalSystem(), GameEventListener {
 
     private val mapRenderer = OrthogonalTiledMapRenderer(null, Quillyjumper.UNIT_SCALE, batch)
@@ -39,6 +44,10 @@ class RenderSystem(
     private val bgdEntities = family { all(Graphic, BACKGROUND) }
     private val entities = family { all(Graphic).none(BACKGROUND, FOREGROUND) }
     private val fgdEntities = family { all(Graphic, FOREGROUND) }
+
+    private val flashShader = assets[ShaderAsset.FLASH]
+    private val uLocFlashColor = flashShader.getUniformLocation("u_FlashColor")
+    private val uLocFlashWeight = flashShader.getUniformLocation("u_FlashWeight")
 
     override fun onTick() {
         // game rendering
@@ -64,7 +73,30 @@ class RenderSystem(
 
     private fun Family.renderEntities() {
         sort(entityComparator)
-        forEach { it[Graphic].sprite.draw(batch) }
+        forEach { entity ->
+            val flashCmp = entity.getOrNull(Flash)
+            if (flashCmp != null && flashCmp.doFlash) {
+                if (batch.shader != flashShader) {
+                    batch.shader = flashShader
+                }
+                flashShader.use {
+                    flashShader.setUniformf(uLocFlashColor, flashCmp.color)
+                    flashShader.setUniformf(uLocFlashWeight, flashCmp.weight)
+                }
+            } else {
+                batch.resetShader()
+            }
+
+            entity[Graphic].sprite.draw(batch)
+        }
+
+        batch.resetShader()
+    }
+
+    private fun Batch.resetShader() {
+        if (shader != null) {
+            shader = null
+        }
     }
 
     override fun onEvent(event: GameEvent) {

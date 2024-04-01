@@ -5,10 +5,10 @@
     },
     "activeFile": "assets/maps/objects.tsx",
     "expandedProjectPaths": [
-        "assets",
+        "lwjgl3/build",
         "assets/maps",
         ".",
-        "lwjgl3/build"
+        "assets"
     ],
     "fileStates": {
         "": {
@@ -49,8 +49,8 @@
             "scale": 11,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 165,
-                "y": 93.22727272727273
+                "x": 348.54545454545456,
+                "y": 101.5909090909091
             }
         }
     },
