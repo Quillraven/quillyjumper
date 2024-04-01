@@ -4,17 +4,9 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
-import com.github.quillraven.fleks.World
 import com.github.quillraven.fleks.componentTypeOf
-import com.quillraven.github.quillyjumper.GameObject
-import com.quillraven.github.quillyjumper.system.AnimationSystem
 
 typealias GdxAnimation = com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>
-
-fun gdxAnimation(world: World, gameObject: GameObject, type: AnimationType): GdxAnimation {
-    // TODO can we optimize it to retrieve the system directly without looping through all systems?
-    return world.system<AnimationSystem>().gdxAnimation(gameObject, type)
-}
 
 enum class AnimationType {
     IDLE, RUN, JUMP, FALL, HIT, DOUBLE_JUMP, AGGRO;
@@ -32,6 +24,8 @@ data class Animation(
 
     companion object {
         val NORMAL_ANIMATION = componentTypeOf<Animation>()
+        // global animation has higher priority than normal animation which means if an entity
+        // has a global animation then it is played instead of the normal animation
         val GLOBAL_ANIMATION = componentTypeOf<Animation>()
         const val DEFAULT_FRAME_DURATION = 1 / 15f
     }

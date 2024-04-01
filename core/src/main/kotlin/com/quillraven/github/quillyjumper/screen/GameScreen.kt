@@ -7,16 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.configureWorld
-import com.quillraven.github.quillyjumper.Assets
-import com.quillraven.github.quillyjumper.GameProperties
-import com.quillraven.github.quillyjumper.MapAsset
+import com.quillraven.github.quillyjumper.*
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.GRAVITY
 import com.quillraven.github.quillyjumper.audio.AudioService
 import com.quillraven.github.quillyjumper.event.GameEventDispatcher
 import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.MapChangeEvent
 import com.quillraven.github.quillyjumper.input.KeyboardInputProcessor
-import com.quillraven.github.quillyjumper.inputMultiplexer
 import com.quillraven.github.quillyjumper.system.*
 import com.quillraven.github.quillyjumper.tiled.TiledService
 import com.quillraven.github.quillyjumper.ui.GameModel
@@ -38,8 +35,9 @@ class GameScreen(
     private val uiViewport: Viewport = FitViewport(320f, 180f)
     private val stage = Stage(uiViewport, batch)
     private val physicWorld = createWorld(gravity = GRAVITY).apply { autoClearForces = false }
+    private val animationService = AnimationService(assets[TextureAtlasAsset.GAMEOBJECT])
     private val world = createEntityWorld(batch, audioService, gameProperties)
-    private val tiledService = TiledService(world, physicWorld, assets)
+    private val tiledService = TiledService(world, physicWorld, assets, animationService)
     private val keyboardProcessor = KeyboardInputProcessor(world)
     private val gameModel = GameModel(world)
 
@@ -99,6 +97,7 @@ class GameScreen(
             add(batch)
             add(physicWorld)
             add(audioService)
+            add(animationService)
         }
 
         systems {

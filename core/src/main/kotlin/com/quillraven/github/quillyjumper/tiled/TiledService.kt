@@ -19,12 +19,9 @@ import com.badlogic.gdx.physics.box2d.CircleShape
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.PolygonShape
 import com.github.quillraven.fleks.World
-import com.quillraven.github.quillyjumper.Assets
-import com.quillraven.github.quillyjumper.GameObject
-import com.quillraven.github.quillyjumper.PhysicWorld
+import com.quillraven.github.quillyjumper.*
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
-import com.quillraven.github.quillyjumper.TextureAtlasAsset
 import com.quillraven.github.quillyjumper.component.*
 import com.quillraven.github.quillyjumper.event.GameEvent
 import com.quillraven.github.quillyjumper.event.GameEventListener
@@ -44,6 +41,7 @@ class TiledService(
     private val world: World,
     private val physicWorld: PhysicWorld,
     private val assets: Assets,
+    private val animationService: AnimationService,
 ) : GameEventListener {
 
     override fun onEvent(event: GameEvent) {
@@ -158,8 +156,8 @@ class TiledService(
                 zIndex > 0 -> it += EntityTag.FOREGROUND
             }
             configureEntityTags(it, tile)
-            configureAnimation(it, tile, world, gameObject)
-            configureState(it, tile, world)
+            configureAnimation(it, tile, animationService, gameObject)
+            configureState(it, tile, world, animationService)
             configureJump(it, tile)
             configureLife(it, tile)
             configureMove(it, tile)

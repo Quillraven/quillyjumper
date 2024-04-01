@@ -6,14 +6,18 @@ import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.World
+import com.quillraven.github.quillyjumper.AnimationService
 import com.quillraven.github.quillyjumper.component.*
-import com.quillraven.github.quillyjumper.util.entityAnimation
 import kotlin.math.atan2
 
-data class AiEntity(val entity: Entity, val world: World) {
+data class AiEntity(
+    val entity: Entity,
+    val world: World,
+    private val animationService: AnimationService
+) {
 
-    fun animation(type: AnimationType, playMode: PlayMode = PlayMode.LOOP) {
-        world.entityAnimation(entity, type, playMode)
+    fun animation(type: AnimationType, playMode: PlayMode = PlayMode.LOOP) = with(animationService) {
+        world.entityAnimation(entity, type, playMode, Animation.NORMAL_ANIMATION)
     }
 
     inline operator fun <reified T : Component<*>> get(type: ComponentType<T>): T = with(world) {

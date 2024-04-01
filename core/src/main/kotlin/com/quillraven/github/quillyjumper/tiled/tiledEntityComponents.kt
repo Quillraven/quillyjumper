@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.EntityCreateContext
 import com.github.quillraven.fleks.World
+import com.quillraven.github.quillyjumper.AnimationService
 import com.quillraven.github.quillyjumper.GameObject
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
@@ -31,17 +32,30 @@ fun EntityCreateContext.configureEntityTags(entity: Entity, tile: TiledMapTile) 
     }
 }
 
-fun EntityCreateContext.configureAnimation(entity: Entity, tile: TiledMapTile, world: World, gameObject: GameObject) {
+fun EntityCreateContext.configureAnimation(
+    entity: Entity,
+    tile: TiledMapTile,
+    animationService: AnimationService,
+    gameObject: GameObject
+) {
     val hasAnimation = tile.property<Boolean>("hasAnimation", false)
     if (hasAnimation) {
-        entity += Animation(gdxAnimation(world, gameObject, AnimationType.IDLE), type = Animation.NORMAL_ANIMATION)
+        entity += Animation(
+            animationService.gdxAnimation(gameObject, AnimationType.IDLE),
+            type = Animation.NORMAL_ANIMATION
+        )
     }
 }
 
-fun EntityCreateContext.configureState(entity: Entity, tile: TiledMapTile, world: World) {
+fun EntityCreateContext.configureState(
+    entity: Entity,
+    tile: TiledMapTile,
+    world: World,
+    animationService: AnimationService
+) {
     val initialState = tile.property<String>("initialState", "")
     if (initialState.isNotBlank()) {
-        entity += State(AiEntity(entity, world), GameObjectState.valueOf(initialState))
+        entity += State(AiEntity(entity, world, animationService), GameObjectState.valueOf(initialState))
     }
 }
 

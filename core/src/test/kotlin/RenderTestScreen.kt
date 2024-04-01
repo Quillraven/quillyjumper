@@ -7,11 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.github.quillraven.fleks.configureWorld
+import com.quillraven.github.quillyjumper.AnimationService
 import com.quillraven.github.quillyjumper.Assets
 import com.quillraven.github.quillyjumper.GameObject
 import com.quillraven.github.quillyjumper.TextureAtlasAsset
-import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.component.Animation
 import com.quillraven.github.quillyjumper.component.Animation.Companion.NORMAL_ANIMATION
+import com.quillraven.github.quillyjumper.component.AnimationType
+import com.quillraven.github.quillyjumper.component.Graphic
+import com.quillraven.github.quillyjumper.component.Tiled
 import com.quillraven.github.quillyjumper.system.AnimationSystem
 import com.quillraven.github.quillyjumper.system.RenderSystem
 import ktx.app.KtxScreen
@@ -25,6 +29,7 @@ class RenderTestScreen : KtxScreen {
     private val uiViewport: Viewport = FitViewport(320f, 180f)
     private val stage = Stage(uiViewport, batch)
     private val assets = Assets().apply { loadAll() }
+    private val animationService = AnimationService(assets[TextureAtlasAsset.GAMEOBJECT])
     private val frogSprite = Sprite(textureRegion("frog/idle")).apply {
         setPosition(4f, 1f)
         setSize(1f, 1f)
@@ -76,7 +81,7 @@ class RenderTestScreen : KtxScreen {
             }
             it += Tiled(GameObject.FROG, 0)
             it += Graphic(entitySprite)
-            it += Animation(gdxAnimation(world, GameObject.FROG, AnimationType.IDLE), type = NORMAL_ANIMATION)
+            it += Animation(animationService.gdxAnimation(GameObject.FROG, AnimationType.IDLE), type = NORMAL_ANIMATION)
         }
         world.entity {
             val entitySprite = Sprite(textureRegion("frog/idle")).apply {
@@ -86,7 +91,7 @@ class RenderTestScreen : KtxScreen {
             }
             it += Tiled(GameObject.FROG, 0)
             it += Graphic(entitySprite)
-            it += Animation(gdxAnimation(world, GameObject.FROG, AnimationType.IDLE), type = NORMAL_ANIMATION)
+            it += Animation(animationService.gdxAnimation(GameObject.FROG, AnimationType.IDLE), type = NORMAL_ANIMATION)
         }
     }
 

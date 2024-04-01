@@ -6,18 +6,21 @@ import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
+import com.quillraven.github.quillyjumper.AnimationService
 import com.quillraven.github.quillyjumper.SoundAsset
 import com.quillraven.github.quillyjumper.audio.AudioService
 import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.component.Animation.Companion.GLOBAL_ANIMATION
 import com.quillraven.github.quillyjumper.event.EntityDamageEvent
 import com.quillraven.github.quillyjumper.event.GameEventDispatcher
 import ktx.log.logger
 
 class DamageSystem(
     private val audioService: AudioService = inject(),
+    private val animationService: AnimationService = inject()
 ) : IteratingSystem(family { all(DamageTaken, Life).none(Invulnerable) }) {
 
-    override fun onTickEntity(entity: Entity) {
+    override fun onTickEntity(entity: Entity) = with(animationService) {
         val (damageAmount) = entity[DamageTaken]
         val lifeCmp = entity[Life]
         lifeCmp.current = (lifeCmp.current - damageAmount).coerceAtLeast(0f)
@@ -31,11 +34,7 @@ class DamageSystem(
                 it += Invulnerable(1.5f)
                 it += Blink(maxTime = 1.5f, blinkRatio = 0.1f)
                 it += Flash(color = Color.RED, weight = 0.75f, amount = 1, delay = 0.15f)
-                it += Animation(
-                    gdxAnimation = gdxAnimation(world, it[Tiled].gameObject, AnimationType.HIT),
-                    type = Animation.GLOBAL_ANIMATION,
-                    playMode = PlayMode.NORMAL
-                )
+                world.entityAnimation(it, AnimationType.HIT, PlayMode.NORMAL, GLOBAL_ANIMATION)
             }
         }
     }
