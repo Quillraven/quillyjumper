@@ -31,6 +31,7 @@ import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.MapChangeEvent
 import ktx.app.gdxError
 import ktx.box2d.body
+import ktx.box2d.box
 import ktx.log.logger
 import ktx.math.*
 import ktx.tiled.*
@@ -47,8 +48,41 @@ class TiledService(
 
     override fun onEvent(event: GameEvent) {
         when (event) {
-            is MapChangeEvent -> spawnEntities(event.tiledMap)
+            is MapChangeEvent -> {
+                spawnEntities(event.tiledMap)
+                spawnMapBoundary(event.tiledMap)
+            }
+
             else -> Unit
+        }
+    }
+
+    private fun spawnMapBoundary(tiledMap: TiledMap) {
+        // create three boxes for the map boundary (left, bottom and right edge)
+        physicWorld.body(BodyType.StaticBody) {
+            val mapW = tiledMap.width * 0.5f
+            val mapH = tiledMap.height * 0.5f
+            position.set(mapW, mapH)
+
+            var boxW = 3f
+            var boxH = mapH * 2f + 20f
+            // left edge
+            box(boxW, boxH, vec2(-mapW - boxW * 0.5f, mapH)) {
+                friction = 0f
+                userData = "mapBoundaryLeft"
+            }
+            // right edge
+            box(boxW, boxH, vec2(mapW + boxW * 0.5f, mapH)) {
+                friction = 0f
+                userData = "mapBoundaryRight"
+            }
+            // bottom edge
+            boxW = mapW * 2f
+            boxH = 3f
+            box(boxW, boxH, vec2(0f, -mapH - boxH * 0.5f - 5f)) {
+                friction = 0f
+                userData = "mapBoundaryBottom"
+            }
         }
     }
 
