@@ -19,14 +19,11 @@ dependencies {
   api "io.github.libktx:ktx-tiled:$ktxVersion"
   api "io.github.quillraven.fleks:Fleks:$fleksVersion"
   api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-  api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
   api "com.github.raeleus.stripe:stripe:$stripeVersion"
-  api "com.github.raeleus.stripe:freetype:$stripeVersion"
 
   testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
   testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
   testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-  testImplementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
   testImplementation 'org.jetbrains.kotlin:kotlin-test'
   testImplementation files(rootProject.file('assets').path)
 }

@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Disposable
-import com.ray3k.stripe.FreeTypeSkinLoader
 import ktx.app.gdxError
 import ktx.assets.disposeSafely
 import ktx.assets.load
@@ -45,7 +44,6 @@ class Assets : Disposable {
 
     private val assetManager = AssetManager().apply {
         setLoader(TiledMap::class.java, TmxMapLoader(this.fileHandleResolver))
-        setLoader(Skin::class.java, FreeTypeSkinLoader(this.fileHandleResolver))
     }
 
     fun loadAll() {

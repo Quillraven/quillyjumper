@@ -143,7 +143,28 @@ atlasData: {
 			hidden: false
 		}
 	]
-	fontDrawables: []
+	fontDrawables: [
+		{
+			file: C:/Users/Simon/IdeaProjects/quillyjumper/raw_assets/ui/Masaaki-Regular.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: Masaaki-Regular
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: FONT
+			hidden: false
+		}
+	]
 }
 jsonData: {
 	colors: [
@@ -178,38 +199,17 @@ jsonData: {
 			name: White
 		}
 	]
-	fonts: []
-	freeTypeFonts: [
+	fonts: [
 		{
-			class: com.ray3k.skincomposer.data.FreeTypeFontData
-			name: default_fnt
-			file: C:/Users/Simon/IdeaProjects/quillyjumper/raw_assets/ui/Masaaki-Regular.otf
-			previewTTF: IBMPlexSerif-Medium
-			useCustomSerializer: true
-			size: 27
-			mono: false
-			hinting: AutoMedium
-			color: White
-			gamma: 1.8
-			renderCount: 2
-			borderWidth: 0
-			borderColor: null
-			borderStraight: false
-			borderGamma: 1.8
-			shadowOffsetX: 0
-			shadowOffsetY: 0
-			shadowColor: null
-			spaceX: 0
-			spaceY: 0
-			characters: ""
-			kerning: true
+			class: com.ray3k.skincomposer.data.FontData
+			name: Masaaki-Regular
 			flip: false
-			genMipMaps: false
-			minFilter: Nearest
-			magFilter: Nearest
-			incremental: false
+			markupEnabled: true
+			scaling: -1
+			file: C:/Users/Simon/IdeaProjects/quillyjumper/raw_assets/ui/Masaaki-Regular.fnt
 		}
 	]
+	freeTypeFonts: []
 	classStyleMap: {
 		com.badlogic.gdx.scenes.scene2d.ui.Window: [
 			{
@@ -860,7 +860,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: default_fnt
+						value: Masaaki-Regular
 					}
 					fontColor: {
 						type: com.badlogic.gdx.graphics.Color

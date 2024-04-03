@@ -9,8 +9,8 @@ import com.quillraven.github.quillyjumper.Quillyjumper
 /** Launches the TeaVM/HTML application. */
 fun main() {
     val config = TeaApplicationConfiguration("canvas").apply {
-        width = 640
-        height = 480
+        width = 0
+        height = 0
     }
     TeaApplication(Quillyjumper(), config)
 }

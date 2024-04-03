@@ -13,12 +13,11 @@ object TeaVMBuilder {
         val teaBuildConfiguration = TeaBuildConfiguration().apply {
             assetsPath.add(File("../assets"))
             webappPath = File("build/dist").canonicalPath
-            // Register any extra classpath assets here:
-            // additionalAssetsClasspathFiles += "com/quillraven/github/quillyjumper/asset.extension"
-        }
 
-        // Register any classes or packages that require reflection here:
-        // TeaReflectionSupplier.addReflectionClass("com.quillraven.github.quillyjumper.reflect")
+            htmlTitle = "Quilly Jumper"
+            htmlWidth = 640
+            htmlHeight = 360
+        }
 
         val tool = TeaBuilder.config(teaBuildConfiguration)
         tool.mainClass = "com.quillraven.github.quillyjumper.teavm.TeaVMLauncher"
