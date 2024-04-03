@@ -22,10 +22,9 @@ import com.github.quillraven.fleks.World
 import com.quillraven.github.quillyjumper.*
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
+import com.quillraven.github.quillyjumper.audio.AudioService
 import com.quillraven.github.quillyjumper.component.*
-import com.quillraven.github.quillyjumper.event.GameEvent
-import com.quillraven.github.quillyjumper.event.GameEventListener
-import com.quillraven.github.quillyjumper.event.MapChangeEvent
+import com.quillraven.github.quillyjumper.event.*
 import ktx.app.gdxError
 import ktx.box2d.body
 import ktx.box2d.box
@@ -42,13 +41,27 @@ class TiledService(
     private val physicWorld: PhysicWorld,
     private val assets: Assets,
     private val animationService: AnimationService,
+    private val audioService: AudioService,
 ) : GameEventListener {
+
+    private val startLocation = vec2()
 
     override fun onEvent(event: GameEvent) {
         when (event) {
             is MapChangeEvent -> {
                 spawnEntities(event.tiledMap)
                 spawnMapBoundary(event.tiledMap)
+            }
+
+            is PlayerMapBottomContactEvent -> with(world) {
+                event.player.configure {
+                    it += Teleport(startLocation)
+                }
+
+                val lifeCmp = event.player[Life]
+                lifeCmp.current = (lifeCmp.current - 1f).coerceAtLeast(0f)
+                audioService.play(SoundAsset.HURT)
+                GameEventDispatcher.fire(EntityDamageEvent(event.player, lifeCmp))
             }
 
             else -> Unit
@@ -130,10 +143,10 @@ class TiledService(
         val gameObject = GameObject.valueOf(gameObjectStr)
         val fixtureDefs = OBJECT_FIXTURES[gameObject]
             ?: gdxError("No fixture definitions for $gameObjectStr")
-        val x = mapObject.x * UNIT_SCALE
-        val y = mapObject.y * UNIT_SCALE
+        val bodyX = mapObject.x * UNIT_SCALE
+        val bodyY = mapObject.y * UNIT_SCALE
         val body = physicWorld.body(bodyType) {
-            position.set(x, y)
+            position.set(bodyX, bodyY)
             fixedRotation = true
         }
         fixtureDefs.forEach { fixtureDef ->
@@ -156,6 +169,11 @@ class TiledService(
                 zIndex > 0 -> it += EntityTag.FOREGROUND
             }
             configureEntityTags(it, tile)
+            // check for player tag and remember player start location
+            if (it has EntityTag.PLAYER) {
+                startLocation.set(bodyX, bodyY)
+            }
+
             configureAnimation(it, tile, animationService, gameObject)
             configureState(it, tile, world, animationService)
             configureJump(it, tile)

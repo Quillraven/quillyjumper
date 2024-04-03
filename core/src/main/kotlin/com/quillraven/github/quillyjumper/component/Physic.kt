@@ -7,7 +7,7 @@ import com.github.quillraven.fleks.ComponentType
 import ktx.math.vec2
 
 data class Physic(
-    val body: Body,
+    var body: Body, // var instead of val because body teleportation requires recreation of body
     // position of the physic body since the last physic's world step call
     val prevPosition: Vector2 = vec2(),
 ) : Component<Physic> {

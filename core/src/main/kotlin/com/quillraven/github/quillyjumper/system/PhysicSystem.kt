@@ -11,6 +11,8 @@ import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.event.GameEventDispatcher
+import com.quillraven.github.quillyjumper.event.PlayerMapBottomContactEvent
 import ktx.log.logger
 import ktx.math.component1
 import ktx.math.component2
@@ -91,8 +93,17 @@ class PhysicSystem(
         val fixtureB = contact.fixtureB
         val entityA = contact.entityA
         val entityB = contact.entityB
-        if (entityA == null || entityB == null) {
-            // ignore collision between non entity bodies
+
+        if (entityB == null && entityA != null && isPlayerMapBottomCollision(entityA, fixtureA, fixtureB)) {
+            // player in contact with map bottom
+            handlePlayerMapBottomBeginContact(entityA)
+            return
+        } else if (entityA == null && entityB != null && isPlayerMapBottomCollision(entityB, fixtureB, fixtureA)) {
+            // player in contact with map bottom
+            handlePlayerMapBottomBeginContact(entityB)
+            return
+        } else if (entityA == null || entityB == null) {
+            // ignore any other collision between non entity bodies
             return
         }
 
@@ -160,6 +171,10 @@ class PhysicSystem(
         }
     }
 
+    private fun handlePlayerMapBottomBeginContact(playerEntity: Entity) {
+        GameEventDispatcher.fire(PlayerMapBottomContactEvent(playerEntity))
+    }
+
     private fun isDamageCollision(entityA: Entity, entityB: Entity, fixtureA: Fixture, fixtureB: Fixture): Boolean {
         return entityA has Damage && entityB has Life && fixtureA.isHitbox() && fixtureB.isHitbox()
     }
@@ -170,6 +185,10 @@ class PhysicSystem(
         fixtureB: Fixture
     ): Boolean {
         return entityA has Aggro && fixtureA.isAggroSensor() && fixtureB.isHitbox()
+    }
+
+    private fun isPlayerMapBottomCollision(entityA: Entity, fixtureA: Fixture, fixtureB: Fixture): Boolean {
+        return entityA has EntityTag.PLAYER && fixtureA.isHitbox() && fixtureB.userData == "mapBoundaryBottom"
     }
 
     override fun preSolve(contact: Contact, oldManifold: Manifold) {

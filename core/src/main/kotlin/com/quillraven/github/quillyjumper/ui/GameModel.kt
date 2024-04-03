@@ -24,6 +24,8 @@ class GameModel(private val world: World) : GameEventListener, PropertyChangeSou
                     playerLife = event.life.current.toInt()
                 }
             }
+
+            else -> Unit
         }
     }
 

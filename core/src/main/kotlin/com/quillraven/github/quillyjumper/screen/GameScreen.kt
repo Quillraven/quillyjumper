@@ -37,7 +37,7 @@ class GameScreen(
     private val physicWorld = createWorld(gravity = GRAVITY).apply { autoClearForces = false }
     private val animationService = AnimationService(assets[TextureAtlasAsset.GAMEOBJECT])
     private val world = createEntityWorld(batch, audioService, gameProperties)
-    private val tiledService = TiledService(world, physicWorld, assets, animationService)
+    private val tiledService = TiledService(world, physicWorld, assets, animationService, audioService)
     private val keyboardProcessor = KeyboardInputProcessor(world)
     private val gameModel = GameModel(world)
 
@@ -105,6 +105,7 @@ class GameScreen(
             add(TrackSystem())
             add(JumpPhysicSystem())
             add(PhysicSystem())
+            add(TeleportSystem())
             add(DamageSystem())
             add(InvulnerableSystem())
             add(StateSystem())

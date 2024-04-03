@@ -10,6 +10,8 @@ data class MapChangeEvent(val tiledMap: TiledMap) : GameEvent
 
 data class EntityDamageEvent(val entity: Entity, val life: Life) : GameEvent
 
+data class PlayerMapBottomContactEvent(val player: Entity) : GameEvent
+
 interface GameEventListener {
     fun onEvent(event: GameEvent)
 }
