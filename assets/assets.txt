@@ -1,7 +1,7 @@
 b:maps/terrain.tsx:760:application/unknown
-b:maps/objects.tsx:4384:application/unknown
+b:maps/objects.tsx:4440:application/unknown
 b:maps/objects.tmx:285:application/unknown
-b:maps/test.tmx:2028:application/unknown
+b:maps/test.tmx:2097:application/unknown
 b:game.properties:147:application/unknown
 i:graphics/object/frog.png:566:image/png
 i:graphics/object/saw.png:626:image/png

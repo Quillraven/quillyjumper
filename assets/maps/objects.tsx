@@ -68,9 +68,10 @@
  </tile>
  <tile id="2" type="EntityDef">
   <properties>
-   <property name="bodyType" propertytype="BodyType" value="KinematicBody"/>
+   <property name="bodyType" propertytype="BodyType" value="DynamicBody"/>
    <property name="damage" type="int" value="1"/>
    <property name="gameObject" propertytype="GameObject" value="ROCK_HEAD"/>
+   <property name="gravityScale" type="float" value="0"/>
    <property name="hasAggro" type="bool" value="true"/>
    <property name="hasAnimation" type="bool" value="true"/>
    <property name="initialState" value="ROCK_HEAD_IDLE"/>
