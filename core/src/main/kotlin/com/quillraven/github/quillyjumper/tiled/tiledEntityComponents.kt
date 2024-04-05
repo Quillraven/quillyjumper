@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.ChainShape
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.EntityCreateContext
 import com.github.quillraven.fleks.World
@@ -62,7 +63,29 @@ fun EntityCreateContext.configureState(
 fun EntityCreateContext.configureJump(entity: Entity, tile: TiledMapTile) {
     val jumpHeight = tile.property<Float>("jumpHeight", 0f)
     if (jumpHeight > 0f) {
-        entity += Jump(maxHeight = jumpHeight)
+        val (body) = entity[Physic]
+        val feetFixture = body.fixtureList.firstOrNull { it.userData == "feet" }
+        if (feetFixture == null || feetFixture.shape !is ChainShape) {
+            gdxError("Jumping entities must have a chain fixture with userdata 'feet'. Tile=${tile.id}")
+        }
+        val chainShape = feetFixture.shape as ChainShape
+        val lowerXY = vec2(100f, 100f)
+        val upperXY = vec2(-100f, -100f)
+        val vertex = vec2()
+        for (i in 0 until chainShape.vertexCount) {
+            chainShape.getVertex(i, vertex)
+            if (vertex.y <= lowerXY.y && vertex.x <= lowerXY.x) {
+                lowerXY.set(vertex)
+            } else if (vertex.y >= upperXY.y && vertex.x >= upperXY.x) {
+                upperXY.set(vertex)
+            }
+        }
+
+        if (lowerXY.x == 100f || upperXY.x == -100f) {
+            gdxError("Could not calculate feet fixture size of entity $entity and tile ${tile.id}")
+        }
+
+        entity += Jump(maxHeight = jumpHeight, lowerFeet = lowerXY, upperFeet = upperXY)
     }
 }
 

@@ -1,6 +1,9 @@
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils.isEqual
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d.Contact
@@ -11,6 +14,7 @@ import com.badlogic.gdx.utils.ObjectMap
 import com.badlogic.gdx.utils.PropertiesUtils
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
+import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.Fixed
 import com.github.quillraven.fleks.configureWorld
 import com.quillraven.github.quillyjumper.Assets
@@ -30,6 +34,7 @@ import ktx.box2d.body
 import ktx.box2d.box
 import ktx.box2d.chain
 import ktx.box2d.createWorld
+import ktx.graphics.use
 import ktx.math.vec2
 
 class JumpTestScreen : KtxScreen, ContactListener {
@@ -45,6 +50,7 @@ class JumpTestScreen : KtxScreen, ContactListener {
     private val audioService: AudioService by lazy {
         AudioService(assets, soundVolume = gameProperties.soundVolume, musicVolume = gameProperties.musicVolume)
     }
+    private val shapeRenderer = ShapeRenderer()
     private val world = configureWorld {
         injectables {
             add(gameCamera)
@@ -58,6 +64,8 @@ class JumpTestScreen : KtxScreen, ContactListener {
             add(PhysicRenderDebugSystem())
         }
     }
+    private lateinit var jumpEntity: Entity
+    private val feetAABB = Rectangle()
 
     private fun loadGameProperties(): GameProperties {
         val propertiesMap = ObjectMap<String, String>()
@@ -71,8 +79,8 @@ class JumpTestScreen : KtxScreen, ContactListener {
         val jumpHeight = 3f
 
         // character test entity
-        world.entity {
-            it += Jump(jumpHeight)
+        jumpEntity = world.entity {
+            it += Jump(jumpHeight, lowerFeet = vec2(-0.5f, -0.5f), upperFeet = vec2(0.5f, 0.5f))
             val body = physicWorld.body(BodyType.DynamicBody) {
                 position.set(5f, 1f)
                 box(1f, 1f) {
@@ -106,15 +114,20 @@ class JumpTestScreen : KtxScreen, ContactListener {
         gameViewport.update(width, height, true)
     }
 
-    override fun render(delta: Float) {
-        world.family { all(EntityTag.PLAYER) }.forEach { entity ->
-            val (body) = entity[Physic]
-            if (isEqual(body.position.y, 1f, 0.05f)) {
-                entity[Jump].buffer = JUMP_BUFFER_TIME
-            }
+    override fun render(delta: Float) = with(world) {
+        val (body) = jumpEntity[Physic]
+        if (isEqual(body.position.y, 1f, 0.05f)) {
+            jumpEntity[Jump].buffer = JUMP_BUFFER_TIME
+            this.system<JumpPhysicSystem>().debugFeetAABB(jumpEntity, feetAABB)
         }
 
-        world.update(delta)
+        this.update(delta)
+
+        // debug feet AABB
+        shapeRenderer.use(ShapeRenderer.ShapeType.Line, gameCamera.combined) {
+            it.color = Color.TEAL
+            it.rect(feetAABB.x, feetAABB.y, feetAABB.width, feetAABB.height)
+        }
     }
 
     override fun beginContact(contact: Contact) {
@@ -137,5 +150,6 @@ class JumpTestScreen : KtxScreen, ContactListener {
     override fun dispose() {
         physicWorld.disposeSafely()
         world.dispose()
+        shapeRenderer.disposeSafely()
     }
 }
