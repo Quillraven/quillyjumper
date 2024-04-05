@@ -31,6 +31,7 @@
     <properties>
      <property name="friction" type="float" value="1"/>
      <property name="isChain" type="bool" value="true"/>
+     <property name="userData" value="feet"/>
     </properties>
    </object>
    <object id="14" type="FixtureDef" x="9" y="13">

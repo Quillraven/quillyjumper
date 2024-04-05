@@ -6,9 +6,9 @@
     "activeFile": "assets/maps/test.tmx",
     "expandedProjectPaths": [
         "assets",
+        ".",
         "assets/maps",
-        "lwjgl3/build",
-        "."
+        "lwjgl3/build"
     ],
     "fileStates": {
         "": {
@@ -49,8 +49,8 @@
             "scale": 3,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 89.66666666666666,
-                "y": 43.833333333333314
+                "x": 225.33333333333331,
+                "y": 77.83333333333331
             }
         }
     },

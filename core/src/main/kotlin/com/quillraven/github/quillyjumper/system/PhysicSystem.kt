@@ -73,6 +73,11 @@ class PhysicSystem(
             // vertical movement is limited and does not apply a velocity on the x-axis
             else -> body.setLinearVelocity(0f, moveCmp.current)
         }
+
+        // cap fall speed at a certain value
+        if (body.linearVelocity.y < MAX_FALL_SPEED) {
+            body.setLinearVelocity(body.linearVelocity.x, MAX_FALL_SPEED)
+        }
     }
 
     // interpolate between position before world step and real position after world step for smooth rendering
@@ -199,7 +204,9 @@ class PhysicSystem(
     }
 
     private fun bodyCollisionEnabled(bodyA: Body, bodyB: Body): Boolean {
-        return bodyA.type == DynamicBody && bodyB.type == StaticBody ||
+        // Dynamic <-> Static collision only if the dynamic body is NOT jumping
+        // -> allow player to jump through platforms
+        return (bodyA.type == DynamicBody && bodyB.type == StaticBody && bodyA.linearVelocity.y <= 3f) ||
             bodyA.type == DynamicBody && bodyB.type == KinematicBody ||
             bodyA.type == DynamicBody && bodyB.type == DynamicBody
     }
@@ -208,6 +215,7 @@ class PhysicSystem(
 
     companion object {
         private val log = logger<PhysicSystem>()
+        private const val MAX_FALL_SPEED = -12f
     }
 
 }
