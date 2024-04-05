@@ -59,8 +59,9 @@ class TiledService(
                 }
 
                 val lifeCmp = event.player[Life]
-                lifeCmp.current = (lifeCmp.current - 1f).coerceAtLeast(0f)
+                lifeCmp.current = lifeCmp.max
                 audioService.play(SoundAsset.HURT)
+                // fire damage event to update UI
                 GameEventDispatcher.fire(EntityDamageEvent(event.player, lifeCmp))
             }
 
