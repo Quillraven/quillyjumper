@@ -2,18 +2,23 @@ package com.quillraven.github.quillyjumper.ai
 
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.BodyDef
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.World
 import com.quillraven.github.quillyjumper.AnimationService
+import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.component.*
+import ktx.box2d.RayCast
+import ktx.box2d.rayCast
 import kotlin.math.atan2
 
 data class AiEntity(
     val entity: Entity,
     val world: World,
-    private val animationService: AnimationService
+    private val animationService: AnimationService,
+    private val physicWorld: PhysicWorld,
 ) {
 
     fun animation(type: AnimationType, playMode: PlayMode = PlayMode.LOOP) = with(animationService) {
@@ -62,6 +67,25 @@ data class AiEntity(
         val (_, targetCenter) = target[Graphic]
 
         return atan2(targetCenter.y - center.y, targetCenter.x - center.x)
+    }
+
+    fun isPathBlocked(target: Entity): Boolean = with(world) {
+        val start = entity[Graphic].center
+        val end = target[Graphic].center
+        var blocked = false
+
+        physicWorld.rayCast(start, end) { fixture, _, _, _ ->
+            if (fixture.body.type == BodyDef.BodyType.StaticBody) {
+                // path to target is blocked by ground/wall
+                blocked = true
+                return@rayCast RayCast.TERMINATE
+            }
+
+            // ignore fixture and continue
+            return@rayCast RayCast.IGNORE
+        }
+
+        return blocked
     }
 
 }

@@ -14,6 +14,7 @@ import com.github.quillraven.fleks.EntityCreateContext
 import com.github.quillraven.fleks.World
 import com.quillraven.github.quillyjumper.AnimationService
 import com.quillraven.github.quillyjumper.GameObject
+import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.OBJECT_FIXTURES
 import com.quillraven.github.quillyjumper.Quillyjumper.Companion.UNIT_SCALE
 import com.quillraven.github.quillyjumper.ai.AiEntity
@@ -52,11 +53,12 @@ fun EntityCreateContext.configureState(
     entity: Entity,
     tile: TiledMapTile,
     world: World,
-    animationService: AnimationService
+    animationService: AnimationService,
+    physicWorld: PhysicWorld,
 ) {
     val initialState = tile.property<String>("initialState", "")
     if (initialState.isNotBlank()) {
-        entity += State(AiEntity(entity, world, animationService), GameObjectState.valueOf(initialState))
+        entity += State(AiEntity(entity, world, animationService, physicWorld), GameObjectState.valueOf(initialState))
     }
 }
 

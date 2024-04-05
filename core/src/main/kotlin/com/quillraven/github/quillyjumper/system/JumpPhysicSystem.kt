@@ -2,7 +2,6 @@ package com.quillraven.github.quillyjumper.system
 
 import com.badlogic.gdx.math.MathUtils.isEqual
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.physics.box2d.BodyDef
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
@@ -43,8 +42,8 @@ class JumpPhysicSystem(
         val upperX = body.position.x + upperFeet.x + FEET_TOLERANCE
         val upperY = body.position.y + upperFeet.y + FEET_TOLERANCE
         physicWorld.query(lowerX, lowerY, upperX, upperY) { fixture ->
-            if (fixture.body.type == BodyDef.BodyType.StaticBody) {
-                // entity is in contact with ground -> jump
+            if (fixture.body != body) {
+                // entity is in contact with something -> jump
                 jumpCmp.buffer = 0f
                 val gravityY = if (physicWorld.gravity.y == 0f) 1f else -physicWorld.gravity.y
                 body.setLinearVelocity(body.linearVelocity.x, sqrt(2 * maxHeight * gravityY))

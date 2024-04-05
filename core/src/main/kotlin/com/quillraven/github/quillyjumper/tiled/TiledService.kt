@@ -148,6 +148,7 @@ class TiledService(
         val body = physicWorld.body(bodyType) {
             position.set(bodyX, bodyY)
             fixedRotation = true
+            gravityScale = tile.property("gravityScale", 1f)
         }
         fixtureDefs.forEach { fixtureDef ->
             body.createFixture(fixtureDef.def).userData = fixtureDef.userData
@@ -175,7 +176,7 @@ class TiledService(
             }
 
             configureAnimation(it, tile, animationService, gameObject)
-            configureState(it, tile, world, animationService)
+            configureState(it, tile, world, animationService, physicWorld)
             configureJump(it, tile)
             configureLife(it, tile)
             configureMove(it, tile)

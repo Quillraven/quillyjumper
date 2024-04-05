@@ -10,9 +10,6 @@ import com.quillraven.github.quillyjumper.component.*
 import ktx.math.component1
 import ktx.math.component2
 
-private const val B2D_VEL_TOLERANCE = 0.05f
-private const val B2D_VEL_JUMP_FALL = 1f
-
 enum class GameObjectState : State<AiEntity> {
     IDLE {
         override fun enter(entity: AiEntity) {
@@ -101,6 +98,11 @@ enum class GameObjectState : State<AiEntity> {
 
         override fun update(entity: AiEntity) {
             entity.aggroTarget()?.let { aggroTarget ->
+                if (entity.isPathBlocked(aggroTarget)) {
+                    // cannot move to target location -> ignore the target
+                    return
+                }
+
                 entity[Aggro].target = aggroTarget
                 entity.state(ROCK_HEAD_AGGRO)
             }
@@ -139,8 +141,11 @@ enum class GameObjectState : State<AiEntity> {
 
         override fun update(entity: AiEntity) {
             val (_, _, sourceLocation, range) = entity[Aggro]
+            val (body) = entity[Physic]
+            val (linX, linY) = body.linearVelocity
+            val notMoving = isEqual(linX, 0f, 0.01f) && isEqual(linY, 0f, 0.01f)
 
-            if (entity.notInRange(sourceLocation, range)) {
+            if (entity.notInRange(sourceLocation, range) || notMoving) {
                 entity.state(ROCK_HEAD_RETURN)
             }
         }
@@ -174,5 +179,7 @@ enum class GameObjectState : State<AiEntity> {
     companion object {
         private const val QUARTER_PI = PI * 0.25f
         private const val THREE_QUARTER_PI = PI * 0.75f
+        private const val B2D_VEL_TOLERANCE = 0.05f
+        private const val B2D_VEL_JUMP_FALL = 1f
     }
 }

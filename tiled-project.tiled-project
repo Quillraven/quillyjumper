@@ -51,6 +51,11 @@
                     "value": "FROG"
                 },
                 {
+                    "name": "gravityScale",
+                    "type": "float",
+                    "value": 1
+                },
+                {
                     "name": "hasAggro",
                     "type": "bool",
                     "value": false

@@ -58,17 +58,18 @@ class PhysicSystem(
             return
         }
 
+        val gravityScale = body.gravityScale
         when {
             // no direction specified -> stop movement
             moveCmp.direction.isNone() -> when (body.type) {
                 // gravity impacts dynamic bodies -> keep current linear velocity of the y-axis
-                DynamicBody -> body.setLinearVelocity(0f, body.linearVelocity.y)
+                DynamicBody -> body.setLinearVelocity(0f, body.linearVelocity.y * gravityScale)
                 // other bodies are not impacted by gravity -> just stop them
                 else -> body.setLinearVelocity(0f, 0f)
             }
 
             // horizontal movement keeps the gravity value (=linear velocity of the y-axis)
-            moveCmp.direction.isLeftOrRight() -> body.setLinearVelocity(moveCmp.current, body.linearVelocity.y)
+            moveCmp.direction.isLeftOrRight() -> body.setLinearVelocity(moveCmp.current, body.linearVelocity.y * gravityScale)
 
             // vertical movement is limited and does not apply a velocity on the x-axis
             else -> body.setLinearVelocity(0f, moveCmp.current)
