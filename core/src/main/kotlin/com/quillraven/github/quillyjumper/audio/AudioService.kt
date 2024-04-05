@@ -51,6 +51,7 @@ class AudioService(
         val music = assets[asset]
         currentMusicResource = MusicResource(music, asset)
         music.volume = musicVolume
+        music.isLooping = true
         music.play()
     }
 
