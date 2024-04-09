@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="objects" tilewidth="42" tileheight="42" tilecount="4" columns="0">
+<tileset version="1.10" tiledversion="1.10.2" name="objects" tilewidth="64" tileheight="64" tilecount="6" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" type="EntityDef">
   <properties>
@@ -27,7 +27,7 @@
    <object id="8" type="FixtureDef" x="24" y="11">
     <polyline points="0,2 0,18"/>
    </object>
-   <object id="13" type="FixtureDef" x="9" y="28" width="15" height="4">
+   <object id="13" type="FixtureDef" x="9" y="28" width="15" height="5">
     <properties>
      <property name="friction" type="float" value="1"/>
      <property name="isChain" type="bool" value="true"/>
@@ -114,6 +114,40 @@
   <image width="32" height="32" source="../graphics/object/cherry.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" type="FixtureDef" x="11" y="15" width="10" height="6">
+    <properties>
+     <property name="isChain" type="bool" value="true"/>
+     <property name="isSensor" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="4" type="EntityDef">
+  <properties>
+   <property name="bodyType" propertytype="BodyType" value="KinematicBody"/>
+   <property name="gameObject" propertytype="GameObject" value="START_FLAG"/>
+   <property name="gravityScale" type="float" value="0"/>
+  </properties>
+  <image width="19" height="36" source="../graphics/object/start-flag.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" type="FixtureDef" x="0" y="0" width="19" height="36">
+    <properties>
+     <property name="isChain" type="bool" value="true"/>
+     <property name="isSensor" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="6" type="EntityDef">
+  <properties>
+   <property name="bodyType" propertytype="BodyType" value="KinematicBody"/>
+   <property name="entityTags" propertytype="EntityTag" value="COLLECTABLE"/>
+   <property name="gameObject" propertytype="GameObject" value="FINISH_FLAG"/>
+   <property name="gravityScale" type="float" value="0"/>
+   <property name="hasAnimation" type="bool" value="true"/>
+  </properties>
+  <image width="64" height="64" source="../graphics/object/finish-flag.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" type="FixtureDef" x="22" y="19" width="3" height="45">
     <properties>
      <property name="isChain" type="bool" value="true"/>
      <property name="isSensor" type="bool" value="true"/>
