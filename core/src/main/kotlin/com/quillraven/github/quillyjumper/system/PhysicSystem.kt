@@ -221,9 +221,11 @@ class PhysicSystem(
     private fun bodyCollisionEnabled(bodyA: Body, bodyB: Body): Boolean {
         // Dynamic <-> Static collision only if the dynamic body is NOT jumping
         // -> allow player to jump through platforms
-        return (bodyA.type == DynamicBody && bodyB.type == StaticBody && bodyA.linearVelocity.y <= 3f) ||
-            bodyA.type == DynamicBody && bodyB.type == KinematicBody ||
-            bodyA.type == DynamicBody && bodyB.type == DynamicBody
+        val typeA = bodyA.type
+        val typeB = bodyB.type
+        return (typeA == DynamicBody && typeB == StaticBody && (bodyA.isNotJumping() || bodyB.isMapBoundary())) ||
+            typeA == DynamicBody && typeB == KinematicBody ||
+            typeA == DynamicBody && typeB == DynamicBody
     }
 
     override fun postSolve(contact: Contact, impulse: ContactImpulse) = Unit
@@ -254,3 +256,9 @@ private fun Fixture.isHitbox(): Boolean = "hitbox" == userData
 
 const val USER_DATA_AGGRO_SENSOR = "aggroSensor"
 fun Fixture.isAggroSensor(): Boolean = isSensor && USER_DATA_AGGRO_SENSOR == userData
+
+fun Body.isMapBoundary(): Boolean = userData == "mapBoundary"
+
+fun Body.isNotMapBoundary(): Boolean = userData != "mapBoundary"
+
+fun Body.isNotJumping(): Boolean = linearVelocity.y <= 3f

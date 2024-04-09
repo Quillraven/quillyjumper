@@ -75,6 +75,7 @@ class TiledService(
             val mapW = tiledMap.width * 0.5f
             val mapH = tiledMap.height * 0.5f
             position.set(mapW, mapH)
+            userData = "mapBoundary"
 
             var boxW = 3f
             var boxH = mapH * 2f + 20f

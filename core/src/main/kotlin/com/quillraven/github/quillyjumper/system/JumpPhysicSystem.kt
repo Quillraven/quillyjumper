@@ -53,7 +53,7 @@ class JumpPhysicSystem(
         val upperX = body.position.x + upperFeet.x + FEET_TOLERANCE
         val upperY = body.position.y + upperFeet.y + FEET_TOLERANCE
         physicWorld.query(lowerX, lowerY, upperX, upperY) { fixture ->
-            if (fixture.body != body) {
+            if (fixture.body != body && fixture.body.isNotMapBoundary()) {
                 // entity is in contact with something -> jump
                 applyJumpVelocity(jumpCmp, body, maxHeight)
                 return@query false
