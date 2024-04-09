@@ -25,6 +25,7 @@ enum class TextureAtlasAsset(val path: String) {
 
 enum class MusicAsset(val path: String) {
     TUTORIAL("audio/tutorial.mp3"),
+    STAGE_CLEAR("audio/stage-clear.mp3"),
 }
 
 enum class SoundAsset(val path: String) {

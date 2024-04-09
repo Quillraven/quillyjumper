@@ -2,12 +2,10 @@ package com.quillraven.github.quillyjumper.audio
 
 import com.badlogic.gdx.audio.Music
 import com.quillraven.github.quillyjumper.Assets
+import com.quillraven.github.quillyjumper.GameObject
 import com.quillraven.github.quillyjumper.MusicAsset
 import com.quillraven.github.quillyjumper.SoundAsset
-import com.quillraven.github.quillyjumper.event.GameEvent
-import com.quillraven.github.quillyjumper.event.GameEventDispatcher
-import com.quillraven.github.quillyjumper.event.GameEventListener
-import com.quillraven.github.quillyjumper.event.MapChangeEvent
+import com.quillraven.github.quillyjumper.event.*
 import ktx.log.logger
 import ktx.tiled.propertyOrNull
 
@@ -32,7 +30,7 @@ class AudioService(
         soundQueue += asset
     }
 
-    fun play(asset: MusicAsset) {
+    private fun play(asset: MusicAsset, loop: Boolean = true) {
         log.debug { "Play music $asset" }
 
         if (currentMusicResource?.asset == asset) {
@@ -51,7 +49,7 @@ class AudioService(
         val music = assets[asset]
         currentMusicResource = MusicResource(music, asset)
         music.volume = musicVolume
-        music.isLooping = true
+        music.isLooping = loop
         music.play()
     }
 
@@ -67,6 +65,12 @@ class AudioService(
             is MapChangeEvent -> {
                 event.tiledMap.propertyOrNull<String>("musicAsset")?.let { musicAssetStr ->
                     play(MusicAsset.valueOf(musicAssetStr))
+                }
+            }
+
+            is PlayerItemCollectEvent -> {
+                if (event.collectableType == GameObject.FINISH_FLAG) {
+                    play(MusicAsset.STAGE_CLEAR, loop = false)
                 }
             }
 
