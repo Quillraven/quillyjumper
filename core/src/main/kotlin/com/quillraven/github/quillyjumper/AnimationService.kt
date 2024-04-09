@@ -28,19 +28,17 @@ class AnimationService(private val objectAtlas: TextureAtlas) {
             aniCmp = Animation(gdxAnimation, playMode, type = cmpType)
             entity.configure { it += aniCmp }
         } else {
-            aniCmp.gdxAnimation = gdxAnimation
-            aniCmp.playMode = playMode
+            aniCmp.changeAnimation(gdxAnimation, playMode)
         }
 
         val (sprite) = entity[Graphic]
         sprite.updateRegion(gdxAnimation.getKeyFrame(0f))
     }
 
-    fun gdxAnimation(
-        gameObject: GameObject,
-        type: AnimationType
-    ): GdxAnimation {
-        val animationAtlasKey = "${gameObject.atlasKey}/${type.atlasKey}"
+    fun gdxAnimation(gameObject: GameObject, type: AnimationType) = gdxAnimation(gameObject.atlasKey, type)
+
+    fun gdxAnimation(atlasKey: String, type: AnimationType): GdxAnimation {
+        val animationAtlasKey = "${atlasKey}/${type.atlasKey}"
         val gdxAnimation = animationCache.getOrPut(animationAtlasKey) {
             val regions = objectAtlas.findRegions(animationAtlasKey)
             if (regions.isEmpty) {

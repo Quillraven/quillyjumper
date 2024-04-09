@@ -8,7 +8,8 @@ data class Jump(
     var maxHeight: Float,
     val lowerFeet: Vector2,
     val upperFeet: Vector2,
-    var buffer: Float = 0f
+    var buffer: Float = 0f,
+    var airJump: Boolean = false,
 ) : Component<Jump> {
     override fun type() = Jump
 

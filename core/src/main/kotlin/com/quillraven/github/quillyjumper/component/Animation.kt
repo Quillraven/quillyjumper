@@ -22,8 +22,15 @@ data class Animation(
 ) : Component<Animation> {
     override fun type() = type
 
+    fun changeAnimation(gdxAnimation: GdxAnimation, playMode: PlayMode = PlayMode.LOOP) {
+        this.timer = 0f
+        this.gdxAnimation = gdxAnimation
+        this.playMode = playMode
+    }
+
     companion object {
         val NORMAL_ANIMATION = componentTypeOf<Animation>()
+
         // global animation has higher priority than normal animation which means if an entity
         // has a global animation then it is played instead of the normal animation
         val GLOBAL_ANIMATION = componentTypeOf<Animation>()

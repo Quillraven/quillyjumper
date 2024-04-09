@@ -12,6 +12,7 @@ import com.github.quillraven.fleks.World.Companion.inject
 import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.component.*
 import com.quillraven.github.quillyjumper.event.GameEventDispatcher
+import com.quillraven.github.quillyjumper.event.PlayerItemCollectEvent
 import com.quillraven.github.quillyjumper.event.PlayerMapBottomContactEvent
 import ktx.log.logger
 import ktx.math.component1
@@ -69,7 +70,10 @@ class PhysicSystem(
             }
 
             // horizontal movement keeps the gravity value (=linear velocity of the y-axis)
-            moveCmp.direction.isLeftOrRight() -> body.setLinearVelocity(moveCmp.current, body.linearVelocity.y * gravityScale)
+            moveCmp.direction.isLeftOrRight() -> body.setLinearVelocity(
+                moveCmp.current,
+                body.linearVelocity.y * gravityScale
+            )
 
             // vertical movement is limited and does not apply a velocity on the x-axis
             else -> body.setLinearVelocity(0f, moveCmp.current)
@@ -118,6 +122,8 @@ class PhysicSystem(
             isDamageCollision(entityB, entityA, fixtureB, fixtureA) -> handleDamageBeginContact(entityB, entityA)
             isAggroSensorCollision(entityA, fixtureA, fixtureB) -> handleAggroBeginContact(entityA, entityB)
             isAggroSensorCollision(entityB, fixtureB, fixtureA) -> handleAggroBeginContact(entityB, entityA)
+            isCollectableCollision(entityA, entityB, fixtureA) -> handleCollectableBeginContact(entityA, entityB)
+            isCollectableCollision(entityB, entityA, fixtureB) -> handleCollectableBeginContact(entityB, entityA)
         }
     }
 
@@ -181,6 +187,10 @@ class PhysicSystem(
         GameEventDispatcher.fire(PlayerMapBottomContactEvent(playerEntity))
     }
 
+    private fun handleCollectableBeginContact(player: Entity, collectable: Entity) {
+        GameEventDispatcher.fire(PlayerItemCollectEvent(player, collectable))
+    }
+
     private fun isDamageCollision(entityA: Entity, entityB: Entity, fixtureA: Fixture, fixtureB: Fixture): Boolean {
         return entityA has Damage && entityB has Life && fixtureA.isHitbox() && fixtureB.isHitbox()
     }
@@ -195,6 +205,10 @@ class PhysicSystem(
 
     private fun isPlayerMapBottomCollision(entityA: Entity, fixtureA: Fixture, fixtureB: Fixture): Boolean {
         return entityA has EntityTag.PLAYER && fixtureA.isHitbox() && fixtureB.userData == "mapBoundaryBottom"
+    }
+
+    private fun isCollectableCollision(entityA: Entity, entityB: Entity, fixtureA: Fixture): Boolean {
+        return entityA has EntityTag.PLAYER && entityB has EntityTag.COLLECTABLE && fixtureA.isHitbox()
     }
 
     override fun preSolve(contact: Contact, oldManifold: Manifold) {

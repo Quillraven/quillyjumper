@@ -12,6 +12,8 @@ data class EntityDamageEvent(val entity: Entity, val life: Life) : GameEvent
 
 data class PlayerMapBottomContactEvent(val player: Entity) : GameEvent
 
+data class PlayerItemCollectEvent(val player: Entity, val collectable: Entity) : GameEvent
+
 interface GameEventListener {
     fun onEvent(event: GameEvent)
 }

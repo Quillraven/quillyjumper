@@ -111,7 +111,8 @@
             "type": "enum",
             "values": [
                 "PLAYER",
-                "CAMERA_FOCUS"
+                "CAMERA_FOCUS",
+                "COLLECTABLE"
             ],
             "valuesAsFlags": true
         },
@@ -167,7 +168,8 @@
             "values": [
                 "FROG",
                 "SAW",
-                "ROCK_HEAD"
+                "ROCK_HEAD",
+                "CHERRY"
             ],
             "valuesAsFlags": false
         }
