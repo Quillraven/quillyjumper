@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="20">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="24">
  <properties>
   <property name="musicAsset" value="TUTORIAL"/>
   <property name="name" value="Tutorial"/>
@@ -32,6 +32,10 @@
  </objectgroup>
  <objectgroup id="7" name="fgdObjects">
   <object id="11" gid="244" x="429" y="425" width="38" height="38"/>
+  <object id="20" gid="246" x="305" y="102" width="32" height="32"/>
+  <object id="21" gid="246" x="365" y="151" width="32" height="32"/>
+  <object id="22" gid="246" x="420" y="196" width="32" height="32"/>
+  <object id="23" gid="246" x="482" y="168" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="5" name="tracks">
   <object id="10" x="480" y="377">

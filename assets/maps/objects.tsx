@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="objects" tilewidth="42" tileheight="42" tilecount="3" columns="0">
+<tileset version="1.10" tiledversion="1.10.2" name="objects" tilewidth="42" tileheight="42" tilecount="4" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" type="EntityDef">
   <properties>
@@ -98,6 +98,25 @@
      <property name="isChain" type="bool" value="false"/>
      <property name="isSensor" type="bool" value="true"/>
      <property name="userData" value="aggroSensor"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="3" type="EntityDef">
+  <properties>
+   <property name="bodyType" propertytype="BodyType" value="KinematicBody"/>
+   <property name="entityTags" propertytype="EntityTag" value="COLLECTABLE"/>
+   <property name="gameObject" propertytype="GameObject" value="CHERRY"/>
+   <property name="gravityScale" type="float" value="0"/>
+   <property name="hasAnimation" type="bool" value="true"/>
+   <property name="initialState" value=""/>
+  </properties>
+  <image width="32" height="32" source="../graphics/object/cherry.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" type="FixtureDef" x="11" y="15" width="10" height="6">
+    <properties>
+     <property name="isChain" type="bool" value="true"/>
+     <property name="isSensor" type="bool" value="true"/>
     </properties>
    </object>
   </objectgroup>
