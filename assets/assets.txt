@@ -16,6 +16,7 @@ i:graphics/terrain.png:20964:image/png
 t:graphics/gameobject.atlas:4652:application/unknown
 b:shader/default.vert:316:application/unknown
 b:shader/flash.frag:616:application/unknown
+a:audio/stage-clear.mp3:184403:audio/mpeg
 a:audio/tutorial.mp3:2003068:audio/mpeg
 a:audio/hurt.wav:3522:audio/x-wav
 a:audio/jump.wav:18842:audio/x-wav
