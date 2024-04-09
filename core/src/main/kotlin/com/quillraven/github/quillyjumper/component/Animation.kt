@@ -9,7 +9,7 @@ import com.github.quillraven.fleks.componentTypeOf
 typealias GdxAnimation = com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>
 
 enum class AnimationType {
-    IDLE, RUN, JUMP, FALL, HIT, DOUBLE_JUMP, AGGRO;
+    IDLE, RUN, JUMP, FALL, HIT, DOUBLE_JUMP, AGGRO, WAVE;
 
     val atlasKey: String = name.lowercase()
 }
@@ -18,7 +18,8 @@ data class Animation(
     var gdxAnimation: GdxAnimation,
     var playMode: PlayMode = PlayMode.LOOP,
     var timer: Float = 0f,
-    val type: ComponentType<Animation>
+    val type: ComponentType<Animation>,
+    var nextAnimation: GdxAnimation? = null,
 ) : Component<Animation> {
     override fun type() = type
 

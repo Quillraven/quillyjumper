@@ -19,7 +19,7 @@ class AnimationService(private val objectAtlas: TextureAtlas) {
         type: AnimationType,
         playMode: PlayMode,
         cmpType: ComponentType<Animation>,
-    ) {
+    ): Animation {
         val (gameObject) = entity[Tiled]
         val gdxAnimation = gdxAnimation(gameObject, type)
 
@@ -33,6 +33,8 @@ class AnimationService(private val objectAtlas: TextureAtlas) {
 
         val (sprite) = entity[Graphic]
         sprite.updateRegion(gdxAnimation.getKeyFrame(0f))
+
+        return aniCmp
     }
 
     fun gdxAnimation(gameObject: GameObject, type: AnimationType) = gdxAnimation(gameObject.atlasKey, type)

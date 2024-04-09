@@ -169,7 +169,9 @@
                 "FROG",
                 "SAW",
                 "ROCK_HEAD",
-                "CHERRY"
+                "CHERRY",
+                "START_FLAG",
+                "FINISH_FLAG"
             ],
             "valuesAsFlags": false
         }

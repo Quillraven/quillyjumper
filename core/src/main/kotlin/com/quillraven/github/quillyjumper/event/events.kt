@@ -2,6 +2,7 @@ package com.quillraven.github.quillyjumper.event
 
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.github.quillraven.fleks.Entity
+import com.quillraven.github.quillyjumper.GameObject
 import com.quillraven.github.quillyjumper.component.Life
 
 sealed interface GameEvent
@@ -12,7 +13,7 @@ data class EntityDamageEvent(val entity: Entity, val life: Life) : GameEvent
 
 data class PlayerMapBottomContactEvent(val player: Entity) : GameEvent
 
-data class PlayerItemCollectEvent(val player: Entity, val collectable: Entity) : GameEvent
+data class PlayerItemCollectEvent(val player: Entity, val collectable: Entity, val collectableType: GameObject) : GameEvent
 
 interface GameEventListener {
     fun onEvent(event: GameEvent)

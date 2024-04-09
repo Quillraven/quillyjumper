@@ -44,12 +44,10 @@ class LoadingScreen(
     private fun parseObjectCollisionShapes(tiledMap: TiledMap) {
         val tileSet = tiledMap.tileSets.getTileSet(0)
             ?: gdxError("There is no TileSet in the ${MapAsset.OBJECTS} TiledMap.")
-        val firstGid = tileSet.propertyOrNull<Int>("firstgid")
-            ?: gdxError("Tileset $tileSet does not have a 'firstgid' property")
 
-        for (i in 0 until tileSet.size()) {
-            val tileID = firstGid + i
-            val tile = tileSet.getTile(tileID)
+        val tileIterator = tileSet.iterator()
+        while (tileIterator.hasNext()) {
+            val tile = tileIterator.next()
             val objectFixtureDefs = tile.objects.map { fixtureDefOf(it) }
             if (objectFixtureDefs.isEmpty()) {
                 gdxError("No collision shapes defined for tile ${tile.id}")

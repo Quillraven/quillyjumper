@@ -188,7 +188,7 @@ class PhysicSystem(
     }
 
     private fun handleCollectableBeginContact(player: Entity, collectable: Entity) {
-        GameEventDispatcher.fire(PlayerItemCollectEvent(player, collectable))
+        GameEventDispatcher.fire(PlayerItemCollectEvent(player, collectable, collectable[Tiled].gameObject))
     }
 
     private fun isDamageCollision(entityA: Entity, entityB: Entity, fixtureA: Fixture, fixtureB: Fixture): Boolean {

@@ -7,6 +7,7 @@ import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
+import com.quillraven.github.quillyjumper.GameObject
 import com.quillraven.github.quillyjumper.PhysicWorld
 import com.quillraven.github.quillyjumper.SoundAsset
 import com.quillraven.github.quillyjumper.audio.AudioService
@@ -87,7 +88,7 @@ class JumpPhysicSystem(
     }
 
     override fun onEvent(event: GameEvent) {
-        if (event is PlayerItemCollectEvent) {
+        if (event is PlayerItemCollectEvent && event.collectableType == GameObject.CHERRY) {
             val jumpCmp = event.player[Jump]
             val (body) = event.player[Physic]
             applyJumpVelocity(jumpCmp, body, jumpCmp.maxHeight * 0.75f)

@@ -4,12 +4,13 @@ import com.badlogic.gdx.math.Interpolation
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
-import com.quillraven.github.quillyjumper.component.Graphic
-import com.quillraven.github.quillyjumper.component.Move
-import com.quillraven.github.quillyjumper.component.MoveDirection
-import com.quillraven.github.quillyjumper.component.Track
+import com.quillraven.github.quillyjumper.GameObject.FINISH_FLAG
+import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.event.GameEvent
+import com.quillraven.github.quillyjumper.event.GameEventListener
+import com.quillraven.github.quillyjumper.event.PlayerItemCollectEvent
 
-class MoveSystem : IteratingSystem(family { all(Move).none(Track) }) {
+class MoveSystem : IteratingSystem(family { all(Move).none(Track) }), GameEventListener {
 
     override fun onTickEntity(entity: Entity) {
         val moveCmp = entity[Move]
@@ -40,6 +41,21 @@ class MoveSystem : IteratingSystem(family { all(Move).none(Track) }) {
             moveCmp.current = MOVE_INTERPOLATION.apply(MIN_SPEED, max, moveCmp.timer) * direction.valueX
         } else {
             moveCmp.current = MOVE_INTERPOLATION.apply(MIN_SPEED, max, moveCmp.timer) * direction.valueY
+        }
+    }
+
+    override fun onEvent(event: GameEvent) {
+        if (event is PlayerItemCollectEvent && event.collectableType == FINISH_FLAG) {
+            event.player.configure {
+                // this disables the PlayerInputController from activating the movement again
+                it -= EntityTag.PLAYER
+                // move player to the right and slow him down over time (=liner damping)
+                val body = it[Physic].body
+                body.setLinearVelocity(it[Move].max, body.linearVelocity.y)
+                body.linearDamping = 2.5f
+                // remove Move component to not update linear velocity in PhysicSystem
+                it -= Move
+            }
         }
     }
 

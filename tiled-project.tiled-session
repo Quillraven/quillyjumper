@@ -19,8 +19,8 @@
             "scale": 3.598125,
             "selectedLayer": -1,
             "viewCenter": {
-                "x": 168.83793642522147,
-                "y": 159.66649296508598
+                "x": 168.56001389612643,
+                "y": 159.38857043599097
             }
         },
         "assets/maps/objects.tmx#objects": {
@@ -44,13 +44,14 @@
         },
         "assets/maps/test.tmx": {
             "expandedObjectLayers": [
-                3
+                3,
+                7
             ],
-            "scale": 2,
-            "selectedLayer": 0,
+            "scale": 8,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 366.75,
-                "y": 269.75
+                "x": 535.9375,
+                "y": 403.8125
             }
         }
     },
