@@ -29,37 +29,46 @@ button
   orig: 64, 32
   offset: 0, 0
   index: -1
-health_0
+button-gray
   rotate: false
-  xy: 102, 459
-  size: 42, 7
-  orig: 42, 7
+  xy: 102, 434
+  size: 64, 32
+  split: 3, 3, 4, 2
+  pad: 5, 5, 6, 7
+  orig: 64, 32
   offset: 0, 0
   index: -1
-health_1
+health_0
   rotate: false
   xy: 2, 387
   size: 42, 7
   orig: 42, 7
   offset: 0, 0
   index: -1
+health_1
+  rotate: false
+  xy: 70, 423
+  size: 42, 7
+  orig: 42, 7
+  offset: 0, 0
+  index: -1
 health_2
   rotate: false
-  xy: 102, 448
+  xy: 170, 459
   size: 42, 7
   orig: 42, 7
   offset: 0, 0
   index: -1
 health_3
   rotate: false
-  xy: 148, 459
+  xy: 2, 376
   size: 42, 7
   orig: 42, 7
   offset: 0, 0
   index: -1
 health_4
   rotate: false
-  xy: 2, 376
+  xy: 70, 412
   size: 42, 7
   orig: 42, 7
   offset: 0, 0
