@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="26">
  <properties>
-  <property name="musicAsset" value="TUTORIAL"/>
+  <property name="musicAsset" value="MAP_1"/>
   <property name="name" value="Tutorial"/>
  </properties>
  <tileset firstgid="1" source="terrain.tsx"/>
@@ -26,7 +26,7 @@
   </data>
  </layer>
  <objectgroup id="3" name="objects">
-  <object id="3" gid="243" x="241" y="49" width="32" height="32"/>
+  <object id="3" gid="243" x="289" y="415" width="32" height="32"/>
   <object id="16" gid="245" x="-3" y="389" width="42" height="42"/>
   <object id="19" gid="245" x="122" y="335" width="42" height="42"/>
  </objectgroup>
