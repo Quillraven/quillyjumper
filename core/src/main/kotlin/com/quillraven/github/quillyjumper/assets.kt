@@ -14,9 +14,14 @@ import ktx.app.gdxError
 import ktx.assets.disposeSafely
 import ktx.assets.load
 
-enum class MapAsset(val path: String) {
+enum class MapAsset(val path: String, val unlockMap: MapAsset? = null) {
     TEST("maps/test.tmx"),
-    OBJECTS("maps/objects.tmx"),
+    MAP_2("maps/map2.tmx"),
+    MAP_1("maps/map1.tmx", MAP_2),
+    TUTORIAL("maps/tutorial.tmx", MAP_1),
+    OBJECTS("maps/objects.tmx");
+
+    val displayName: String = this.name.replace("_", " ")
 }
 
 enum class TextureAtlasAsset(val path: String) {
@@ -31,6 +36,7 @@ enum class MusicAsset(val path: String) {
 enum class SoundAsset(val path: String) {
     JUMP("audio/jump.wav"),
     HURT("audio/hurt.wav"),
+    CHERRY("audio/cherry.wav"),
 }
 
 enum class SkinAsset(val path: String) {

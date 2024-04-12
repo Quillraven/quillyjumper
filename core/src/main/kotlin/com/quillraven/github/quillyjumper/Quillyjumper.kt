@@ -31,6 +31,7 @@ class Quillyjumper : KtxGame<KtxScreen>() {
     private val audioService: AudioService by lazy {
         AudioService(assets, soundVolume = gameProperties.soundVolume, musicVolume = gameProperties.musicVolume)
     }
+    private val preferences: GamePreferences by lazy { GamePreferences.forApp("quilly-jumper") }
 
     override fun create() {
         Gdx.app.logLevel = gameProperties.logLevel
@@ -38,8 +39,10 @@ class Quillyjumper : KtxGame<KtxScreen>() {
 
         Gdx.input.inputProcessor = InputMultiplexer()
 
-        addScreen(LoadingScreen(this, batch, assets, gameProperties, audioService))
+        addScreen(LoadingScreen(this, batch, assets, gameProperties, audioService, preferences))
         setScreen<LoadingScreen>()
+
+        preferences.storeUnlockedMap(MapAsset.TUTORIAL)
     }
 
     override fun render() {

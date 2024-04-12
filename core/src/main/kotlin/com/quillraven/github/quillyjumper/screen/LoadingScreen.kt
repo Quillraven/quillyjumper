@@ -1,5 +1,6 @@
 package com.quillraven.github.quillyjumper.screen
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.quillraven.github.quillyjumper.*
@@ -10,6 +11,7 @@ import ktx.app.KtxScreen
 import ktx.app.gdxError
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
+import ktx.log.logger
 import ktx.scene2d.Scene2DSkin
 import ktx.tiled.propertyOrNull
 
@@ -19,6 +21,7 @@ class LoadingScreen(
     private val assets: Assets,
     private val gameProperties: GameProperties,
     private val audioService: AudioService,
+    private val prefs: GamePreferences,
 ) : KtxScreen {
 
     // we need to create a physic world to parse the entity collision objects, which are
@@ -32,13 +35,19 @@ class LoadingScreen(
         parseObjectCollisionShapes(tiledMap)
         assets -= MapAsset.OBJECTS
         Scene2DSkin.defaultSkin = assets[SkinAsset.DEFAULT]
+    }
 
-        game.removeScreen<LoadingScreen>()
-        dispose()
+    override fun render(delta: Float) {
+        if (Gdx.input.justTouched()) {
+            log.debug { "Leaving LoadingScreen..." }
+            game.removeScreen<LoadingScreen>()
+            dispose()
 
-        // create remaining game screens
-        game.addScreen(GameScreen(batch, assets, gameProperties, audioService))
-        game.setScreen<GameScreen>()
+            // create remaining game screens
+            game.addScreen(MenuScreen(batch, audioService, game, prefs))
+            game.addScreen(GameScreen(batch, assets, gameProperties, audioService, game, prefs))
+            game.setScreen<MenuScreen>()
+        }
     }
 
     private fun parseObjectCollisionShapes(tiledMap: TiledMap) {
@@ -61,6 +70,10 @@ class LoadingScreen(
 
     override fun dispose() {
         physicWorld.disposeSafely()
+    }
+
+    companion object {
+        private val log = logger<LoadingScreen>()
     }
 
 }

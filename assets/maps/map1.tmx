@@ -26,7 +26,7 @@
   </data>
  </layer>
  <objectgroup id="3" name="objects">
-  <object id="3" gid="243" x="241" y="50" width="32" height="32"/>
+  <object id="3" gid="243" x="472" y="417" width="32" height="32"/>
   <object id="16" gid="245" x="-3" y="389" width="42" height="42"/>
   <object id="19" gid="245" x="122" y="335" width="42" height="42"/>
  </objectgroup>

@@ -11,6 +11,9 @@ Color: {
 	Black: {
 		hex: 000000ff
 	}
+	GRAY: {
+		hex: c3c3c3ff
+	}
 	Red: {
 		hex: ff0000ff
 	}
@@ -29,6 +32,16 @@ TextButtonStyle: {
 		font: Masaaki-Regular
 		fontColor: Black
 		up: banner
+	}
+	menu-btn: {
+		font: Masaaki-Regular
+		fontColor: Black
+		downFontColor: Red
+		disabledFontColor: GRAY
+		up: button
+		disabled: button-gray
+		pressedOffsetX: 2
+		pressedOffsetY: -2
 	}
 }
 }

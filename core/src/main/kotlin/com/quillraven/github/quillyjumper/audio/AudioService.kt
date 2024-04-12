@@ -69,8 +69,10 @@ class AudioService(
             }
 
             is PlayerItemCollectEvent -> {
-                if (event.collectableType == GameObject.FINISH_FLAG) {
-                    play(MusicAsset.STAGE_CLEAR, loop = false)
+                when (event.collectableType) {
+                    GameObject.FINISH_FLAG -> play(MusicAsset.STAGE_CLEAR, loop = false)
+                    GameObject.CHERRY -> play(SoundAsset.CHERRY)
+                    else -> Unit
                 }
             }
 
