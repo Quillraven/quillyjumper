@@ -7,7 +7,24 @@
 
 # Quilly Jumper
 
-TBD
+Quilly Jumper is a game that was developed during a longer streaming session.
+You can find the videos to all the different streams [here](https://www.youtube.com/watch?v=quIHNm4r1iI&list=PLTKHCDn5RKK8_Gjw8nh7RN7JVCISvV4sc).
+
+It uses LibGDX with Kotlin and Box2D as physic engine. In addition, it was built around
+Tiled map editor that serves as map editor but also as game object editor (properties and Box2D body/fixture definition).
+
+The controls are:
+- A / D: move left / right
+- SPACE: jump
+
+It contains one collectable - a cherry. When it is picked up then the player automatically performs a double jump.
+
+It also contains two different enemies:
+- a saw that can optionally follow a hidden track
+- a rock head that detects the player vertically / horizontally and will attack him when he gets to close
+
+You have four lives to complete a stage. If you fall down a pit or lose all your lives then you respawn at the beginning
+of the stage with full life.
 
 ### Credits
 
