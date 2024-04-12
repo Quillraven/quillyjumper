@@ -11,24 +11,30 @@ import com.quillraven.github.quillyjumper.SoundAsset
 import com.quillraven.github.quillyjumper.audio.AudioService
 import com.quillraven.github.quillyjumper.component.*
 import com.quillraven.github.quillyjumper.component.Animation.Companion.GLOBAL_ANIMATION
+import com.quillraven.github.quillyjumper.component.EntityTag.PLAYER
 import com.quillraven.github.quillyjumper.event.EntityDamageEvent
 import com.quillraven.github.quillyjumper.event.GameEventDispatcher
+import com.quillraven.github.quillyjumper.event.PlayerMapBottomContactEvent
 import ktx.log.logger
 
 class DamageSystem(
     private val audioService: AudioService = inject(),
     private val animationService: AnimationService = inject()
-) : IteratingSystem(family { all(DamageTaken, Life).none(Invulnerable) }) {
+) : IteratingSystem(family { all(DamageTaken, Life, PLAYER).none(Invulnerable) }) {
 
     override fun onTickEntity(entity: Entity) = with(animationService) {
         val (damageAmount) = entity[DamageTaken]
         val lifeCmp = entity[Life]
         lifeCmp.current = (lifeCmp.current - damageAmount).coerceAtLeast(0f)
         log.debug { "Entity $entity takes $damageAmount damage. New life=${lifeCmp.current}" }
-        audioService.play(SoundAsset.HURT)
-        GameEventDispatcher.fire(EntityDamageEvent(entity, lifeCmp))
 
-        if (entity has EntityTag.PLAYER) {
+        if (lifeCmp.current <= 0) {
+            // the event will trigger the TiledService that contains the logic for respawning
+            GameEventDispatcher.fire(PlayerMapBottomContactEvent(entity))
+        } else {
+            audioService.play(SoundAsset.HURT)
+            GameEventDispatcher.fire(EntityDamageEvent(entity, lifeCmp))
+
             // player becomes invulnerable after taking damage
             entity.configure {
                 it += Invulnerable(1.5f)

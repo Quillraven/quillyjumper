@@ -12,13 +12,13 @@ import ktx.math.vec2
 
 class ParallaxBackground(
     gameViewport: Viewport,
+    bgdTexturePath: String,
     private val scrollSpeed: Vector2 = vec2(1f, 1f)
 ) : Disposable {
     private val originUV = vec2(0f, 0f)
     private val originUV2 = vec2(0f, 0f)
-    private val grayTexture = wrappedTexture("graphics/background/gray.png")
-    private val greenTexture = wrappedTexture("graphics/background/green.png")
-    private val bgdSprite = Sprite(greenTexture).apply {
+    private val texture = wrappedTexture(bgdTexturePath)
+    private val bgdSprite = Sprite(texture).apply {
         resize(gameViewport.worldWidth, gameViewport.worldHeight)
     }
 
@@ -56,7 +56,6 @@ class ParallaxBackground(
     }
 
     override fun dispose() {
-        grayTexture.disposeSafely()
-        greenTexture.disposeSafely()
+        texture.disposeSafely()
     }
 }

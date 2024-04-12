@@ -27,6 +27,12 @@ ButtonStyle: {
 		down: button
 	}
 }
+LabelStyle: {
+	default: {
+		font: Masaaki-Regular
+		fontColor: White
+	}
+}
 TextButtonStyle: {
 	default: {
 		font: Masaaki-Regular
@@ -42,6 +48,11 @@ TextButtonStyle: {
 		disabled: button-gray
 		pressedOffsetX: 2
 		pressedOffsetY: -2
+	}
+}
+TextTooltipStyle: {
+	default: {
+		label: default
 	}
 }
 }

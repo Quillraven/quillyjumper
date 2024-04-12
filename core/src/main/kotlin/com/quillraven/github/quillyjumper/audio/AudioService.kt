@@ -30,7 +30,7 @@ class AudioService(
         soundQueue += asset
     }
 
-    private fun play(asset: MusicAsset, loop: Boolean = true) {
+    fun play(asset: MusicAsset, loop: Boolean = true) {
         log.debug { "Play music $asset" }
 
         if (currentMusicResource?.asset == asset) {

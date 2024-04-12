@@ -56,11 +56,13 @@ class TiledService(
             is PlayerMapBottomContactEvent -> with(world) {
                 event.player.configure {
                     it += Teleport(startLocation)
+                    it += Invulnerable(2f)
+                    it += Blink(maxTime = 1.5f, blinkRatio = 0.1f)
                 }
 
                 val lifeCmp = event.player[Life]
                 lifeCmp.current = lifeCmp.max
-                audioService.play(SoundAsset.HURT)
+                audioService.play(SoundAsset.DEATH)
                 // fire damage event to update UI
                 GameEventDispatcher.fire(EntityDamageEvent(event.player, lifeCmp))
             }

@@ -31,12 +31,15 @@ enum class TextureAtlasAsset(val path: String) {
 enum class MusicAsset(val path: String) {
     TUTORIAL("audio/tutorial.mp3"),
     STAGE_CLEAR("audio/stage-clear.mp3"),
+    MAIN_MENU("audio/main-menu.wav"),
+    MAP_1("audio/map1.wav"),
 }
 
 enum class SoundAsset(val path: String) {
     JUMP("audio/jump.wav"),
     HURT("audio/hurt.wav"),
     CHERRY("audio/cherry.wav"),
+    DEATH("audio/death.wav"),
 }
 
 enum class SkinAsset(val path: String) {

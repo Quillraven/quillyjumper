@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="26">
  <properties>
-  <property name="musicAsset" value="TUTORIAL"/>
-  <property name="name" value="Tutorial"/>
+  <property name="musicAsset" value="MAP_1"/>
+  <property name="name" value="Am I in danger?"/>
  </properties>
  <tileset firstgid="1" source="terrain.tsx"/>
  <tileset firstgid="243" source="objects.tsx"/>

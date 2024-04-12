@@ -27,3 +27,4 @@ TBD
 - [LibKTX](https://github.com/libktx/ktx): Kotlin extensions for LibGDX
 - [SFXR](https://sfxr.me/): SFX creation tool
 - [Creator Pack](https://jonathan-so.itch.io/creatorpack)
+- [Beat'em Up Soundtrack](https://wyver9.itch.io/8-bit-beatem-up-soundtrack)

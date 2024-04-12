@@ -1318,13 +1318,13 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: Masaaki-Regular
 					}
 					fontColor: {
 						type: com.badlogic.gdx.graphics.Color
 						name: fontColor
 						optional: true
-						value: null
+						value: White
 					}
 					background: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -2065,7 +2065,7 @@ sceneComposer: {
 									type: com.badlogic.gdx.graphics.Color
 									name: disabledFontColor
 									optional: true
-									value: null
+									value: GRAY
 								}
 								checkedFontColor: {
 									type: com.badlogic.gdx.graphics.Color
@@ -2119,7 +2119,7 @@ sceneComposer: {
 									type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 									name: disabled
 									optional: true
-									value: null
+									value: button-gray
 								}
 								checked: {
 									type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -2265,7 +2265,7 @@ sceneComposer: {
 									type: com.badlogic.gdx.graphics.Color
 									name: disabledFontColor
 									optional: true
-									value: null
+									value: GRAY
 								}
 								checkedFontColor: {
 									type: com.badlogic.gdx.graphics.Color
@@ -2319,7 +2319,7 @@ sceneComposer: {
 									type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 									name: disabled
 									optional: true
-									value: null
+									value: button-gray
 								}
 								checked: {
 									type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -2465,7 +2465,7 @@ sceneComposer: {
 									type: com.badlogic.gdx.graphics.Color
 									name: disabledFontColor
 									optional: true
-									value: null
+									value: GRAY
 								}
 								checkedFontColor: {
 									type: com.badlogic.gdx.graphics.Color
@@ -2519,7 +2519,7 @@ sceneComposer: {
 									type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 									name: disabled
 									optional: true
-									value: null
+									value: button-gray
 								}
 								checked: {
 									type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
