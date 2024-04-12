@@ -9,7 +9,7 @@ import ktx.graphics.use
 class ParallaxTestScreen : KtxScreen {
     private val spriteBatch: Batch = SpriteBatch()
     private val viewport = FitViewport(16f, 9f)
-    private val parallaxBgd = ParallaxBackground(viewport)
+    private val parallaxBgd = ParallaxBackground(viewport, "graphics/background/green.png")
 
     override fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
