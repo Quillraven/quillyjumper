@@ -11,9 +11,16 @@ Masaaki-Regular
   orig: 505, 33
   offset: 0, 0
   index: -1
+Masaaki-Regular-Small
+  rotate: false
+  xy: 2, 450
+  size: 504, 16
+  orig: 504, 16
+  offset: 0, 0
+  index: -1
 banner
   rotate: false
-  xy: 2, 434
+  xy: 2, 414
   size: 96, 32
   split: 19, 19, 9, 14
   pad: 17, 16, 9, 10
@@ -22,7 +29,7 @@ banner
   index: -1
 button
   rotate: false
-  xy: 2, 398
+  xy: 2, 378
   size: 64, 32
   split: 3, 3, 4, 2
   pad: 5, 5, 6, 7
@@ -31,7 +38,7 @@ button
   index: -1
 button-gray
   rotate: false
-  xy: 102, 434
+  xy: 102, 414
   size: 64, 32
   split: 3, 3, 4, 2
   pad: 5, 5, 6, 7
@@ -40,35 +47,35 @@ button-gray
   index: -1
 health_0
   rotate: false
-  xy: 2, 387
+  xy: 2, 367
   size: 42, 7
   orig: 42, 7
   offset: 0, 0
   index: -1
 health_1
   rotate: false
-  xy: 70, 423
+  xy: 70, 403
   size: 42, 7
   orig: 42, 7
   offset: 0, 0
   index: -1
 health_2
   rotate: false
-  xy: 170, 459
+  xy: 170, 439
   size: 42, 7
   orig: 42, 7
   offset: 0, 0
   index: -1
 health_3
   rotate: false
-  xy: 2, 376
+  xy: 2, 356
   size: 42, 7
   orig: 42, 7
   offset: 0, 0
   index: -1
 health_4
   rotate: false
-  xy: 70, 412
+  xy: 70, 392
   size: 42, 7
   orig: 42, 7
   offset: 0, 0

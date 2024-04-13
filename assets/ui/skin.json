@@ -6,6 +6,12 @@ BitmapFont: {
 		markupEnabled: true
 		flip: false
 	}
+	Masaaki-Regular-Small: {
+		file: Masaaki-Regular-Small.fnt
+		scaledSize: -1
+		markupEnabled: true
+		flip: false
+	}
 }
 Color: {
 	Black: {

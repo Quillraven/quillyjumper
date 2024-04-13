@@ -1,4 +1,4 @@
-b:maps/tutorial.tmx:2508:application/unknown
+b:maps/tutorial.tmx:2133:application/unknown
 b:maps/terrain.tsx:757:application/unknown
 b:maps/objects.tsx:6721:application/unknown
 b:maps/objects.tmx:285:application/unknown
@@ -19,7 +19,7 @@ i:graphics/terrain.png:20964:image/png
 t:graphics/gameobject.atlas:4652:application/unknown
 b:shader/default.vert:316:application/unknown
 b:shader/flash.frag:616:application/unknown
-a:audio/death.wav:185858:audio/x-wav
+a:audio/death.wav:112974:audio/x-wav
 a:audio/map1.wav:7290762:audio/x-wav
 a:audio/stage-clear.mp3:184403:audio/mpeg
 a:audio/cherry.wav:11590:audio/x-wav
@@ -27,10 +27,11 @@ a:audio/tutorial.mp3:2003068:audio/mpeg
 a:audio/hurt.wav:3522:audio/x-wav
 a:audio/main-menu.wav:7145656:audio/x-wav
 a:audio/jump.wav:18842:audio/x-wav
-t:ui/skin.json:711:application/json
+t:ui/Masaaki-Regular-Small.fnt:7983:application/unknown
+t:ui/skin.json:828:application/json
 t:ui/Masaaki-Regular.fnt:8301:application/unknown
-t:ui/skin.atlas:1059:application/unknown
-i:ui/skin.png:6324:image/png
+t:ui/skin.atlas:1169:application/unknown
+i:ui/skin.png:7405:image/png
 i:com/badlogic/gdx/utils/lsans-15.png:14652:image/png
 t:com/badlogic/gdx/graphics/g3d/shaders/default.vertex.glsl:9096:application/unknown
 t:com/badlogic/gdx/graphics/g3d/particles/particles.fragment.glsl:820:application/unknown
