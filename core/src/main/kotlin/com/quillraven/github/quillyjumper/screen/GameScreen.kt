@@ -149,6 +149,7 @@ class GameScreen(
             add(BlinkSystem())
             add(FlashSystem())
             add(ParallaxBgdSystem())
+            add(TextSystem())
             add(RenderSystem())
             add(RemoveSystem())
             if (gameProperties.debugPhysic) {

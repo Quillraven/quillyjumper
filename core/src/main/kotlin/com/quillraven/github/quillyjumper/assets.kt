@@ -7,9 +7,9 @@ import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.maps.tiled.TiledMap
-import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Disposable
+import com.quillraven.github.quillyjumper.tiled.TiledLoader
 import ktx.app.gdxError
 import ktx.assets.disposeSafely
 import ktx.assets.load
@@ -53,7 +53,7 @@ enum class ShaderAsset(val vertexShader: String, val fragmentShader: String) {
 class Assets : Disposable {
 
     private val assetManager = AssetManager().apply {
-        setLoader(TiledMap::class.java, TmxMapLoader(this.fileHandleResolver))
+        setLoader(TiledMap::class.java, TiledLoader(this.fileHandleResolver))
     }
 
     fun loadAll() {

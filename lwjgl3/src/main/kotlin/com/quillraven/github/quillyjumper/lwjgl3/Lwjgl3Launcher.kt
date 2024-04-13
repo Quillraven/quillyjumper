@@ -13,7 +13,7 @@ fun main() {
         return
     Lwjgl3Application(Quillyjumper(), Lwjgl3ApplicationConfiguration().apply {
         setTitle("Quilly Jumper")
-        setWindowedMode(640, 360)
+        setWindowedMode(1280, 720)
         setWindowIcon(*(arrayOf(128, 64, 32, 16).map { "libgdx$it.png" }.toTypedArray()))
     })
 }

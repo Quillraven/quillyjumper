@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d.ChainShape
@@ -136,6 +137,11 @@ class TiledService(
     }
 
     private fun spawnGameObjectEntity(mapObject: MapObject, zIndex: Int, trackLayer: MapLayer) {
+        if (mapObject is RectangleMapObject) {
+            spawnTextEntity(mapObject)
+            return
+        }
+
         if (mapObject !is TiledMapTileMapObject) {
             gdxError("Unsupported mapObject $mapObject")
         }
@@ -195,6 +201,17 @@ class TiledService(
                 | GameObject: $gameObject
             """.trimMargin().replace(Regex("(\n*)\n"), "$1")
             }
+        }
+    }
+
+    private fun spawnTextEntity(mapObject: RectangleMapObject) {
+        val text = mapObject.propertyOrNull<String>("text") ?: gdxError("Text Object has no text specified")
+        val x = mapObject.x * UNIT_SCALE
+        val y = mapObject.y * UNIT_SCALE
+        val w = mapObject.width * UNIT_SCALE
+        val h = mapObject.height * UNIT_SCALE
+        world.entity {
+            it += Text(text, Rectangle(x, y, w, h))
         }
     }
 

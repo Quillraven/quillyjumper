@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "assets/maps/test.tmx",
+    "activeFile": "assets/maps/tutorial.tmx",
     "expandedProjectPaths": [
-        "lwjgl3/build",
         ".",
         "assets",
-        "assets/maps"
+        "assets/maps",
+        "lwjgl3/build"
     ],
     "fileStates": {
         "": {
@@ -19,16 +19,16 @@
             "scale": 2.3928125,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 320.33433459579476,
-                "y": 240.0940316050673
+                "x": 319.91641635105134,
+                "y": 239.6761133603239
             }
         },
         "assets/maps/map2.tmx": {
             "scale": 2.3928125,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 320.33433459579476,
-                "y": 240.0940316050673
+                "x": 319.91641635105134,
+                "y": 239.6761133603239
             }
         },
         "assets/maps/objects.tmx": {
@@ -45,7 +45,7 @@
         },
         "assets/maps/objects.tsx": {
             "dynamicWrapping": true,
-            "scaleInDock": 4,
+            "scaleInDock": 1.5,
             "scaleInEditor": 8
         },
         "assets/maps/terrain.tsx": {
@@ -60,25 +60,25 @@
         },
         "assets/maps/test.tmx": {
             "expandedObjectLayers": [
-                3,
-                7
+                7,
+                3
             ],
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 486.75,
-                "y": 287.75
+                "x": 319.75,
+                "y": 239.75
             }
         },
         "assets/maps/tutorial.tmx": {
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 2.3928125,
-            "selectedLayer": 3,
+            "scale": 4,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 320.33433459579476,
-                "y": 240.0940316050673
+                "x": 165.625,
+                "y": 170.875
             }
         }
     },
@@ -93,14 +93,20 @@
     "openFiles": [
         "assets/maps/objects.tmx",
         "assets/maps/test.tmx",
-        "assets/maps/objects.tsx"
+        "assets/maps/objects.tsx",
+        "assets/maps/map1.tmx",
+        "assets/maps/map2.tmx",
+        "assets/maps/tutorial.tmx"
     ],
     "project": "tiled-project.tiled-project",
     "property.type": "float",
     "recentFiles": [
         "assets/maps/objects.tmx",
-        "assets/maps/objects.tsx",
         "assets/maps/test.tmx",
+        "assets/maps/objects.tsx",
+        "assets/maps/map1.tmx",
+        "assets/maps/map2.tmx",
+        "assets/maps/tutorial.tmx",
         "assets/maps/terrain.tsx",
         "assets/maps/terrain_extruded.tsx"
     ],
