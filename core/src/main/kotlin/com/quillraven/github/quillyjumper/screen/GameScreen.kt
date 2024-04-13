@@ -151,7 +151,7 @@ class GameScreen(
             add(ParallaxBgdSystem())
             add(TextSystem())
             add(RenderSystem())
-            add(RemoveSystem())
+            add(RespawnSystem())
             if (gameProperties.debugPhysic) {
                 add(PhysicRenderDebugSystem())
             }

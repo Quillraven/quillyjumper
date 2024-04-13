@@ -9,9 +9,12 @@ import com.quillraven.github.quillyjumper.AnimationService
 import com.quillraven.github.quillyjumper.AnimationService.Companion.updateRegion
 import com.quillraven.github.quillyjumper.GameObject.CHERRY
 import com.quillraven.github.quillyjumper.GameObject.FINISH_FLAG
-import com.quillraven.github.quillyjumper.component.*
+import com.quillraven.github.quillyjumper.component.Animation
 import com.quillraven.github.quillyjumper.component.Animation.Companion.GLOBAL_ANIMATION
 import com.quillraven.github.quillyjumper.component.Animation.Companion.NORMAL_ANIMATION
+import com.quillraven.github.quillyjumper.component.AnimationType
+import com.quillraven.github.quillyjumper.component.EntityTag
+import com.quillraven.github.quillyjumper.component.Graphic
 import com.quillraven.github.quillyjumper.event.GameEvent
 import com.quillraven.github.quillyjumper.event.GameEventListener
 import com.quillraven.github.quillyjumper.event.PlayerItemCollectEvent
@@ -70,12 +73,9 @@ class AnimationSystem(
         // change player animation to double jump
         world.entityAnimation(player, AnimationType.DOUBLE_JUMP, PlayMode.NORMAL, GLOBAL_ANIMATION)
 
-        // change collectable entity animation to "collected" and remove it at the end of the animation
+        // change collectable entity animation to "collected"
         val collectedAnimation = gdxAnimation("collected", AnimationType.IDLE)
         cherry[NORMAL_ANIMATION].changeAnimation(collectedAnimation, PlayMode.NORMAL)
-        cherry.configure {
-            it += Remove(time = collectedAnimation.animationDuration, removePhysic = true)
-        }
     }
 
     private fun onCollectFinishFlag(finishFlag: Entity) = with(animationService) {
