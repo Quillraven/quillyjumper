@@ -1,10 +1,10 @@
 b:maps/tutorial.tmx:2133:application/unknown
-b:maps/terrain.tsx:1168:application/unknown
+b:maps/terrain.tsx:2682:application/unknown
 b:maps/objects.tsx:6721:application/unknown
 b:maps/objects.tmx:285:application/unknown
 b:maps/map1.tmx:2341:application/unknown
 b:maps/test.tmx:2510:application/unknown
-b:maps/map2.tmx:2515:application/unknown
+b:maps/map2.tmx:3028:application/unknown
 b:game.properties:147:application/unknown
 i:graphics/object/finish-flag.png:579:image/png
 i:graphics/object/start-flag.png:4494:image/png
