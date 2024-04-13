@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="26">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="72" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="39">
  <properties>
   <property name="musicAsset" value="MAP_1"/>
   <property name="name" value="A new way ..."/>
@@ -7,49 +7,45 @@
  <tileset firstgid="1" source="terrain.tsx"/>
  <tileset firstgid="243" source="objects.tsx"/>
  <objectgroup id="6" name="bgdObjects">
-  <object id="13" gid="244" x="318" y="383" width="38" height="38">
+  <object id="28" gid="244" x="157" y="175" width="38" height="38"/>
+  <object id="30" gid="244" x="340" y="159" width="38" height="38">
    <properties>
-    <property name="entityTags" propertytype="EntityTag" value=""/>
     <property name="hasTrack" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="4" gid="244" x="493" y="395" width="38" height="38"/>
  </objectgroup>
- <layer id="1" name="ground" width="40" height="30">
+ <layer id="1" name="ground" width="72" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA7YAdizoF2BB5gDMSmA+2IIQhG43V4gtF4HRlgNJ6HJxiN15EBRuN5eILReKUtAIUvBxQP5nAmBgwXvyD7g1LMSWVzQebJArEclbA8kvuoYa78EHAfqMwwoRJGLnuoYS7IPADCXRVZ
+   eJztlNsNwjAMRf0HDAENMwDzAEOUxwzAztwKRQpWWj9USj98pfNTNYl7YpcoEolEIpFILUdwKjj/qY4FWBpYTVRXCy4F14nO5VmDjYIEtqAh2ekYDufsJ9HHRc1T07OGvyOFz48W65zlu/TeWfetifp9/MpP1x83cKfvPpGw9lGuVVPT0HotY/qRXNT8cT+W/6enh+biR9tL3E+uJVF9Bsrnnh7y+NmB/QAHxbkP8HTwYvtItVjr4rHsn894A20XQGU=
   </data>
  </layer>
- <layer id="2" name="decoration" width="40" height="30">
+ <layer id="2" name="decoration" width="72" height="14">
   <data encoding="base64" compression="zlib">
-   eJztz0EOwBAQQFE7dQhaZ8D9r9ZZWHYmFkgj/yV/NSZwDgAAAACA83npUgrGztesSLXXJr0vSknpNna02agVfzndI+XNd1h3WrMZ5//gBf5eBGI=
+   eJzt0LsNgDAQBNErxVRmUwQf1wD0zBJyspAc2DiYJ010yerMAAAAANQIavq4R5Vcc9tJQwv2/teiVtfWf9awnv/sKhv/KTnU6bp+XdTPDXbvC5g=
   </data>
  </layer>
  <objectgroup id="3" name="objects">
-  <object id="3" gid="243" x="472" y="417" width="32" height="32"/>
-  <object id="16" gid="245" x="-3" y="389" width="42" height="42"/>
-  <object id="19" gid="245" x="122" y="335" width="42" height="42"/>
+  <object id="27" gid="243" x="28" y="130" width="32" height="32"/>
+  <object id="33" gid="246" x="784" y="160" width="32" height="32"/>
+  <object id="35" gid="246" x="832" y="138" width="32" height="32"/>
+  <object id="37" gid="246" x="880" y="117" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="7" name="fgdObjects">
-  <object id="11" gid="244" x="429" y="425" width="38" height="38"/>
-  <object id="20" gid="246" x="305" y="102" width="32" height="32"/>
-  <object id="21" gid="246" x="365" y="151" width="32" height="32"/>
-  <object id="22" gid="246" x="420" y="196" width="32" height="32"/>
-  <object id="23" gid="246" x="482" y="168" width="32" height="32"/>
-  <object id="24" gid="247" x="32" y="418" width="19" height="36"/>
-  <object id="25" gid="249" x="544" y="418" width="64" height="64"/>
+  <object id="26" gid="247" x="16" y="130" width="19" height="36"/>
+  <object id="31" gid="244" x="422" y="159" width="38" height="38"/>
+  <object id="38" gid="249" x="1024" y="98" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="5" name="tracks">
-  <object id="10" x="480" y="377">
-   <polygon points="0,0 64,-1 80,-25"/>
+  <object id="29" x="176" y="156">
+   <polyline points="0,0 32,0"/>
   </object>
-  <object id="12" x="448" y="416">
-   <polyline points="0,0 0,-80"/>
+  <object id="32" x="441" y="140">
+   <polyline points="0,0 0,-23"/>
   </object>
  </objectgroup>
- <layer id="4" name="foreground" width="40" height="30">
+ <layer id="4" name="foreground" width="72" height="14">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20ND6AAAAAA4NcAEsAAAQ==
+   eJztwTEBAAAAwqD1T20ND6AAAACAdwMPwAAB
   </data>
  </layer>
 </map>

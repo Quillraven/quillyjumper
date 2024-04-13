@@ -184,6 +184,26 @@ atlasData: {
 			type: FONT
 			hidden: false
 		}
+		{
+			file: C:/Users/Simon/IdeaProjects/quillyjumper/raw_assets/ui/Masaaki-Regular(2).png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: Masaaki-Regular(2)
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+			tvgData: null
+			type: FONT
+			hidden: false
+		}
 	]
 }
 jsonData: {
@@ -237,6 +257,14 @@ jsonData: {
 			markupEnabled: true
 			scaling: -1
 			file: C:/Users/Simon/IdeaProjects/quillyjumper/raw_assets/ui/Masaaki-Regular.fnt
+		}
+		{
+			class: com.ray3k.skincomposer.data.FontData
+			name: Masaaki-Regular-Small
+			flip: false
+			markupEnabled: true
+			scaling: -1
+			file: C:/Users/Simon/IdeaProjects/quillyjumper/raw_assets/ui/Masaaki-Regular(2).fnt
 		}
 	]
 	freeTypeFonts: []
