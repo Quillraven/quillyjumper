@@ -5,7 +5,7 @@ b:maps/objects.tmx:285:application/unknown
 b:maps/map1.tmx:2341:application/unknown
 b:maps/test.tmx:2510:application/unknown
 b:maps/map2.tmx:3028:application/unknown
-b:game.properties:147:application/unknown
+b:game.properties:146:application/unknown
 i:graphics/object/finish-flag.png:579:image/png
 i:graphics/object/start-flag.png:4494:image/png
 i:graphics/object/frog.png:566:image/png
