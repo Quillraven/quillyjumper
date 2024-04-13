@@ -24,7 +24,13 @@ It also contains two different enemies:
 - a rock head that detects the player vertically / horizontally and will attack him when he gets to close
 
 You have four lives to complete a stage. If you fall down a pit or lose all your lives then you respawn at the beginning
-of the stage with full life.
+of the stage with full life. In total there are three stages:
+
+![image](https://github.com/Quillraven/quillyjumper/assets/93260/170ea3ec-4980-4401-95e8-b0bd309165ea)
+![image](https://github.com/Quillraven/quillyjumper/assets/93260/5de8f3ce-d84a-4903-a38c-4078f641a066)
+![image](https://github.com/Quillraven/quillyjumper/assets/93260/07ed4952-27a8-48f9-996e-2edb3d8f17f9)
+![image](https://github.com/Quillraven/quillyjumper/assets/93260/ec9c6e38-ef17-4877-970e-d1a4d5d42797)
+
 
 ### Credits
 
