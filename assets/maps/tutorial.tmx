@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="60" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="35">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="60" height="14" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="36">
  <properties>
   <property name="musicAsset" value="MAP_1"/>
   <property name="name" value="Tutorial"/>
