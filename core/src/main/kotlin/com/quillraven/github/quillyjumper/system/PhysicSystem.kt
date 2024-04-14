@@ -38,8 +38,9 @@ class PhysicSystem(
     }
 
     override fun onTickEntity(entity: Entity) {
-        val (body, prevPosition) = entity[Physic]
+        val (body, prevPosition, prevVelocity) = entity[Physic]
         prevPosition.set(body.position)
+        prevVelocity.set(body.linearVelocity)
 
         // update linear velocity if entity has a Move component
         entity.getOrNull(Move)?.let { moveCmp ->

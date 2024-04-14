@@ -12,6 +12,7 @@ data class Physic(
     var body: Body, // var instead of val because body teleportation requires recreation of body
     // position of the physic body since the last physic's world step call
     val prevPosition: Vector2 = vec2(body.position.x, body.position.y),
+    val prevVelocity: Vector2 = vec2(),
 ) : Component<Physic> {
 
     override fun type() = Physic

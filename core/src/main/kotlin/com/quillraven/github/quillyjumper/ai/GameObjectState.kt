@@ -141,11 +141,10 @@ enum class GameObjectState : State<AiEntity> {
 
         override fun update(entity: AiEntity) {
             val (_, _, sourceLocation, range) = entity[Aggro]
-            val (body) = entity[Physic]
-            val (linX, linY) = body.linearVelocity
-            val notMoving = isEqual(linX, 0f, 0.01f) && isEqual(linY, 0f, 0.01f)
+            val (body, _, prevVelocity) = entity[Physic]
+            val stoppedMoving = !prevVelocity.isZero && body.linearVelocity.isZero
 
-            if (entity.notInRange(sourceLocation, range) || notMoving) {
+            if (entity.notInRange(sourceLocation, range) || stoppedMoving) {
                 entity.state(ROCK_HEAD_RETURN)
             }
         }
