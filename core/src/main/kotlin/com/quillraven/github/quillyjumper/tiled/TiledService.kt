@@ -174,11 +174,7 @@ class TiledService(
             // the flipX information of the sprite will always be false.
             // Since the AnimationSystem is updating the region of the sprite and is also
             // restoring the flip information, we should set the Sprite region already at this point.
-            it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey, body.position))
-            when {
-                zIndex < 0 -> it += EntityTag.BACKGROUND
-                zIndex > 0 -> it += EntityTag.FOREGROUND
-            }
+            it += Graphic(sprite(gameObject, AnimationType.IDLE.atlasKey, body.position), zIndex)
             configureEntityTags(it, tile)
             // check for player tag and remember player start location
             if (it has EntityTag.PLAYER) {

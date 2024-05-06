@@ -62,7 +62,7 @@ class RenderTestScreen : KtxScreen {
                 setPosition(3f, 1f)
                 setSize(1f, 1f)
             }
-            it += Graphic(entitySprite)
+            it += Graphic(entitySprite, 0)
         }
         world.entity {
             val entitySprite = Sprite(textureRegion("frog/idle")).apply {
@@ -70,7 +70,7 @@ class RenderTestScreen : KtxScreen {
                 setSize(1f, 1f)
                 setFlip(true, false)
             }
-            it += Graphic(entitySprite)
+            it += Graphic(entitySprite, 0)
         }
 
         // animation entities
@@ -80,7 +80,7 @@ class RenderTestScreen : KtxScreen {
                 setSize(1f, 1f)
             }
             it += Tiled(GameObject.FROG, 0)
-            it += Graphic(entitySprite)
+            it += Graphic(entitySprite, 0)
             it += Animation(animationService.gdxAnimation(GameObject.FROG, AnimationType.IDLE), type = NORMAL_ANIMATION)
         }
         world.entity {
@@ -90,7 +90,7 @@ class RenderTestScreen : KtxScreen {
                 setFlip(true, false)
             }
             it += Tiled(GameObject.FROG, 0)
-            it += Graphic(entitySprite)
+            it += Graphic(entitySprite, 0)
             it += Animation(animationService.gdxAnimation(GameObject.FROG, AnimationType.IDLE), type = NORMAL_ANIMATION)
         }
     }

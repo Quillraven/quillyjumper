@@ -43,7 +43,7 @@ data class AiEntity(
     }
 
     fun notInRange(location: Vector2, tolerance: Float): Boolean = with(world) {
-        val (_, center) = entity[Graphic]
+        val center = entity[Graphic].center
         val diffX = location.x - center.x
         val diffY = location.y - center.y
 
@@ -51,7 +51,7 @@ data class AiEntity(
     }
 
     fun inRange(location: Vector2, tolerance: Float): Boolean = with(world) {
-        val (_, center) = entity[Graphic]
+        val center = entity[Graphic].center
         val diffX = location.x - center.x
         val diffY = location.y - center.y
 
@@ -63,8 +63,8 @@ data class AiEntity(
     }
 
     fun angleTo(target: Entity): Float = with(world) {
-        val (_, center) = entity[Graphic]
-        val (_, targetCenter) = target[Graphic]
+        val center = entity[Graphic].center
+        val targetCenter = target[Graphic].center
 
         return atan2(targetCenter.y - center.y, targetCenter.x - center.x)
     }
