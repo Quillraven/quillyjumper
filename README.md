@@ -1,5 +1,5 @@
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9.23-red.svg)](http://kotlinlang.org/)
-[![Fleks](https://img.shields.io/badge/Fleks-2.7--SNAPSHOT-purple.svg)](http://kotlinlang.org/)
+[![Fleks](https://img.shields.io/badge/Fleks-2.7-purple.svg)](http://kotlinlang.org/)
 
 [![LibGDX](https://img.shields.io/badge/LibGDX-1.12.1-green.svg)](http://kotlinlang.org/)
 [![LibKTX](https://img.shields.io/badge/LibKTX-1.12.1--SNAPSHOT-blue.svg)](http://kotlinlang.org/)
